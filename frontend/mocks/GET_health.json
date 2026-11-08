@@ -1,0 +1,16 @@
+{
+  "status": "ok",
+  "engine_version": "0.2",
+  "auth_mode": "dev",
+  "database": true,
+  "gemini": false,
+  "scheduler": false,
+  "web_push": true,
+  "data": {
+    "foods": 91,
+    "modifiers": 13,
+    "rules": 6,
+    "unlinked_entities": [],
+    "unresolved_papers": []
+  }
+}

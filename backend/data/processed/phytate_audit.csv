@@ -1,0 +1,299 @@
+food_code,cofid_name,phy_id,name,processing,country,water_used,phytate_mg_per_100g,phytate_column,scaled_mg_per_100g
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010475,"Lentil, boiled",p/wb,"Bolivia, Chapare",62.6,316.404,IP6(mg),234.3
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010476,"Lentil, Brown, raw",r,New Zeland,10.0,711.0,PHYTC-(mg),218.8
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010484,"Lentil, Pardina, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",10.0,507.0,IP6(mg),156.0
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010485,"Lentil, Pardina, seed, water-soaked, cooked, drained, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.7,204.0,IP6(mg),58.7
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010486,"Lentil, Pardina, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.6,210.0,IP6(mg),60.3
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010487,"Lentil, Pardina, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.6,241.0,IP6(mg),69.2
+13-658,"Lentils, red, split, dried, boiled in unsalted water",03010498,"Lentil, whole grain, sun-dried",d,"Ethiopia, Sidama",10.0,561.0,IP5_A_IP6 (mg),172.7
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010475,"Lentil, boiled",p/wb,"Bolivia, Chapare",62.6,316.404,IP6(mg),242.8
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010476,"Lentil, Brown, raw",r,New Zeland,10.0,711.0,PHYTC-(mg),226.7
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010484,"Lentil, Pardina, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",10.0,507.0,IP6(mg),161.7
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010485,"Lentil, Pardina, seed, water-soaked, cooked, drained, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.7,204.0,IP6(mg),60.8
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010486,"Lentil, Pardina, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.6,210.0,IP6(mg),62.5
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010487,"Lentil, Pardina, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.6,241.0,IP6(mg),71.8
+13-661,"Lentils, green and brown, whole, dried, boiled in unsalted water",03010498,"Lentil, whole grain, sun-dried",d,"Ethiopia, Sidama",10.0,561.0,IP5_A_IP6 (mg),178.9
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010163,"Chickpea, raw",r,Brazil,8.7,235.55399999999997,IP6(mg),97.3
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010165,"Chickpea, raw",r,New Zeland,13.0,469.8,PHYTC-(mg),203.6
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010172,"Chickpea, var. Castellano, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",4.2,554.0,IP6(mg),218.0
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010173,"Chickpea, var. Castellano, seed, water-soaked, drained, cooked, dehydrated",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.9,625.0,IP6(mg),245.2
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010174,"Chickpea, var. Castellano, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",4.0,790.0,IP6(mg),310.2
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010175,"Chickpea, var. Castellano, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",4.3,733.0,IP6(mg),288.8
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010176,"Chickpea, var. Sinaloa, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",5.7,560.0,IP6(mg),223.9
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010177,"Chickpea, var. Sinaloa, seed, water-soaked, cooked, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.0,489.0,IP6(mg),190.1
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010178,"Chickpea, var. Sinaloa, seed, water-soaked, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.9,571.0,IP6(mg),224.0
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010179,"Chickpea, var. Sinaloa, seed, water-soaked, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",5.6,572.0,IP6(mg),228.4
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010180,"Chickpea, water-soaked, 24h germinated, dried",g/d,Brazil,7.9,193.41,IP6(mg),79.2
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010181,"Chickpea, water-soaked, 48h germinated, dried",g/d,Brazil,7.8,192.69799999999998,IP6(mg),78.8
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",03010183,"Chickpea, whole, raw",r,"Ethiopia, Sidama",10.0,305.0,IP5_A_IP6 (mg),127.8
+13-662,"Beans, chick peas, Kabuli, whole, dried, boiled in unsalted water",04010112,"Chickpea, leaves, raw",r,India,10.0,19.0,PHYTC-(mg),8.0
+13-670,"Beans, chick peas, canned, re-heated, drained",03010163,"Chickpea, raw",r,Brazil,8.7,235.55399999999997,IP6(mg),97.3
+13-670,"Beans, chick peas, canned, re-heated, drained",03010165,"Chickpea, raw",r,New Zeland,13.0,469.8,PHYTC-(mg),203.6
+13-670,"Beans, chick peas, canned, re-heated, drained",03010172,"Chickpea, var. Castellano, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",4.2,554.0,IP6(mg),218.0
+13-670,"Beans, chick peas, canned, re-heated, drained",03010173,"Chickpea, var. Castellano, seed, water-soaked, drained, cooked, dehydrated",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.9,625.0,IP6(mg),245.2
+13-670,"Beans, chick peas, canned, re-heated, drained",03010174,"Chickpea, var. Castellano, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",4.0,790.0,IP6(mg),310.2
+13-670,"Beans, chick peas, canned, re-heated, drained",03010175,"Chickpea, var. Castellano, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",4.3,733.0,IP6(mg),288.8
+13-670,"Beans, chick peas, canned, re-heated, drained",03010176,"Chickpea, var. Sinaloa, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",5.7,560.0,IP6(mg),223.9
+13-670,"Beans, chick peas, canned, re-heated, drained",03010177,"Chickpea, var. Sinaloa, seed, water-soaked, cooked, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.0,489.0,IP6(mg),190.1
+13-670,"Beans, chick peas, canned, re-heated, drained",03010178,"Chickpea, var. Sinaloa, seed, water-soaked, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.9,571.0,IP6(mg),224.0
+13-670,"Beans, chick peas, canned, re-heated, drained",03010179,"Chickpea, var. Sinaloa, seed, water-soaked, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",5.6,572.0,IP6(mg),228.4
+13-670,"Beans, chick peas, canned, re-heated, drained",03010180,"Chickpea, water-soaked, 24h germinated, dried",g/d,Brazil,7.9,193.41,IP6(mg),79.2
+13-670,"Beans, chick peas, canned, re-heated, drained",03010181,"Chickpea, water-soaked, 48h germinated, dried",g/d,Brazil,7.8,192.69799999999998,IP6(mg),78.8
+13-670,"Beans, chick peas, canned, re-heated, drained",03010183,"Chickpea, whole, raw",r,"Ethiopia, Sidama",10.0,305.0,IP5_A_IP6 (mg),127.8
+13-670,"Beans, chick peas, canned, re-heated, drained",04010112,"Chickpea, leaves, raw",r,India,10.0,19.0,PHYTC-(mg),8.0
+13-660,"Beans, red kidney, canned in water, re-heated, drained",03010053,"Bean, Haricot kidney, raw",r,New Zeland,11.0,560.7,PHYTC-(mg),211.0
+13-660,"Beans, red kidney, canned in water, re-heated, drained",03010221,"Common bean, Kidney, canned, Super Giant, drained ",p/cn,"USA, Washington DC",10.0,289.0,IP6(mg),107.6
+13-660,"Beans, red kidney, canned in water, re-heated, drained",03010226,"Common bean, Kidney, red, whole, sun-dried",d,"Ethiopia, Sidama",10.0,716.0,IP5_A_IP6 (mg),266.5
+13-660,"Beans, red kidney, canned in water, re-heated, drained",03010227,"Common bean, Kidney, red, whole, boiled",p/wb,"Ethiopia, Sidama",38.0,219.0,IP5_A_IP6 (mg),118.3
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010283,"Cowpea, 12 AK, raw",r,Nigeria,10.400000000000006,673.792,PHYTCPP(mg),254.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010286,"Cowpea, 24h fermented",p/f,Nigeria,10.1,350.61,PHYTCPPI(mg),131.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010289,"Cowpea, 48h fermented",p/f,Nigeria,10.3,206.30999999999997,PHYTCPPI(mg),77.7
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010294,"Cowpea, 72h fermented",p/f,Nigeria,9.1,163.62,PHYTCPPI(mg),60.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010296,"Cowpea, Adjawan, smooth, streaked brown, raw",r,"Benin, Coastal Sandy Zone",12.5,752.5,PHYTCPP(mg),290.7
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010297,"Cowpea, Adjohoun, smooth, brown, raw",r,"Benin, Coastal Sandy Zone",12.5,682.5,PHYTCPP(mg),263.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010298,"Cowpea, Aiglo, wrinkled, unpigmented, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,778.75,PHYTCPP(mg),300.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010299,"Cowpea, Akidi, water-dehulled",p/dh,"Nigeria, Kogi State",44.6,853.16,PHYTCPPD(mg),520.5
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010300,"Cowpea, Atchawe-tola, wrinkled, unpigmented, raw",r,"Benin, Coastal Sandy Zone",12.5,1146.25,PHYTCPP(mg),442.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010301,"Cowpea, boiled",p/wb,Nigeria,10.0,496.1,PHYTCPPI(mg),186.3
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010302,"Cowpea, boiled with salt",p/wsb,Malawi,68.0,349.0,PHYTCPPD(mg),368.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010303,"Cowpea, brown cowpea, Cherodhi, raw",r,India,11.07,840.5218950000001,PHYTCPPI(mg),319.5
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010304,"Cowpea, brown cowpea, CS-46, raw",r,India,13.2,710.42328,PHYTCPPI(mg),276.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010305,"Cowpea, brown cowpea, CS-88, raw",r,India,10.95,826.250425,PHYTCPPI(mg),313.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010306,"Cowpea, brown cowpea, GC-89691, raw",r,India,13.0,822.9242999999999,PHYTCPPI(mg),319.7
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010307,"Cowpea, brown, raw",r,India,9.42,550.0,PHYTCPP(mg),205.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010316,"Cowpea, Deux couleurs, smooth, light brown and brown, raw",r,"Benin, Coastal Sandy Zone",12.5,595.0,PHYTCPP(mg),229.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010317,"Cowpea, H 113-4, raw",r,Nigeria,10.560000000000002,456.144,PHYTCPP(mg),172.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010318,"Cowpea, IFE BIMPE, raw",r,Nigeria,10.709999999999994,769.6798,PHYTCPP(mg),291.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010319,"Cowpea, IFE BROWN, raw",r,Nigeria,10.060000000000002,644.8698,PHYTCPP(mg),242.3
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010320,"Cowpea, IFH 101, raw",r,Nigeria,10.739999999999995,658.7388,PHYTCPP(mg),249.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010321,"Cowpea, IT 81D-975, raw",r,Nigeria,10.159999999999997,879.5336,PHYTCPP(mg),330.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010322,"Cowpea, IT 83s -797, raw",r,Nigeria,10.709999999999994,658.9602,PHYTCPP(mg),249.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010324,"Cowpea, IT81D-699, raw",r,Nigeria,9.8,103.8202,PHYTCPPI(mg),38.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010326,"Cowpea, IT82E-18, raw",r,Nigeria,10.0,189.0,PHYTCPPI(mg),71.0
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010327,"Cowpea, IT84E/108, raw",r,Nigeria,10.25,723.385,PHYTCPP(mg),272.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010329,"Cowpea, IT84S-2246-4, raw",r,Nigeria,8.0,186.48399999999998,PHYTCPPI(mg),68.5
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010330,"Cowpea, IT85F/3106, raw",r,Nigeria,10.739999999999995,668.5574,PHYTCPP(mg),253.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010331,"Cowpea, IT88D-867-11, water-dehulled",p/dh,"Nigeria, Ibadan",52.06,628.0139999999999,PHYTCPPD(mg),442.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010332,"Cowpea, K59, raw",r,Nigeria,10.549999999999997,860.509,PHYTCPP(mg),325.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010333,"Cowpea, Kodjovi, wrinkled, unpigmented with black spots at bottom, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,612.5,PHYTCPP(mg),236.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010334,"Cowpea, Kpeikoun, smooth, maroon, raw",r,"Benin, Sudan-guinea Zone",12.5,656.25,PHYTCPP(mg),253.5
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010335,"Cowpea, Kpletchevi, smooth, brown, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,1041.25,PHYTCPP(mg),402.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010336,"Cowpea, Kplobe wewe, smooth, light brown, raw",r,"Benin, Sudan-guinea Zone",12.5,770.0000000000001,PHYTCPP(mg),297.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010337,"Cowpea, Kpodjiguegue, smooth, green grey, raw",r,"Benin, Coastal Sandy Zone",12.5,735.0,PHYTCPP(mg),283.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010338,"Cowpea, L25, raw",r,Nigeria,10.840000000000003,915.6732,PHYTCPP(mg),347.1
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010339,"Cowpea, Laivi, smooth, creamy, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,1330.0,PHYTCPP(mg),513.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010340,"Cowpea, Mahounan, smooth, brown, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,743.75,PHYTCPP(mg),287.3
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010341,"Cowpea, Malanville gros grains, wrinkled, unpigmented, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,866.25,PHYTCPP(mg),334.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010342,"Cowpea, MP BROWN, raw",r,Nigeria,10.569999999999993,825.4389,PHYTCPP(mg),312.0
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010343,"Cowpea, Nanwi, smooth, pure black, raw",r,"Benin, Coastal Sandy Zone",12.5,595.0,PHYTCPP(mg),229.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010344,"Cowpea, Olaudi, water-dehulled",p/dh,"Nigeria, Kogi State",52.23,563.686,PHYTCPPD(mg),398.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010346,"Cowpea, PL-1, raw",r,"India, Pantnagar",6.91,287.489847,PHYTCPPI(mg),104.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010348,"Cowpea, PL-2, raw",r,"India, Pantnagar",6.98,353.792268,PHYTCPPI(mg),128.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010350,"Cowpea, PL-3, raw",r,"India, Pantnagar",9.78,318.22398400000003,PHYTCPPI(mg),119.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010351,"Cowpea, raw",d,"India, Tamil Nadu",6.28,354.63648,PHYTCPPI(mg),127.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010352,"Cowpea, raw",r,Nigeria,8.9,537.49,PHYTCPPI(mg),199.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010353,"Cowpea, raw",r,"Egypt, Giza ",8.459999999999999,625.2182,PHYTCPPD(mg),230.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010354,"Cowpea, seed, black, whole, raw",r,Benin,12.900000000000006,669.799,IP6(mg),259.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010355,"Cowpea, seed, white, whole, raw",r,Benin,9.200000000000003,227.908,IP6(mg),84.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010356,"Cowpea, Sewekoun, smooth, maroon, raw",r,"Benin, Sudan-guinea Zone",12.5,875.0,PHYTCPP(mg),338.0
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010357,"Cowpea, Sokan, smooth, maroon, raw",r,"Benin, Coastal Sandy Zone",12.5,586.25,PHYTCPP(mg),226.5
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010358,"Cowpea, Sowetin, smooth, streaked light brown, raw",r,"Benin, Coastal Sandy Zone",12.5,857.5000000000001,PHYTCPP(mg),331.2
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010359,"Cowpea, Teivigboto, smooth, maroon, raw",r,"Benin, Coastal Sandy Zone",12.5,892.4999999999999,PHYTCPP(mg),344.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010360,"Cowpea, Togovi, wrinkled, unpigmented, raw",r,"Benin, Transitional Sudan-guinea Zone",12.5,866.25,PHYTCPP(mg),334.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010362,"Cowpea, TVx 3236, raw",r,Nigeria,10.25,791.595,PHYTCPP(mg),298.1
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010363,"Cowpea, TVx 3236, raw",r,Nigeria,9.7,135.8112,PHYTCPPI(mg),50.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010364,"Cowpea, Vohounvo, smooth, brown, raw",r,"Benin, Coastal Sandy Zone",12.5,962.5,PHYTCPP(mg),371.8
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",03010365,"Cowpea, white, raw",r,India,9.32,573.0,PHYTCPP(mg),213.6
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",19020012,"Cowpea and yam, cooked with vegetables and fish",p/rp,"Nigeria, Abeokuta",58.54,1.69986,PHYTCPPI(mg),1.4
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",19020013,"Cowpea stew, mashed with cornpaste",p/rp,"Nigeria, Abeokuta",37.7,1.6198,PHYTCPPI(mg),0.9
+13-063,"Beans, blackeye, whole, dried, boiled in unsalted water",19020014,"Cowpea stew, with vegetables",p/rp,"Nigeria, Abeokuta",46.91,3.23849,PHYTCPPI(mg),2.1
+13-532,"Baked beans, canned in tomato sauce",03010262,"Common bean, White, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",6.3,927.0,IP6(mg),148.0
+13-532,"Baked beans, canned in tomato sauce",03010263,"Common bean, White, seed, water-soaked, drained, cooked, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",5.4,589.0,IP6(mg),93.1
+13-532,"Baked beans, canned in tomato sauce",03010264,"Common bean, White, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",5.7,604.0,IP6(mg),95.8
+13-532,"Baked beans, canned in tomato sauce",03010265,"Common bean, White, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",6.1,918.0,IP6(mg),146.3
+13-532,"Baked beans, canned in tomato sauce",03010266,"Common bean, white, whole, raw",r,Canada,11.290000000000006,1002.4229999999999,PHYTC-(mg),169.0
+13-532,"Baked beans, canned in tomato sauce",03010457,"Haricot bean, white, whole grain, sun-dried",d,"Ethiopia, Sidama",10.0,604.0,IP5_A_IP6 (mg),100.4
+13-570,"Tofu, soya bean, steamed",03020159,"Tofu, boiled",p/wb,"Indonesia, West Nusa Tenggara province, East Lombok District
+",79.1,212.76200000000006,IP6(mg),152.7
+13-570,"Tofu, soya bean, steamed",03020169,"Tofu, JS9650",p,India,71.1,196.52000000000004,PHYTCPPD(mg),102.0
+13-570,"Tofu, soya bean, steamed",03020191,"Tofu, raw",p,"Indonesia, West Nusa Tenggara province, East Lombok District
+",82.9,166.38299999999995,IP6(mg),146.0
+13-556,Houmous,03010163,"Chickpea, raw",r,Brazil,8.7,235.55399999999997,IP6(mg),62.3
+13-556,Houmous,03010165,"Chickpea, raw",r,New Zeland,13.0,469.8,PHYTC-(mg),130.4
+13-556,Houmous,03010172,"Chickpea, var. Castellano, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",4.2,554.0,IP6(mg),139.7
+13-556,Houmous,03010173,"Chickpea, var. Castellano, seed, water-soaked, drained, cooked, dehydrated",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.9,625.0,IP6(mg),157.1
+13-556,Houmous,03010174,"Chickpea, var. Castellano, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",4.0,790.0,IP6(mg),198.7
+13-556,Houmous,03010175,"Chickpea, var. Castellano, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",4.3,733.0,IP6(mg),185.0
+13-556,Houmous,03010176,"Chickpea, var. Sinaloa, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",5.7,560.0,IP6(mg),143.4
+13-556,Houmous,03010177,"Chickpea, var. Sinaloa, seed, water-soaked, cooked, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.0,489.0,IP6(mg),121.7
+13-556,Houmous,03010178,"Chickpea, var. Sinaloa, seed, water-soaked, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.9,571.0,IP6(mg),143.5
+13-556,Houmous,03010179,"Chickpea, var. Sinaloa, seed, water-soaked, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",5.6,572.0,IP6(mg),146.3
+13-556,Houmous,03010180,"Chickpea, water-soaked, 24h germinated, dried",g/d,Brazil,7.9,193.41,IP6(mg),50.7
+13-556,Houmous,03010181,"Chickpea, water-soaked, 48h germinated, dried",g/d,Brazil,7.8,192.69799999999998,IP6(mg),50.5
+13-556,Houmous,03010183,"Chickpea, whole, raw",r,"Ethiopia, Sidama",10.0,305.0,IP5_A_IP6 (mg),81.8
+13-556,Houmous,04010112,"Chickpea, leaves, raw",r,India,10.0,19.0,PHYTC-(mg),5.1
+13-439,"Peas, boiled in unsalted water",03010595,"Pea, Agat, dried",d,Poland,12.079999999999998,735.8903999999999,PHYTC-(mg),204.2
+13-439,"Peas, boiled in unsalted water",03010596,"Pea, Agra, dried",d,Poland,12.099999999999994,1024.914,PHYTC-(mg),284.5
+13-439,"Peas, boiled in unsalted water",03010597,"Pea, Albatros, dried",d,Poland,11.659999999999997,851.5976,PHYTC-(mg),235.2
+13-439,"Peas, boiled in unsalted water",03010598,"Pea, Ametyst, dried",d,Poland,10.379999999999995,681.112,PHYTC-(mg),185.4
+13-439,"Peas, boiled in unsalted water",03010599,"Pea, Diament, dried",d,Poland,12.019999999999996,871.002,PHYTC-(mg),241.6
+13-439,"Peas, boiled in unsalted water",03010602,"Pea, dried",d,Argentina,12.62,305.83,IP6(mg),85.4
+13-439,"Peas, boiled in unsalted water",03010607,"Pea, Ergo, dried",d,Poland,10.599999999999994,663.3480000000001,PHYTC-(mg),181.0
+13-439,"Peas, boiled in unsalted water",03010608,"Pea, field, whole grain, sun-dried",d,"Ethiopia, Sidama",12.0,235.0,IP5_A_IP6 (mg),65.2
+13-439,"Peas, boiled in unsalted water",03010610,"Pea, Hermes, dried",d,Poland,12.090000000000003,639.9848,PHYTC-(mg),177.6
+13-439,"Peas, boiled in unsalted water",03010612,"Pea, Karat, dried",d,Poland,10.620000000000005,675.7128,PHYTC-(mg),184.5
+13-439,"Peas, boiled in unsalted water",03010613,"Pea, Koral, dried",d,Poland,11.549999999999997,781.898,PHYTC-(mg),215.7
+13-439,"Peas, boiled in unsalted water",03010614,"Pea, Kwestor, dried",d,Poland,11.650000000000006,1180.356,PHYTC-(mg),326.0
+13-439,"Peas, boiled in unsalted water",03010615,"Pea, Piast, dried",d,Poland,8.370000000000005,759.6126999999999,PHYTC-(mg),202.3
+13-439,"Peas, boiled in unsalted water",03010616,"Pea, Rodan, dried",d,Poland,8.819999999999993,576.2576,PHYTC-(mg),154.2
+13-439,"Peas, boiled in unsalted water",03010618,"Pea, Rubin, dried",d,Poland,12.290000000000006,635.0203999999999,PHYTC-(mg),176.7
+13-439,"Peas, boiled in unsalted water",03010620,"Pea, split, dried",d,Canada,12.680000000000007,1004.1799999999998,PHYTC-(mg),280.6
+13-439,"Peas, boiled in unsalted water",03010621,"Pea, Szafir, dried",d,Poland,12.269999999999996,719.386,PHYTC-(mg),200.1
+13-439,"Peas, boiled in unsalted water",03010622,"Pea, Tegma, dried",d,Poland,11.930000000000007,1063.8856,PHYTC-(mg),294.8
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010475,"Lentil, boiled",p/wb,"Bolivia, Chapare",62.6,316.404,IP6(mg),139.6
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010476,"Lentil, Brown, raw",r,New Zeland,10.0,711.0,PHYTC-(mg),130.4
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010484,"Lentil, Pardina, seed, raw",r,"Spain, Badajoz, agrifood industry Vegenat SA",10.0,507.0,IP6(mg),92.9
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010485,"Lentil, Pardina, seed, water-soaked, cooked, drained, dehydrated, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.7,204.0,IP6(mg),35.0
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010486,"Lentil, Pardina, seed, water-soaked, drained, cooked, dried",p/ws/wb/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.6,210.0,IP6(mg),35.9
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010487,"Lentil, Pardina, seed, water-soaked, drained, dried",p/ws/d,"Spain, Badajoz, agrifood industry Vegenat SA",3.6,241.0,IP6(mg),41.2
+15-761,"Curry, lentil, red/masoor dahl and vegetable, UK type, homemade",03010498,"Lentil, whole grain, sun-dried",d,"Ethiopia, Sidama",10.0,561.0,IP5_A_IP6 (mg),102.8
+11-788,"Porridge oats, unfortified",01060189,Oat flour,p,Ireland,10.4,270.0,PHYTCA (mg),273.0
+11-788,"Porridge oats, unfortified",01060191,"Oat, meal",p,New Zeland,9.0,809.9,PHYTC-(mg),806.3
+11-788,"Porridge oats, unfortified",01060192,"Oats, raw",r,South Africa,10.6,795.66,IP6(mg),806.3
+11-788,"Porridge oats, unfortified",01060193,"Oats, rolled",p,New Zeland,8.0,947.6,PHYTC-(mg),933.2
+11-788,"Porridge oats, unfortified",01060202,"Porridge formula, oatmeal, commercial, ""Aamunhyva""",p,Finland,7.92,528.0,IP6(mg),519.5
+11-788,"Porridge oats, unfortified",01060203,"Porridge formula, oatmeal, commercial, ""Aamunhyva"" quick",p,Finland,7.6,488.4,IP6(mg),478.9
+11-788,"Porridge oats, unfortified",01060204,"Porridge formula, oatmeal, commercial, ""Ahaa""",p,Finland,9.12,633.6,IP6(mg),631.6
+11-788,"Porridge oats, unfortified",01060205,"Porridge formula, oatmeal, commercial, ""Ahaa"" large flakes",p,Finland,9.09,574.1999999999999,IP6(mg),572.2
+11-788,"Porridge oats, unfortified",01060206,"Porridge formula, oatmeal, commercial, ""Ahaa"" small flakes",p,Finland,8.12,567.6,IP6(mg),559.7
+11-788,"Porridge oats, unfortified",01060207,"Porridge formula, oatmeal, commercial, ""Elovena"" large flakes",p,Finland,7.59,719.4,IP6(mg),705.3
+11-788,"Porridge oats, unfortified",01060208,"Porridge formula, oatmeal, commercial, ""Myllyn paras""",p,Finland,9.06,514.8,IP6(mg),512.9
+11-788,"Porridge oats, unfortified",01060209,"Porridge formula, oatmeal, commercial, ""Pirkka""",p,Finland,8.09,468.6,IP6(mg),461.9
+11-788,"Porridge oats, unfortified",01060210,"Porridge formula, oatmeal, commercial, ""Puurohetki"" instant, containing apple",p,Finland,6.91,376.2,IP6(mg),366.1
+11-788,"Porridge oats, unfortified",01060211,"Porridge formula, oatmeal, commercial, ""Puurohetki"" instant, containing apple and plum",p,Finland,7.44,415.8,IP6(mg),407.0
+11-788,"Porridge oats, unfortified",01060212,"Porridge formula, oatmeal, commercial, ""Puurohetki"" instant, containing apricot",p,Finland,6.9,448.8,IP6(mg),436.7
+11-788,"Porridge oats, unfortified",01060213,"Porridge formula, oatmeal, commercial, ""Sydanystava"" old fashioned, containing bran",p,Finland,7.6,666.6,IP6(mg),653.6
+11-788,"Porridge oats, unfortified",01060214,"Porridge formula, oatmeal, domestic",p,Finland,8.32,561.0,IP6(mg),554.4
+11-1107,"Porridge, made with water",01060189,Oat flour,p,Ireland,10.4,270.0,PHYTCA (mg),34.1
+11-1107,"Porridge, made with water",01060191,"Oat, meal",p,New Zeland,9.0,809.9,PHYTC-(mg),100.6
+11-1107,"Porridge, made with water",01060192,"Oats, raw",r,South Africa,10.6,795.66,IP6(mg),100.6
+11-1107,"Porridge, made with water",01060193,"Oats, rolled",p,New Zeland,8.0,947.6,PHYTC-(mg),116.4
+11-1107,"Porridge, made with water",01060202,"Porridge formula, oatmeal, commercial, ""Aamunhyva""",p,Finland,7.92,528.0,IP6(mg),64.8
+11-1107,"Porridge, made with water",01060203,"Porridge formula, oatmeal, commercial, ""Aamunhyva"" quick",p,Finland,7.6,488.4,IP6(mg),59.7
+11-1107,"Porridge, made with water",01060204,"Porridge formula, oatmeal, commercial, ""Ahaa""",p,Finland,9.12,633.6,IP6(mg),78.8
+11-1107,"Porridge, made with water",01060205,"Porridge formula, oatmeal, commercial, ""Ahaa"" large flakes",p,Finland,9.09,574.1999999999999,IP6(mg),71.4
+11-1107,"Porridge, made with water",01060206,"Porridge formula, oatmeal, commercial, ""Ahaa"" small flakes",p,Finland,8.12,567.6,IP6(mg),69.8
+11-1107,"Porridge, made with water",01060207,"Porridge formula, oatmeal, commercial, ""Elovena"" large flakes",p,Finland,7.59,719.4,IP6(mg),88.0
+11-1107,"Porridge, made with water",01060208,"Porridge formula, oatmeal, commercial, ""Myllyn paras""",p,Finland,9.06,514.8,IP6(mg),64.0
+11-1107,"Porridge, made with water",01060209,"Porridge formula, oatmeal, commercial, ""Pirkka""",p,Finland,8.09,468.6,IP6(mg),57.6
+11-1107,"Porridge, made with water",01060210,"Porridge formula, oatmeal, commercial, ""Puurohetki"" instant, containing apple",p,Finland,6.91,376.2,IP6(mg),45.7
+11-1107,"Porridge, made with water",01060211,"Porridge formula, oatmeal, commercial, ""Puurohetki"" instant, containing apple and plum",p,Finland,7.44,415.8,IP6(mg),50.8
+11-1107,"Porridge, made with water",01060212,"Porridge formula, oatmeal, commercial, ""Puurohetki"" instant, containing apricot",p,Finland,6.9,448.8,IP6(mg),54.5
+11-1107,"Porridge, made with water",01060213,"Porridge formula, oatmeal, commercial, ""Sydanystava"" old fashioned, containing bran",p,Finland,7.6,666.6,IP6(mg),81.5
+11-1107,"Porridge, made with water",01060214,"Porridge formula, oatmeal, domestic",p,Finland,8.32,561.0,IP6(mg),69.1
+11-1145,"Bread, white, average",01030051,"Bread, white wheat-based",p/f-/bk,"Spain, Granada",28.6,105.672,PHYTCPPI(mg),94.6
+11-1145,"Bread, white, average",01030052,"Bread, white wheat-based",p/f-/bk,Ghana,28.0,25.0,IP6(mg),22.2
+11-1145,"Bread, white, average",01030054,"Bread, white wheat-based",p/f/bk,"Bolivia, Chapare",21.0,78.21,IP6(mg),63.3
+11-1145,"Bread, white, average",01030055,"Bread, white wheat-based",p/f/bk,"China, Beijing ",31.3,20.0,PHYTCPP(mg),18.6
+11-981,"Bread, wholemeal, average",01030064,"Bread, whole wheat-based",p/f-/bk,"Spain, Granada",30.2,330.85,PHYTCPPI(mg),278.7
+11-981,"Bread, wholemeal, average",01030067,"Bread, whole wheat-based",p/f/bk,Germany,33.8,100.4916,IP6(mg),89.3
+11-981,"Bread, wholemeal, average",01030068,"Bread, whole wheat-based",p/f/bk,Spain,37.5,57.04874999999999,IP6(mg),53.7
+11-981,"Bread, wholemeal, average",01030069,"Bread, whole wheat-based",p/f/bk,"China, Beijing ",32.0,176.0,PHYTCPP(mg),152.2
+11-459,"Chapatis, made without fat",01030211,"Wheat flour, whole grain",p/d,"Nigeria, Kwara",7.2,1146.7017600000001,PHYTC-(mg),669.7
+11-459,"Chapatis, made without fat",01030215,"Wheat flour, whole grain",p,Ireland,13.1,770.0,PHYTCA (mg),480.3
+11-459,"Chapatis, made without fat",01030216,"Wheat flour, whole grain, Pillsbury",p,"USA, Washington DC",12.0,1176.0,IP6(mg),724.3
+11-459,"Chapatis, made without fat",01030217,"Wheat flour, whole meal",p,New Zeland,11.0,587.4,PHYTC-(mg),357.7
+11-862,"Rice, white, long grain, boiled in unsalted water",01010060,Rice flour,p,"Indonesia, West Nusa Tenggara province, East Lombok District
+",12.2,78.142,IP6(mg),28.3
+11-862,"Rice, white, long grain, boiled in unsalted water",01010061,Rice flour,p,UK,12.8,210.0,PHYTCA (mg),76.6
+11-862,"Rice, white, long grain, boiled in unsalted water",01010087,"Rice, black, raw",r,"Korea, Cheongju ",12.0,130.92,PHYTC-(mg),47.3
+11-862,"Rice, white, long grain, boiled in unsalted water",01010088,"Rice, boiled",p/wb,"Indonesia, West Nusa Tenggara province, East Lombok District
+",62.5,39.375,IP6(mg),33.4
+11-862,"Rice, white, long grain, boiled in unsalted water",01010089,"Rice, boiled",p/wb,"Indonesia, West Nusa Tenggara province, East Lombok District
+",59.8,31.356000000000005,IP6(mg),24.8
+11-862,"Rice, white, long grain, boiled in unsalted water",01010101,"Rice, cooked with oil",p/c,Ghana,75.0,33.0,IP6(mg),42.0
+11-862,"Rice, white, long grain, boiled in unsalted water",01010107,"Rice, Giant embryonic, raw",r,"Korea, Cheongju ",12.0,24.35,PHYTC-(mg),8.8
+11-862,"Rice, white, long grain, boiled in unsalted water",01010108,"Rice, Goami, raw",r,"Korea, Cheongju ",12.0,31.54,PHYTC-(mg),11.4
+11-862,"Rice, white, long grain, boiled in unsalted water",01010109,"Rice, Green, raw",r,"Korea, Cheongju ",12.0,40.98,PHYTC-(mg),14.8
+11-862,"Rice, white, long grain, boiled in unsalted water",01010298,"Rice, milled, raw",r,"Korea, Cheongju ",12.0,12.95,PHYTC-(mg),4.7
+11-862,"Rice, white, long grain, boiled in unsalted water",01010314,"Rice, polished, raw",r,New Zeland,13.0,391.5,PHYTC-(mg),143.1
+11-862,"Rice, white, long grain, boiled in unsalted water",01010317,"Rice, raw",r,"Indonesia, West Nusa Tenggara province, East Lombok District
+",10.7,182.172,IP6(mg),64.9
+11-862,"Rice, white, long grain, boiled in unsalted water",01010328,"Rice, red, raw",r,"Korea, Cheongju ",12.0,32.91,PHYTC-(mg),11.9
+11-862,"Rice, white, long grain, boiled in unsalted water",01010334,"Rice, unpolished, raw",r,New Zeland,11.0,551.8,PHYTC-(mg),197.2
+11-862,"Rice, white, long grain, boiled in unsalted water",01010335,"Rice, white medium grain, polished, boiled",p/wb,"Bolivia, Chapare",66.5,47.57,IP6(mg),45.2
+11-862,"Rice, white, long grain, boiled in unsalted water",01010344,"Rice, whole grain, flakes",p,New Zeland,10.0,621.0,PHYTC-(mg),219.4
+11-862,"Rice, white, long grain, boiled in unsalted water",19020029,"Rice stew, with other ingredients",p/wb/rp,Ghana,68.0,35.0,IP6(mg),34.8
+11-862,"Rice, white, long grain, boiled in unsalted water",19020031,"Rice stew, with other ingredients",p/wb/rp,Ghana,70.0,32.0,IP6(mg),33.9
+11-862,"Rice, white, long grain, boiled in unsalted water",19020032,"Rice stew, with other ingredients",p/wb/rp,Ghana,68.0,30.0,IP6(mg),29.8
+11-869,"Rice, brown, wholegrain, boiled in unsalted water",01010092,"Rice, brown, dried, Manischewitz (kosher)",p/d,"USA, Washington DC",10.0,854.0,IP6(mg),313.1
+11-869,"Rice, brown, wholegrain, boiled in unsalted water",01010095,"Rice, brown, raw",r,South Africa,8.7,721.27,IP6(mg),260.7
+11-869,"Rice, brown, wholegrain, boiled in unsalted water",01010096,"Rice, brown, raw",r,"Korea, Cheongju ",10.0,23.79,PHYTC-(mg),8.7
+11-450,"Pasta, plain, fresh, boiled",01030114,"Maccheronccini pasta, durum wheat semolina",p,Italy,9.68,153.54399999999998,PHYTC-(mg),65.4
+11-450,"Pasta, plain, fresh, boiled",01030119,"Noodles, white wheat-based, boiled",p/wb,"Bolivia, Chapare",64.8,164.73600000000002,IP6(mg),180.2
+11-450,"Pasta, plain, fresh, boiled",01030123,"Pasta, commercial, uncooked",p,Finland,9.5,389.40000000000003,IP6(mg),165.7
+11-450,"Pasta, plain, fresh, boiled",01030124,"Pasta, commercial, uncooked",p,Finland,8.7,244.2,IP6(mg),103.0
+11-450,"Pasta, plain, fresh, boiled",01030126,"Pasta, egg-flavour, commercial, uncooked",p,Finland,7.6,250.8,IP6(mg),104.5
+11-902,"Couscous, plain, cooked",01030114,"Maccheronccini pasta, durum wheat semolina",p,Italy,9.68,153.54399999999998,PHYTC-(mg),78.5
+11-902,"Couscous, plain, cooked",01030123,"Pasta, commercial, uncooked",p,Finland,9.5,389.40000000000003,IP6(mg),198.8
+11-902,"Couscous, plain, cooked",01030124,"Pasta, commercial, uncooked",p,Finland,8.7,244.2,IP6(mg),123.6
+14-843,"Quinoa, raw",01060222,"Quinoa, raw",r,India,10.43,120.0,PHYTCPP(mg),118.6
+14-843,"Quinoa, raw",01060221,"Quinoa, boiled",p/wb,"Bolivia, Chapare",73.1,554.1400000000001,IP6(mg),1823.1
+11-773,"Breakfast cereal, wheat biscuits, Weetabix type, fortified",01030086,"Breakfast cereal, wheat, Shredded Wheat, Nabisco",p,"USA, Washington DC",5.0,1103.0,IP6(mg),1091.4
+11-773,"Breakfast cereal, wheat biscuits, Weetabix type, fortified",01030088,"Breakfast cereal, wheat, Wheaties, General Mills",p,"USA, Washington DC",5.0,316.0,IP6(mg),312.7
+11-773,"Breakfast cereal, wheat biscuits, Weetabix type, fortified",01030167,Wheat flakes,p,"China, Beijing ",2.4,138.0,PHYTCPP(mg),132.9
+11-742,"Breakfast cereal, cornflakes, fortified",01020012,"Breakfast cereal, cornflakes",p,Finland,4.12,46.199999999999996,IP6(mg),46.5
+11-742,"Breakfast cereal, cornflakes, fortified",01020014,"Breakfast cereal, cornflakes, ""Cruncky""",p,Finland,3.25,52.8,IP6(mg),52.7
+11-742,"Breakfast cereal, cornflakes, fortified",01020015,"Breakfast cereal, cornflakes, ""El Dorado""",p,Finland,4.92,33.0,IP6(mg),33.5
+11-742,"Breakfast cereal, cornflakes, fortified",01020016,"Breakfast cereal, cornflakes, Skippy",p,New Zeland,5.0,450.0,PHYTC-(mg),457.6
+11-763,"Breakfast cereal, bran flakes, fortified",01030083,"Breakfast cereal, wheat bran, SanBran",p,New Zeland,3.0,814.8,PHYTC-(mg),806.4
+11-763,"Breakfast cereal, bran flakes, fortified",01030085,"Breakfast cereal, wheat, Raisin Bran, Kellogg’s",p,"USA, Washington DC",5.0,695.0,IP6(mg),702.3
+11-763,"Breakfast cereal, bran flakes, fortified",01060095,"Breakfast cereal, All Bran",p,New Zeland,7.0,1097.4,PHYTC-(mg),1132.8
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060142,"Muesli, ""Ahaa"" containing 30% fruit",p,Finland,9.04,587.4,IP6(mg),586.4
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060143,"Muesli, ""Alpen"" containing tropical fruit",p,Finland,7.0,382.8,IP6(mg),373.7
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060144,"Muesli, ""El Dorado Hedelmatnen""",p,Finland,7.78,620.4,IP6(mg),610.8
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060145,"Muesli, ""Hawaijin"" containing 30% fruit and sugar",p,Finland,8.5,290.40000000000003,IP6(mg),288.2
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060146,"Muesli, ""Jordans"" containing tropical fruit",p,Finland,4.57,534.6,IP6(mg),508.7
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060147,"Muesli, ""Pirkka Hedelmatnen""",p,Finland,11.09,429.0,IP6(mg),438.1
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060149,"Muesli, containing 30% fruit and sugar or honey",p,Finland,7.61,495.0,IP6(mg),486.5
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060150,"Muesli, swiss type",p,Finland,7.5,514.8,IP6(mg),505.3
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060151,"Muesli, swiss type, ""Ahaa"", containing nuts",p,Finland,7.28,534.6,IP6(mg),523.5
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060152,"Muesli, swiss type, ""Alpen""",p,Finland,6.96,415.8,IP6(mg),405.8
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060153,"Muesli, swiss type, ""Alpen"", containing raisins and nuts",p,Finland,6.78,481.8,IP6(mg),469.3
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060154,"Muesli, swiss type, ""Alpen"", without sugar",p,Finland,9.04,277.2,IP6(mg),276.7
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060155,"Muesli, swiss type, ""El Dorado""",p,Finland,7.19,455.4,IP6(mg),445.5
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060156,"Muesli, swiss type, ""Hyvan patvan"", containing wheat bran and honey",p,Finland,8.89,508.2,IP6(mg),506.5
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060157,"Muesli, swiss type, ""Jordans Special"", containing wheat bran",p,Finland,9.76,574.1999999999999,IP6(mg),577.8
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060158,"Muesli, swiss type, ""Kevyt ja hyva""",p,Finland,5.96,745.8000000000001,IP6(mg),720.1
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060159,"Muesli, swiss type, ""Perhe""",p,Finland,7.27,627.0,IP6(mg),614.0
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060160,"Muesli, swiss type, ""Pirkka"", containing sugar",p,Finland,7.37,587.4,IP6(mg),575.8
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060161,"Muesli, swiss type, ""Sinun""",p,Finland,10.07,514.8,IP6(mg),519.8
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060162,"Muesli, swiss type, containing sugar or honey",p,Finland,7.59,508.2,IP6(mg),499.3
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060163,"Muesli, toasted, nutoata",p/t,New Zeland,6.0,282.0,PHYTC-(mg),272.4
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060164,"Muesli, untoasted, RealFoods",p,New Zeland,10.0,927.0,PHYTC-(mg),935.2
+11-781,"Muesli, Swiss style, no added sugar or salt, unfortified",01060165,"Muesli, untoasted, Sanitarium",p,New Zeland,10.0,855.0,PHYTC-(mg),862.6
+14-896,"Almonds, whole kernels",06010016,"Almond, raw",r,India,4.37,964.0,PHYTCPP(mg),963.7
+14-896,"Almonds, whole kernels",06010015,"Almond, Nonpareil marketing, raw",r,USA,9.51,350.0,PHYTCPPI(mg),369.8
+14-892,"Peanut butter, smooth",06010129,"Peanut snack, with skin, soaked, fried",p/s-/fr,"Indonesia, West Nusa Tenggara province, East Lombok District
+",3.0,726.53,IP6(mg),740.8
+14-892,"Peanut butter, smooth",06010130,"Peanut snack, without skin, soaked, fried ",p/s-/fr,"Indonesia, West Nusa Tenggara province, East Lombok District
+",3.3,627.5830000000001,IP6(mg),641.9
+14-892,"Peanut butter, smooth",06010127,"Peanut, raw",r,"Bolivia, Chapare",3.64,1994.652,IP6(mg),2047.2
+14-892,"Peanut butter, smooth",06010139,"Peanut, raw",r,"Indonesia, West Nusa Tenggara province, East Lombok District
+",5.2,632.316,IP6(mg),659.7
+14-892,"Peanut butter, smooth",06010140,"Peanut, raw",r,New Zeland,6.0,987.0,PHYTC-(mg),1038.4
+14-892,"Peanut butter, smooth",06010142,"Peanut, seed, red, dried",d,Benin,5.099999999999994,458.367,IP6(mg),477.7
+14-892,"Peanut butter, smooth",06010143,"Peanut, seed, rose, dried",d,Benin,6.200000000000003,659.414,IP6(mg),695.3
+14-842,Pumpkin seeds,06010156,"Pumpkin, seed, dehulled, defatted",p/dh/dt,Sudan,5.47,63.6,PHYTCPPI(mg),63.5
+14-842,Pumpkin seeds,06010157,"Pumpkin, seed, dehulled, defatted, roasted",p/dh/ro,Sudan,6.1,56.1,PHYTCPPI(mg),56.4
+14-845,Sunflower seeds,06010173,"Sunflower, seed, raw",r,India,3.53,423.0,PHYTCPP(mg),419.2
+14-847,Tahini paste,06010161,"Sesame seed, grown inorganic, raw",r,India,5.13,1043.57,PHYTCPPD(mg),1065.9
+14-847,Tahini paste,06010162,"Sesame seed, HT-1, grown organic, raw",r,India,5.46,945.4,PHYTCPPD(mg),969.0
+14-847,Tahini paste,06010163,"Sesame seed, raw",r,India  ,5.0,0.0,PHYTCPPI(mg),0.0
+14-847,Tahini paste,06010164,"Sesame seed, whole, raw",r,"Ethiopia, Sidama",5.0,1525.0,IP5_A_IP6 (mg),1555.5
+14-811,"Cashew nuts, kernel only, plain",06010036,"Cashew nut, raw",r,USA,4.39,290.0,PHYTCPPI(mg),290.0
+14-811,"Cashew nuts, kernel only, plain",06010037,"Cashew nut, raw",r,New Zeland,4.0,604.8,PHYTC-(mg),602.3
+14-811,"Cashew nuts, kernel only, plain",06010038,"Cashew nut, raw",r,India,4.44,929.0,PHYTCPP(mg),929.4
+14-879,"Walnuts, kernel only",06010180,"Walnut, Blue Diamond Growers, raw",r,USA,2.7,200.0,PHYTCPPI(mg),199.8
+14-879,"Walnuts, kernel only",06010182,"Walnut, raw",r,New Zeland,6.0,611.0,PHYTC-(mg),631.8
+14-879,"Walnuts, kernel only",06010183,"Walnut, raw",r,India,3.56,1001.0,PHYTCPP(mg),1008.9

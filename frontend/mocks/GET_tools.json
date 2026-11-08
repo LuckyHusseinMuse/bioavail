@@ -1,0 +1,453 @@
+{
+  "tools": [
+    {
+      "name": "search_foods",
+      "description": "Search the food list by name. Use it to find food codes before scoring a meal.",
+      "parameters": {
+        "properties": {
+          "query": {
+            "description": "Food or drink name, e.g. 'lentils' or 'tea with milk'",
+            "maxLength": 80,
+            "type": "string"
+          },
+          "limit": {
+            "default": 8,
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_food",
+      "description": "Nutrients (per 100 g) and inhibitor data for one food code.",
+      "parameters": {
+        "properties": {
+          "food_code": {
+            "description": "Code from search_foods, e.g. '13-658'",
+            "type": "string"
+          }
+        },
+        "required": [
+          "food_code"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "score_meal",
+      "description": "Run the absorption engine on a meal. Returns iron eaten and absorbed, conflicts and factors. Use this for any number about absorption.",
+      "parameters": {
+        "properties": {
+          "items": {
+            "description": "Foods and drinks with grams; drinks may have offset_min (minutes after the meal)",
+            "items": {
+              "properties": {
+                "food_code": {
+                  "examples": [
+                    "13-658"
+                  ],
+                  "type": "string"
+                },
+                "grams": {
+                  "examples": [
+                    150
+                  ],
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000,
+                  "type": "number"
+                },
+                "offset_min": {
+                  "default": 0,
+                  "description": "Drinks: minutes after the meal starts (negative = before)",
+                  "maximum": 720,
+                  "minimum": -720,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "food_code",
+                "grams"
+              ],
+              "type": "object"
+            },
+            "maxItems": 40,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "simulate_change",
+      "description": "Score a meal before and after one change (add, remove, swap, retime a drink, change grams).",
+      "parameters": {
+        "properties": {
+          "items": {
+            "description": "Foods and drinks with grams; drinks may have offset_min (minutes after the meal)",
+            "items": {
+              "properties": {
+                "food_code": {
+                  "examples": [
+                    "13-658"
+                  ],
+                  "type": "string"
+                },
+                "grams": {
+                  "examples": [
+                    150
+                  ],
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000,
+                  "type": "number"
+                },
+                "offset_min": {
+                  "default": 0,
+                  "description": "Drinks: minutes after the meal starts (negative = before)",
+                  "maximum": 720,
+                  "minimum": -720,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "food_code",
+                "grams"
+              ],
+              "type": "object"
+            },
+            "maxItems": 40,
+            "minItems": 1,
+            "type": "array"
+          },
+          "change": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "add",
+                  "remove",
+                  "swap",
+                  "retime",
+                  "regrams"
+                ],
+                "type": "string"
+              },
+              "food_code": {
+                "description": "Item to change, or the food to add",
+                "type": "string"
+              },
+              "grams": {
+                "anyOf": [
+                  {
+                    "exclusiveMinimum": 0,
+                    "maximum": 3000,
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null
+              },
+              "offset_min": {
+                "anyOf": [
+                  {
+                    "maximum": 720,
+                    "minimum": -720,
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null
+              },
+              "to_food_code": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "For swap"
+              }
+            },
+            "required": [
+              "kind",
+              "food_code"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "items",
+          "change"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "suggest_fixes",
+      "description": "Ranked smallest changes that most improve absorbed iron, respecting the user's diet.",
+      "parameters": {
+        "properties": {
+          "items": {
+            "description": "Foods and drinks with grams; drinks may have offset_min (minutes after the meal)",
+            "items": {
+              "properties": {
+                "food_code": {
+                  "examples": [
+                    "13-658"
+                  ],
+                  "type": "string"
+                },
+                "grams": {
+                  "examples": [
+                    150
+                  ],
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000,
+                  "type": "number"
+                },
+                "offset_min": {
+                  "default": 0,
+                  "description": "Drinks: minutes after the meal starts (negative = before)",
+                  "maximum": 720,
+                  "minimum": -720,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "food_code",
+                "grams"
+              ],
+              "type": "object"
+            },
+            "maxItems": 40,
+            "minItems": 1,
+            "type": "array"
+          },
+          "top_n": {
+            "default": 3,
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_rules",
+      "description": "Conflict rules and their recommendation templates.",
+      "parameters": {
+        "properties": {
+          "conflict_group": {
+            "anyOf": [
+              {
+                "enum": [
+                  "IRON_POLYPHENOL_BEVERAGE",
+                  "IRON_PHYTATE",
+                  "IRON_CALCIUM",
+                  "IRON_SUPPLEMENT_DOSING"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Limit to one group; omit for all"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_evidence",
+      "description": "Paper, value and notes behind a rule, modifier, baseline or assumption. Use before citing.",
+      "parameters": {
+        "properties": {
+          "entity_id": {
+            "description": "A rule, modifier, baseline, assumption, evidence link or paper id, e.g. 'RULE_IRON_002'",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity_id"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_daily_summary",
+      "description": "The signed-in user's iron eaten vs absorbed for a day, against their targets.",
+      "parameters": {
+        "properties": {
+          "date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "YYYY-MM-DD in the user's time zone; omit for today"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_meal_history",
+      "description": "The signed-in user's logged meals and results over recent days.",
+      "parameters": {
+        "properties": {
+          "days": {
+            "default": 7,
+            "description": "How many days back from now",
+            "maximum": 60,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_patterns",
+      "description": "Recurring conflicts (e.g. tea with lunch) and averages for the signed-in user.",
+      "parameters": {
+        "properties": {
+          "days": {
+            "default": 7,
+            "description": "How many days back from now",
+            "maximum": 60,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "propose_save_meal",
+      "description": "Prepare a meal for the user to confirm. Does NOT save; the user confirms in the app.",
+      "parameters": {
+        "properties": {
+          "items": {
+            "description": "Foods and drinks with grams; drinks may have offset_min (minutes after the meal)",
+            "items": {
+              "properties": {
+                "food_code": {
+                  "examples": [
+                    "13-658"
+                  ],
+                  "type": "string"
+                },
+                "grams": {
+                  "examples": [
+                    150
+                  ],
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000,
+                  "type": "number"
+                },
+                "offset_min": {
+                  "default": 0,
+                  "description": "Drinks: minutes after the meal starts (negative = before)",
+                  "maximum": 720,
+                  "minimum": -720,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "food_code",
+                "grams"
+              ],
+              "type": "object"
+            },
+            "maxItems": 40,
+            "minItems": 1,
+            "type": "array"
+          },
+          "eaten_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "When it was eaten; omit for now"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "maxLength": 300,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "propose_alert",
+      "description": "Offer a timing reminder. Does NOT schedule it; the user accepts in the app.",
+      "parameters": {
+        "properties": {
+          "type": {
+            "const": "timing",
+            "default": "timing",
+            "type": "string"
+          },
+          "remind_at": {
+            "description": "When to remind the user (ISO time)",
+            "format": "date-time",
+            "type": "string"
+          },
+          "message": {
+            "description": "Short reminder text using only numbers from tool results",
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "remind_at",
+          "message"
+        ],
+        "type": "object"
+      }
+    }
+  ]
+}

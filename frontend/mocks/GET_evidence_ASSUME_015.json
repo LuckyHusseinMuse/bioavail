@@ -1,0 +1,40 @@
+{
+  "kind": "assumption",
+  "entity": {
+    "assumption_id": "ASSUME_015",
+    "name": "Engine_Consistent_Daily_Target",
+    "value": "",
+    "unit": "mg_per_day",
+    "description": "Absorbed-iron target = UK RNI x the engine's fractional absorption of a balanced reference day (data/curated/reference_day.csv).",
+    "rationale": "The engine multiplies single-meal inhibitor effects measured with simple bread meals, so its daily totals run well below whole-diet estimates (EFSA 16-18%; Monsen and Hallberg-Hulthen about 12% on real diets, PMC5986529). Scoring a reference day with the same engine keeps the target on the same scale: eating like the reference day meets the target.",
+    "used_by": "engine.daily",
+    "related_evidence": "IRON_010;IRON_011",
+    "active": "True"
+  },
+  "papers": [
+    {
+      "paper_id": "IRON_010",
+      "authors": "EFSA Panel on Dietetic Products Nutrition and Allergies (NDA)",
+      "year": "2015",
+      "title": "Scientific Opinion on Dietary Reference Values for iron",
+      "journal": "EFSA Journal",
+      "volume_pages": "13(10):4254",
+      "doi_or_url": "https://doi.org/10.2903/j.efsa.2015.4254",
+      "access": "Open access",
+      "citation_verified": "False",
+      "notes": "Source of ABS_BASE_IRON_001 to ABS_BASE_IRON_005."
+    },
+    {
+      "paper_id": "IRON_011",
+      "authors": "Monsen ER, Hallberg L, Layrisse M, et al.",
+      "year": "1978",
+      "title": "Estimation of available dietary iron",
+      "journal": "American Journal of Clinical Nutrition",
+      "volume_pages": "31(1):134-141",
+      "doi_or_url": "https://doi.org/10.1093/ajcn/31.1.134",
+      "access": "Subscription",
+      "citation_verified": "False",
+      "notes": "Categorical 3/5/8% model; test oracle for ABS_BASE_IRON_006."
+    }
+  ]
+}

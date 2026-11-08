@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "id": "haem_iron",
+      "label": "Haem iron",
+      "kind": "iron"
+    },
+    {
+      "id": "nonhaem_iron",
+      "label": "Non-haem iron",
+      "kind": "iron"
+    },
+    {
+      "id": "vitamin_c",
+      "label": "Vitamin C",
+      "kind": "enhancer"
+    },
+    {
+      "id": "meat_fish_poultry",
+      "label": "Meat, fish, poultry",
+      "kind": "enhancer"
+    },
+    {
+      "id": "polyphenols",
+      "label": "Polyphenols (tea, coffee, cocoa)",
+      "kind": "inhibitor"
+    },
+    {
+      "id": "phytate",
+      "label": "Phytate (wholegrains, beans)",
+      "kind": "inhibitor"
+    },
+    {
+      "id": "calcium",
+      "label": "Calcium (dairy)",
+      "kind": "inhibitor"
+    }
+  ],
+  "edges": [
+    {
+      "id": "vitamin_c->nonhaem_iron",
+      "source": "vitamin_c",
+      "target": "nonhaem_iron",
+      "effect": "enhance",
+      "strength": 1.67,
+      "qualitative_only": false,
+      "active": false,
+      "sources": [
+        "ABS_BASE_IRON_006"
+      ]
+    },
+    {
+      "id": "meat_fish_poultry->nonhaem_iron",
+      "source": "meat_fish_poultry",
+      "target": "nonhaem_iron",
+      "effect": "enhance",
+      "strength": 1.67,
+      "qualitative_only": false,
+      "active": false,
+      "sources": [
+        "ABS_BASE_IRON_006"
+      ]
+    },
+    {
+      "id": "polyphenols->nonhaem_iron",
+      "source": "polyphenols",
+      "target": "nonhaem_iron",
+      "effect": "inhibit",
+      "strength": 0.86,
+      "qualitative_only": false,
+      "active": true,
+      "sources": [
+        "ABS_MOD_IRON_002",
+        "ABS_MOD_IRON_003",
+        "ABS_MOD_IRON_004"
+      ]
+    },
+    {
+      "id": "phytate->nonhaem_iron",
+      "source": "phytate",
+      "target": "nonhaem_iron",
+      "effect": "inhibit",
+      "strength": 0.82,
+      "qualitative_only": false,
+      "active": true,
+      "sources": [
+        "ABS_MOD_IRON_005",
+        "ABS_MOD_IRON_006",
+        "ABS_MOD_IRON_007"
+      ]
+    },
+    {
+      "id": "calcium->nonhaem_iron",
+      "source": "calcium",
+      "target": "nonhaem_iron",
+      "effect": "inhibit",
+      "strength": 0.55,
+      "qualitative_only": false,
+      "active": true,
+      "sources": [
+        "ABS_MOD_IRON_009",
+        "ABS_MOD_IRON_010"
+      ]
+    },
+    {
+      "id": "calcium->haem_iron",
+      "source": "calcium",
+      "target": "haem_iron",
+      "effect": "inhibit",
+      "strength": null,
+      "qualitative_only": true,
+      "active": true,
+      "sources": [
+        "ABS_MOD_IRON_011"
+      ]
+    },
+    {
+      "id": "vitamin_c->phytate",
+      "source": "vitamin_c",
+      "target": "phytate",
+      "effect": "counteract",
+      "strength": 1.0,
+      "qualitative_only": false,
+      "active": true,
+      "sources": [
+        "ABS_MOD_IRON_008"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[project]
+name = "absorb-backend"
+version = "0.2.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "engine"]
+testpaths = ["engine/tests", "api/tests"]
+addopts = "-q"

@@ -1,0 +1,108 @@
+{
+  "meal_id": "ded5a96c-5b89-4445-bc20-642776c4932a",
+  "user_id": "dev|mock-def6f918",
+  "eaten_at": "2026-11-08T13:00:00+00:00",
+  "items": [
+    {
+      "grams": 300.0,
+      "food_code": "15-761",
+      "offset_min": 0
+    },
+    {
+      "grams": 180.0,
+      "food_code": "11-862",
+      "offset_min": 0
+    },
+    {
+      "grams": 260.0,
+      "food_code": "17-165",
+      "offset_min": 0.0
+    }
+  ],
+  "source": "photo",
+  "note": null,
+  "intake": null,
+  "created_at": "2026-11-08T09:17:06.541553+00:00",
+  "iron_mg": 6.85,
+  "absorbed_mg": 0.016,
+  "potential_absorbed_mg": 0.394,
+  "fractional_pct": 0.2,
+  "share_of_potential_pct": 4,
+  "range_low_mg": 0.012,
+  "range_high_mg": 0.025,
+  "conflict_count": 1,
+  "conflict_rule_ids": [
+    "RULE_IRON_002"
+  ],
+  "contributions": [
+    {
+      "step": "reference",
+      "factor": "monsen_reference",
+      "sources": [
+        "ABS_BASE_IRON_006"
+      ],
+      "value_pct": 3.0
+    },
+    {
+      "step": "inhibitor",
+      "detail": {
+        "modifier": "Black_Tea"
+      },
+      "factor": "polyphenols",
+      "sources": [
+        "ABS_MOD_IRON_004"
+      ],
+      "change_pct": -86.5,
+      "multiplier": 0.135
+    },
+    {
+      "step": "inhibitor",
+      "detail": {
+        "phytate_p_mg": 95.8,
+        "raw_change_pct": -74.5,
+        "vitamin_c_used_mg": 36.0,
+        "vitamin_c_offset_share": 0.73
+      },
+      "factor": "phytate",
+      "sources": [
+        "ABS_MOD_IRON_005",
+        "ABS_MOD_IRON_006",
+        "ABS_MOD_IRON_007",
+        "ABS_MOD_IRON_008",
+        "ASSUME_002",
+        "ASSUME_005",
+        "ASSUME_013"
+      ],
+      "change_pct": -20.4,
+      "multiplier": 0.7962
+    },
+    {
+      "step": "inhibitor",
+      "detail": {
+        "calcium_mg": 88
+      },
+      "factor": "calcium",
+      "sources": [
+        "ABS_MOD_IRON_009",
+        "ASSUME_006"
+      ],
+      "change_pct": -29.4,
+      "multiplier": 0.706
+    }
+  ],
+  "conflicts": [
+    {
+      "message": "Black tea with this meal can cut the non-haem iron you absorb by about 86%. Having it at least an hour after eating reduces this effect.",
+      "rule_id": "RULE_IRON_002",
+      "priority": 1,
+      "verified": false,
+      "food_code": "17-165",
+      "evidence_id": "EVID_LINK_IRON_005",
+      "reduction_pct": 86.5,
+      "conflict_group": "IRON_POLYPHENOL_BEVERAGE",
+      "recommendation_action": "Recommend_Alternate_Timing"
+    }
+  ],
+  "data_gaps": [],
+  "engine_version": "0.2"
+}

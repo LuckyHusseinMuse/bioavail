@@ -1,0 +1,22 @@
+# Local TimescaleDB for development and tests (Tiger Data runs the same engine in the cloud).
+# Start:  docker compose -f db/docker-compose.db.yml up -d
+# URL:    postgresql://absorb:absorb@localhost:5433/absorb
+services:
+  timescaledb:
+    image: timescale/timescaledb:2.17.2-pg16
+    environment:
+      POSTGRES_USER: absorb
+      POSTGRES_PASSWORD: absorb
+      POSTGRES_DB: absorb
+    ports:
+      - "5433:5432"
+    volumes:
+      - absorb_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U absorb -d absorb"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  absorb_pg:

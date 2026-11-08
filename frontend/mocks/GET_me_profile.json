@@ -1,0 +1,24 @@
+{
+  "user_id": "dev|mock-def6f918",
+  "sex": "female",
+  "birth_year": 1998,
+  "diet_type": "vegetarian",
+  "preferences": {},
+  "timezone": "Europe/London",
+  "profile_complete": true,
+  "references": {
+    "sex": "female",
+    "age": 28,
+    "iron_rni_mg_day": 14.8,
+    "absorbed_target_mg_day": 0.971,
+    "reference_day_fractional_pct": 6.56,
+    "efsa_population_absorption_pct": 18.0,
+    "efsa_note": "EFSA whole-diet estimate, shown for information; not on the same scale as the engine.",
+    "sources": [
+      "mineral_recommendations.xlsx",
+      "data/curated/reference_day.csv",
+      "ASSUME_015",
+      "ABS_BASE_IRON_003"
+    ]
+  }
+}

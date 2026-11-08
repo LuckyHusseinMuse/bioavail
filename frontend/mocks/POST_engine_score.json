@@ -1,0 +1,135 @@
+{
+  "iron_mg": 6.85,
+  "haem_mg": 0.0,
+  "nonhaem_mg": 6.85,
+  "absorbed_mg": 0.016,
+  "haem_absorbed_mg": 0.0,
+  "nonhaem_absorbed_mg": 0.016,
+  "fractional_pct": 0.2,
+  "range_pct": [
+    0.2,
+    0.4
+  ],
+  "range_absorbed_mg": [
+    0.012,
+    0.025
+  ],
+  "base_pct": 3.0,
+  "nonhaem_pct": 0.23,
+  "haem_pct": 25.0,
+  "floor_applied": false,
+  "potential_absorbed_mg": 0.394,
+  "share_of_potential_pct": 4.0,
+  "contributions": [
+    {
+      "step": "reference",
+      "factor": "monsen_reference",
+      "value_pct": 3.0,
+      "sources": [
+        "ABS_BASE_IRON_006"
+      ]
+    },
+    {
+      "step": "inhibitor",
+      "factor": "polyphenols",
+      "multiplier": 0.135,
+      "change_pct": -86.5,
+      "sources": [
+        "ABS_MOD_IRON_004"
+      ],
+      "detail": {
+        "modifier": "Black_Tea"
+      }
+    },
+    {
+      "step": "inhibitor",
+      "factor": "phytate",
+      "multiplier": 0.7962,
+      "change_pct": -20.4,
+      "sources": [
+        "ABS_MOD_IRON_005",
+        "ABS_MOD_IRON_006",
+        "ABS_MOD_IRON_007",
+        "ABS_MOD_IRON_008",
+        "ASSUME_002",
+        "ASSUME_005",
+        "ASSUME_013"
+      ],
+      "detail": {
+        "phytate_p_mg": 95.8,
+        "raw_change_pct": -74.5,
+        "vitamin_c_offset_share": 0.73,
+        "vitamin_c_used_mg": 36.0
+      }
+    },
+    {
+      "step": "inhibitor",
+      "factor": "calcium",
+      "multiplier": 0.706,
+      "change_pct": -29.4,
+      "sources": [
+        "ABS_MOD_IRON_009",
+        "ASSUME_006"
+      ],
+      "detail": {
+        "calcium_mg": 88
+      }
+    }
+  ],
+  "conflicts": [
+    {
+      "rule_id": "RULE_IRON_002",
+      "conflict_group": "IRON_POLYPHENOL_BEVERAGE",
+      "message": "Black tea with this meal can cut the non-haem iron you absorb by about 86%. Having it at least an hour after eating reduces this effect.",
+      "reduction_pct": 86.5,
+      "priority": 1,
+      "recommendation_action": "Recommend_Alternate_Timing",
+      "evidence_id": "EVID_LINK_IRON_005",
+      "food_code": "17-165",
+      "verified": false
+    }
+  ],
+  "data_gaps": [],
+  "totals": {
+    "mfp_g": 0.0,
+    "vitamin_c_mg": 36.0,
+    "calcium_mg": 88.2,
+    "phytate_p_mg": 95.8,
+    "enhancer_units": 0.0,
+    "vitamin_c_used_on_phytate_mg": 36.0
+  },
+  "items": [
+    {
+      "food_code": "15-761",
+      "name": "Red lentil curry (dahl with vegetables)",
+      "grams": 300.0,
+      "offset_min": 0,
+      "in_window": true
+    },
+    {
+      "food_code": "11-862",
+      "name": "White rice, boiled",
+      "grams": 180.0,
+      "offset_min": 0,
+      "in_window": true
+    },
+    {
+      "food_code": "17-165",
+      "name": "Tea, black",
+      "grams": 260.0,
+      "offset_min": 0.0,
+      "in_window": true
+    }
+  ],
+  "engine_version": "0.2",
+  "unverified_sources": [
+    "ABS_BASE_IRON_006",
+    "ABS_MOD_IRON_004",
+    "ABS_MOD_IRON_005",
+    "ABS_MOD_IRON_006",
+    "ABS_MOD_IRON_007",
+    "ABS_MOD_IRON_008",
+    "ABS_MOD_IRON_009",
+    "RULE_IRON_002"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "enabled_types": [
+    "conflict",
+    "data_gap",
+    "timing",
+    "shortfall",
+    "weekly_pattern"
+  ],
+  "daily_limit": 3,
+  "quiet_start": null,
+  "quiet_end": null,
+  "push_subscribed": false,
+  "all_types": [
+    "conflict",
+    "data_gap",
+    "timing",
+    "shortfall",
+    "weekly_pattern"
+  ]
+}

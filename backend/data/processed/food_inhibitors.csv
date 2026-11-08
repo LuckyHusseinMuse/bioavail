@@ -1,0 +1,44 @@
+food_code,beverage_class,phytate_mg_per_100g,phytate_source,phytate_n,phytate_method,polyphenols_mg_per_serving,polyphenol_method,polyphenol_source,specific_modifier_id,data_status,notes
+13-658,,156.0,PhyFoodComp 1.0: 03010475;03010476;03010484;03010485;03010486;03010487;03010498,7.0,"median, dry-matter scaled to CoFID water 72.3 g, all methods",,,,,complete,All lentil rows; scaled to boiled lentil dry matter
+13-661,,161.7,PhyFoodComp 1.0: 03010475;03010476;03010484;03010485;03010486;03010487;03010498,7.0,"median, dry-matter scaled to CoFID water 71.3 g, all methods",,,,,complete,
+13-662,,210.8,PhyFoodComp 1.0: 03010163;03010165;03010172;03010173;03010174;03010175;03010176;03010177;03010178;03010179;03010180;03010181;03010183;04010112,14.0,"median, dry-matter scaled to CoFID water 62.3 g, all methods",,,,,complete,
+13-670,,210.8,PhyFoodComp 1.0: 03010163;03010165;03010172;03010173;03010174;03010175;03010176;03010177;03010178;03010179;03010180;03010181;03010183;04010112,14.0,"median, dry-matter scaled to CoFID water 62.3 g, all methods",,,,,complete,
+13-660,,164.7,PhyFoodComp 1.0: 03010053;03010221;03010226;03010227,4.0,"median, dry-matter scaled to CoFID water 66.5 g, all methods",,,,,complete,
+13-063,,257.0,PhyFoodComp 1.0: 03010283;03010286;03010289;03010294;03010296;03010297;03010298;03010299;03010300;03010301;03010302;03010303;03010304;03010305;03010306;03010307;03010316;03010317;03010318;03010319;03010320;03010321;03010322;03010324;03010326;03010327;03010329;03010330;03010331;03010332;03010333;03010334;03010335;03010336;03010337;03010338;03010339;03010340;03010341;03010342;03010343;03010344;03010346;03010348;03010350;03010351;03010352;03010353;03010354;03010355;03010356;03010357;03010358;03010359;03010360;03010362;03010363;03010364;03010365;19020012;19020013;19020014,62.0,"median, dry-matter scaled to CoFID water 66.2 g, all methods",,,,,complete,
+13-532,,123.3,PhyFoodComp 1.0: 03010262;03010263;03010264;03010265;03010266;03010457,6.0,"median, dry-matter scaled to CoFID water 72.8 g, all methods",,,,,complete,Beans are about 55% of baked beans dry matter (assumption); rest is tomato sauce
+13-570,,146.0,PhyFoodComp 1.0: 03020159;03020169;03020191,3.0,"median, dry-matter scaled to CoFID water 85.0 g, all methods",,,,,complete,Tofu rows without water are skipped
+13-556,,135.0,PhyFoodComp 1.0: 03010163;03010165;03010172;03010173;03010174;03010175;03010176;03010177;03010178;03010179;03010180;03010181;03010183;04010112,14.0,"median, dry-matter scaled to CoFID water 51.7 g, all methods",,,,,complete,Houmous: chickpea about half of dry matter alongside oil and tahini (assumption)
+13-439,,201.2,PhyFoodComp 1.0: 03010595;03010596;03010597;03010598;03010599;03010602;03010607;03010608;03010610;03010612;03010613;03010614;03010615;03010616;03010618;03010620;03010621;03010622,18.0,"median, dry-matter scaled to CoFID water 75.6 g, all methods",,,,,complete,Dried pea values scaled to boiled peas; green peas likely lower
+15-761,,92.9,PhyFoodComp 1.0: 03010475;03010476;03010484;03010485;03010486;03010487;03010498,7.0,"median, dry-matter scaled to CoFID water 72.5 g, all methods",,,,,complete,Lentil curry: lentils about 60% of dry matter (assumption)
+11-788,,554.4,PhyFoodComp 1.0: 01060189;01060191;01060192;01060193;01060202;01060203;01060204;01060205;01060206;01060207;01060208;01060209;01060210;01060211;01060212;01060213;01060214,17.0,"median, dry-matter scaled to CoFID water 9.4 g, all methods",,,,,complete,
+11-1107,,69.1,PhyFoodComp 1.0: 01060189;01060191;01060192;01060193;01060202;01060203;01060204;01060205;01060206;01060207;01060208;01060209;01060210;01060211;01060212;01060213;01060214,17.0,"median, dry-matter scaled to CoFID water 88.7 g, all methods",,,,,complete,Scaled to porridge dry matter
+11-1145,,42.7,PhyFoodComp 1.0: 01030051;01030052;01030054;01030055,4.0,"median, dry-matter scaled to CoFID water 36.1 g, all methods",,,,,complete,
+11-981,,120.7,PhyFoodComp 1.0: 01030064;01030067;01030068;01030069,4.0,"median, dry-matter scaled to CoFID water 41.2 g, all methods",,,,,complete,
+11-459,,575.0,PhyFoodComp 1.0: 01030211;01030215;01030216;01030217,4.0,"median, dry-matter scaled to CoFID water 45.8 g, all methods",,,,,complete,Chapati: whole wheat flour and unleavened whole wheat bread
+11-862,,33.9,PhyFoodComp 1.0: 01010060;01010061;01010087;01010088;01010089;01010101;01010107;01010108;01010109;01010298;01010314;01010317;01010328;01010334;01010335;01010344;19020029;19020031;19020032,19.0,"median, dry-matter scaled to CoFID water 68.2 g, all methods",,,,,complete,White (milled) rice
+11-869,,260.7,PhyFoodComp 1.0: 01010092;01010095;01010096,3.0,"median, dry-matter scaled to CoFID water 67.0 g, all methods",,,,,complete,
+11-450,,104.5,PhyFoodComp 1.0: 01030114;01030119;01030123;01030124;01030126,5.0,"median, dry-matter scaled to CoFID water 61.5 g, all methods",,,,,complete,
+11-902,,123.6,PhyFoodComp 1.0: 01030114;01030123;01030124,3.0,"median, dry-matter scaled to CoFID water 53.8 g, all methods",,,,,complete,Couscous is durum semolina; pasta used as proxy
+14-843,,970.8,PhyFoodComp 1.0: 01060222;01060221,2.0,"median, dry-matter scaled to CoFID water 11.5 g, all methods",,,,,partial,
+11-773,,312.7,PhyFoodComp 1.0: 01030086;01030088;01030167,3.0,"median, dry-matter scaled to CoFID water 6.0 g, all methods",,,,,complete,Whole wheat cereal proxies
+11-742,,49.6,PhyFoodComp 1.0: 01020012;01020014;01020015;01020016,4.0,"median, dry-matter scaled to CoFID water 3.4 g, all methods",,,,,complete,
+11-763,,806.4,PhyFoodComp 1.0: 01030083;01030085;01060095,3.0,"median, dry-matter scaled to CoFID water 4.0 g, all methods",,,,,complete,
+11-781,,506.5,PhyFoodComp 1.0: 01060142;01060143;01060144;01060145;01060146;01060147;01060149;01060150;01060151;01060152;01060153;01060154;01060155;01060156;01060157;01060158;01060159;01060160;01060161;01060162;01060163;01060164;01060165,23.0,"median, dry-matter scaled to CoFID water 9.2 g, all methods",,,,,complete,
+14-896,,666.7,PhyFoodComp 1.0: 06010016;06010015,2.0,"median, dry-matter scaled to CoFID water 4.4 g, all methods",,,,,partial,
+14-892,,695.3,PhyFoodComp 1.0: 06010129;06010130;06010127;06010139;06010140;06010142;06010143,7.0,"median, dry-matter scaled to CoFID water 1.1 g, all methods",,,,,complete,
+14-842,,60.0,PhyFoodComp 1.0: 06010156;06010157,2.0,"median, dry-matter scaled to CoFID water 5.6 g, all methods",,,,,partial,Only dehulled defatted seed rows available; likely underestimate
+14-845,,419.2,PhyFoodComp 1.0: 06010173,1.0,"median, dry-matter scaled to CoFID water 4.4 g, all methods",,,,,partial,
+14-847,,1017.5,PhyFoodComp 1.0: 06010161;06010162;06010163;06010164,4.0,"median, dry-matter scaled to CoFID water 3.1 g, all methods",,,,,complete,Tahini made from sesame
+14-811,,602.3,PhyFoodComp 1.0: 06010036;06010037;06010038,3.0,"median, dry-matter scaled to CoFID water 4.4 g, all methods",,,,,complete,
+14-879,,631.8,PhyFoodComp 1.0: 06010180;06010182;06010183,3.0,"median, dry-matter scaled to CoFID water 2.8 g, all methods",,,,,complete,
+17-165,black_tea,,,,,317,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_004,complete,Hurrell 1999 Table 1: Assam tea 274 and 396 mg per 275 ml; mean scaled to a 260 ml mug
+17-169,black_tea,,,,,317,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_004,complete,Milk did not remove tea's effect (Hurrell 1999 study 6)
+17-171,green_tea,,,,,,,,,pending,Green tea polyphenols needed (Phenol-Explorer)
+17-172,herbal_tea,,,,,121,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_013,complete,Hurrell 1999 Table 1: camomile 52 to peppermint 209 mg per 275 ml; median of herb teas tested
+17-833,coffee,,,,,219,Folin-type total polyphenols,IRON_020,,complete,219 mg per cup of coffee (ETH 2023)
+17-159,coffee,,,,,113,Chlorogenic acid (AOAC),IRON_013,,complete,Hurrell 1999 Table 1: instant coffee 120 mg per 275 ml (2 g powder); scaled to 260 ml
+17-632,coffee,,,,,219,Folin-type total polyphenols,IRON_020,,assumed,Latte assumed one cup of coffee
+12-563,cocoa,,,,,105,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_012,complete,Hurrell 1999 Table 1: cocoa 116 mg per 275 ml (5 g powder); scaled to 250 ml
+17-752,red_wine,,,,,,,,,pending,Red wine polyphenols needed (Phenol-Explorer)
+14-329,,,,,,0,,assumption,,assumed,Not an inhibitor in our evidence
+17-377,water,,,,,0,,assumption,,complete,Control drink

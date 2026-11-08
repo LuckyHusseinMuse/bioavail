@@ -212,3 +212,16 @@ def test_update_meal_demo_seed_and_clear(client):
 
 def test_dev_token_endpoint_off_without_secret(client):
     assert client.get("/auth/dev-token").status_code == 404
+
+
+
+@needs_db
+def test_remove_demo_keeps_real_meals(client):
+    h = auth(f"auth0|demo-rm-{uuid.uuid4()}")
+    real = client.post("/meals", headers=h, json={**CURRY_TEA, "source": "photo"}).json()
+    assert client.post("/me/demo", headers=h).json()["meals"] == 19
+    out = client.delete("/me/demo", headers=h).json()
+    assert out["meals_removed"] == 19 and out["alerts_removed"] >= 1
+    left = client.get("/meals", headers=h, params={"from": "2020-01-01T00:00:00Z", "to": "2100-01-01T00:00:00Z"}).json()["meals"]
+    assert [m["meal_id"] for m in left] == [real["meal_id"]]
+    assert all(a["meal_id"] == real["meal_id"] for a in client.get("/alerts", headers=h).json()["alerts"])

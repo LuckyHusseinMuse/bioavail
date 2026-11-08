@@ -56,7 +56,7 @@ def seed(conn, user_id: str, profile: dict | None = None) -> dict:
     user = User(user_id)
     ensure_user(conn, user)
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM alerts WHERE user_id = %s", (user_id,))
+        cur.execute("DELETE FROM alerts WHERE user_id = %s AND data->>'demo' = 'true'", (user_id,))
         cur.execute("DELETE FROM meal_results r USING meals m WHERE r.meal_id = m.meal_id AND r.eaten_at = m.eaten_at "
                     "AND m.user_id = %s AND m.source = 'seed'", (user_id,))
         cur.execute("DELETE FROM meals WHERE user_id = %s AND source = 'seed' RETURNING eaten_at", (user_id,))
@@ -71,6 +71,7 @@ def seed(conn, user_id: str, profile: dict | None = None) -> dict:
         refresh_daily(conn, when)
 
     today = datetime.now(LONDON).replace(hour=0, minute=0, second=0, microsecond=0)
+    seeded_from = today - timedelta(days=8)          # every alert created below falls after this
     counts = {"meals": 0, "alerts": 0}
     days_seen = set()
     for days_ago, h, m, raw in WEEK:
@@ -89,6 +90,8 @@ def seed(conn, user_id: str, profile: dict | None = None) -> dict:
     counts["alerts"] += len(rules.weekly_patterns(conn, user, now=datetime.now(timezone.utc)))
     # Past alerts count as delivered and read except the latest few, so the notification centre looks lived-in.
     with conn.cursor() as cur:
+        cur.execute("""UPDATE alerts SET data = coalesce(data, '{}'::jsonb) || '{"demo": true}'::jsonb
+                       WHERE user_id = %s AND created_at >= %s""", (user_id, seeded_from))
         cur.execute("UPDATE alerts SET sent_at = scheduled_for WHERE user_id = %s AND scheduled_for <= now()", (user_id,))
         cur.execute("""UPDATE alerts SET read_at = scheduled_for + interval '5 minutes'
                        WHERE user_id = %s AND type <> 'weekly_pattern' AND scheduled_for < now() - interval '1 day'""",

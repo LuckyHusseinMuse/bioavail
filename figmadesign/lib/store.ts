@@ -52,6 +52,7 @@ type State = {
   setPrefs: (p: Partial<Prefs>) => void;
   addChat: (m: Omit<ChatMsg, "id">) => void;
   resetDemo: () => Promise<void>;
+  removeDemo: () => Promise<void>;
   clearAll: () => Promise<void>;
   signOutReset: () => void;
 };
@@ -203,6 +204,7 @@ export const useStore = create<State>()(
       },
       addChat: (m) => set((s) => ({ chat: [...s.chat, { ...m, id: `c${s.seq}` }], seq: s.seq + 1 })),
       resetDemo: async () => { await api.post("/me/demo"); await get().sync(); },
+      removeDemo: async () => { await api.del("/me/demo"); await get().sync(); },
       clearAll: async () => { await api.del("/me/data"); set({ chat: [] }); await get().sync(); },
       signOutReset: () => set({ meals: [], alerts: [], chat: [], draft: null, currentMealId: null, loaded: false, profile: DEFAULT_PROFILE, prefs: DEFAULT_PREFS }),
     }),

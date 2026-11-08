@@ -125,3 +125,20 @@ def clear_my_data(user: User = Depends(current_user), conn: psycopg.Connection =
     for d in {x.date(): x for x in days}.values():
         refresh_daily(conn, d)
     return {"ok": True, "meals_deleted": len(days)}
+
+
+@router.delete("/me/demo")
+def remove_demo(user: User = Depends(current_user), conn: psycopg.Connection = Depends(get_conn)):
+    """Remove the demo week (meals with source='seed' and alerts marked demo). Real meals are kept."""
+    with conn.cursor() as cur:
+        cur.execute("SELECT meal_id, eaten_at FROM meals WHERE user_id = %s AND source = 'seed'", (user.user_id,))
+        seed = cur.fetchall()
+        ids = [r["meal_id"] for r in seed]
+        cur.execute("DELETE FROM alerts WHERE user_id = %s AND (data->>'demo' = 'true' OR meal_id = ANY(%s))", (user.user_id, ids))
+        alerts = cur.rowcount
+        cur.execute("DELETE FROM meal_results WHERE user_id = %s AND meal_id = ANY(%s)", (user.user_id, ids))
+        cur.execute("DELETE FROM meals WHERE user_id = %s AND source = 'seed'", (user.user_id,))
+    conn.commit()
+    for d in {r["eaten_at"].date(): r["eaten_at"] for r in seed}.values():
+        refresh_daily(conn, d)
+    return {"ok": True, "meals_removed": len(ids), "alerts_removed": alerts}

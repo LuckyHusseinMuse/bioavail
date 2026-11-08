@@ -75,7 +75,13 @@ def chat(body: ChatIn, stream: bool = True, user: User = Depends(current_user),
         return {"type": "message", **out, "run_id": str(log.run_id)}
 
     if not stream:
-        return run(conn)
+        try:
+            return run(conn)
+        except Exception as e:
+            from fastapi import HTTPException
+            busy = "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e)
+            raise HTTPException(503, "The assistant is busy right now (AI rate limit). Please try again in a minute."
+                                if busy else "The assistant is unavailable right now. Please try again.") from e
 
     events: queue.Queue = queue.Queue()
 

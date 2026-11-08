@@ -16,6 +16,15 @@ from typing import Protocol
 
 log = logging.getLogger("absorb.llm")
 RETRY_STATUS = {429, 500, 503, 504}
+MAX_WAIT_S = 25
+
+def retry_delay_s(e, default: float) -> float:
+    """Seconds Google asks us to wait (RetryInfo.retryDelay, e.g. '13s'), else the default."""
+    import re as _re
+    text = str(getattr(e, "details", "") or e)
+    m = _re.search(r"retryDelay'?:\s*'(\d+(?:\.\d+)?)s'", text) or _re.search(r"retry in (\d+(?:\.\d+)?)s", text)
+    return float(m.group(1)) if m else default
+
 
 
 class ChatLLM(Protocol):
@@ -57,11 +66,16 @@ class GeminiChat:
                     return fn(model)
                 except errors.APIError as e:
                     last = e
-                    if getattr(e, "code", None) not in RETRY_STATUS:
+                    code = getattr(e, "code", None)
+                    if code not in RETRY_STATUS:
                         raise
-                    log.warning("Gemini %s returned %s (attempt %d)", model, e.code, attempt + 1)
+                    pinned = getattr(fn, "pinned", False)
+                    if code == 429 and i == 0 and len(models) > 1 and not pinned:
+                        log.warning("Gemini %s rate-limited; switching to %s", model, models[1])
+                        break                                  # the fallback model has its own quota
+                    log.warning("Gemini %s returned %s (attempt %d)", model, code, attempt + 1)
                     if attempt + 1 < self.attempts:
-                        time.sleep(self.base_delay_s * 2 ** attempt)
+                        time.sleep(min(MAX_WAIT_S, retry_delay_s(e, self.base_delay_s * 2 ** attempt) + (1 if code == 429 else 0)))
             # Tool-calling history carries model-specific signatures, so only plain prompts may switch model.
             if i == 0 and getattr(fn, "pinned", False):
                 break

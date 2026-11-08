@@ -1,17 +1,32 @@
 "use client";
 // SCREEN 12: Chat (full screen, opened from the bubble) + refusal state
-import { ArrowUpRight, ChevronLeft, SendHorizontal, ShieldAlert } from "lucide-react";
+import { ArrowUpRight, BellRing, ChevronLeft, SendHorizontal, ShieldAlert } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import EvidenceSheet from "@/components/EvidenceSheet";
 import { Chip, cn } from "@/components/ui/primitives";
-import { EVIDENCE } from "@/lib/engine/evidence";
-import { chatReply, type ChatMsg } from "@/lib/logic";
+import { evidenceShort } from "@/lib/engine/evidence";
+import { sendChat, type ChatMsg, type ChatProposal } from "@/lib/logic";
 import { timeOf, useStore } from "@/lib/store";
 
 const STARTERS = ["Why was this low?", "What can I add?", "Remind me about tea"];
+
+function Proposal({ p }: { p: ChatProposal }) {
+  const addTimingReminder = useStore((s) => s.addTimingReminder);
+  const [done, setDone] = useState(false);
+  if (p.tool !== "propose_alert" || !p.alert) return null;
+  const at = new Date(p.alert.remind_at);
+  return (
+    <button disabled={done} onClick={async () => {
+      try { await addTimingReminder(at, p.alert!.message); setDone(true); toast.success(`Reminder set for ${timeOf(at.toISOString())}`); }
+      catch (e) { toast.error(`Couldn't set the reminder: ${e instanceof Error ? e.message : e}`); }
+    }} className="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-full bg-primary px-3 text-sm font-bold text-primary-ink disabled:opacity-50">
+      <BellRing className="h-4 w-4" />{done ? "Reminder set" : `Remind me at ${timeOf(at.toISOString())}`}
+    </button>
+  );
+}
 
 function Bubble({ m, onCite }: { m: ChatMsg; onCite: (id: string) => void }) {
   if (m.role === "user") return <div className="ml-auto max-w-[80%] rounded-[20px] rounded-br-md bg-primary px-4 py-2.5 text-[15px] text-primary-ink">{m.text}</div>;
@@ -23,8 +38,10 @@ function Bubble({ m, onCite }: { m: ChatMsg; onCite: (id: string) => void }) {
         {m.refusal && <p className="mb-1 flex items-center gap-1.5 text-xs font-bold text-amber"><ShieldAlert className="h-3.5 w-3.5" />Outside what Avail can advise on</p>}
         <p>{a}{m.highlight && <mark className="rounded-md bg-amber/25 px-1 font-bold text-ink">{m.highlight}</mark>}{b}</p>
         {m.cite && (
-          <button onClick={() => onCite(m.cite!)} className="mt-2"><Chip tone="green" className="min-h-8">{EVIDENCE[m.cite]?.short ?? m.cite} <ArrowUpRight className="h-3.5 w-3.5" /></Chip></button>
+          <button onClick={() => onCite(m.cite!)} className="mt-2"><Chip tone="green" className="min-h-8">{evidenceShort(m.cite)} <ArrowUpRight className="h-3.5 w-3.5" /></Chip></button>
         )}
+        {m.proposals?.map((p, i) => <Proposal key={i} p={p} />)}
+        {!!m.unchecked?.length && <p className="mt-1 text-[11px] text-faint">Some figures couldn&apos;t be checked against the engine.</p>}
       </div>
     </div>
   );
@@ -35,7 +52,7 @@ function ChatInner() {
   const params = useSearchParams();
   const chat = useStore((s) => s.chat);
   const addChat = useStore((s) => s.addChat);
-  const addReminder = useStore((s) => s.addReminder);
+  const loadChat = useStore((s) => s.loadChat);
   const meals = useStore((s) => s.meals);
   const currentId = useStore((s) => s.currentMealId);
   const meal = meals.find((m) => m.id === currentId) ?? meals.at(-1) ?? null;
@@ -46,22 +63,20 @@ function ChatInner() {
   const seeded = useRef(false);
 
   useEffect(() => { end.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [chat, typing]);
+  useEffect(() => { if (!params.get("demo")) void loadChat(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function send(text: string) {
+  async function send(text: string) {
     if (!text.trim() || typing) return;
     addChat({ role: "user", text });
     setInput("");
     setTyping(true);
-    setTimeout(() => {
-      const reply = chatReply(text, meal);
-      addChat(reply);
-      if (/remind/i.test(text) && /tea/i.test(text) && meal) {
-        const at = timeOf(new Date(Date.parse(meal.eaten_at) + 120 * 60000).toISOString());
-        addReminder({ kind: "drink", title: "Have your tea", time: at, repeat: "once", days: [], notify: true });
-        toast.success(`Reminder set for ${at}`);
-      }
+    try {
+      addChat(await sendChat(text, meal));
+    } catch (e) {
+      addChat({ role: "assistant", text: `Sorry, I couldn't answer that just now (${e instanceof Error ? e.message : e}). Please try again.` });
+    } finally {
       setTyping(false);
-    }, 900);
+    }
   }
 
   // Prototype map deep links: ?demo=1 shows the design conversation, ?demo=refusal the refusal state.
@@ -69,9 +84,7 @@ function ChatInner() {
     const d = params.get("demo");
     if (!d || seeded.current) return;
     seeded.current = true;
-    const q = d === "refusal" ? "How much iron should I take?" : "Is tea really that bad for iron?";
-    addChat({ role: "user", text: q });
-    addChat(chatReply(q, meal));
+    void send(d === "refusal" ? "How much iron should I take?" : "Is tea really that bad for iron?");
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

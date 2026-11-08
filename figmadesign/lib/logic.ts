@@ -1,8 +1,8 @@
-// Client-side stand-ins for the agents (UI phase only). Every number comes from the mock engine.
-// Part B replaces these with calls to /agent/intake, /agent/fix and /chat.
-import { applyChange, polyphenolFactor, scoreMeal } from "./engine/engine";
-import { FOODS, findFood } from "./engine/foods";
-import type { Drink, EngineResult, MealChange, MealItem } from "./engine/types";
+// Meal intake, fixes and chat, backed by the Absorb API agents (/agent/intake, /agent/fix, /chat).
+// Every number shown comes from the backend engine.
+import { api, dataUrlToBlob } from "./api";
+import { findFood, searchFoods } from "./engine/foods";
+import type { Drink, MealChange, MealItem } from "./engine/types";
 
 export type DraftItem = {
   key: string;
@@ -14,53 +14,65 @@ export type DraftItem = {
   offset_min: number;
   candidates: { food_code: string; name: string }[];
   question?: string;
+  flags?: string[];
 };
 
 let k = 0;
 export const newKey = () => `d${Date.now().toString(36)}${k++}`;
 
-const row = (code: string, grams?: number, offset = 0): DraftItem => {
-  const f = findFood(code)!;
-  return { key: newKey(), food_code: code, name: f.name, grams: grams ?? f.serving_g, is_drink: !!f.is_drink, offset_min: offset, candidates: [] };
+export const row = (code: string, grams?: number, offset = 0): DraftItem => {
+  const f = findFood(code);
+  return { key: newKey(), food_code: code, name: f?.name ?? code, grams: grams ?? f?.serving_g ?? 100, is_drink: !!f?.is_drink, offset_min: offset, candidates: [] };
 };
 
+// Real food codes (CoFID). Tea is ambiguous, so it asks which one.
 const TEA_OPTIONS = [
-  { food_code: "MOCK_BLACK_TEA", name: "Black tea" },
-  { food_code: "MOCK_PEPPERMINT_TEA", name: "Herbal tea" },
+  { food_code: "17-165", name: "Black tea" },
+  { food_code: "17-169", name: "Tea with milk" },
+  { food_code: "17-172", name: "Herbal tea" },
+  { food_code: "17-171", name: "Green tea" },
 ];
+const TEA_CODES = new Set(TEA_OPTIONS.map((t) => t.food_code));
 
-export const teaQuestion = (offset = 0): DraftItem => ({
-  key: newKey(), detected: "cup of tea", food_code: null, name: null, grams: 250, is_drink: true, offset_min: offset,
-  candidates: TEA_OPTIONS, question: "Black tea or herbal?",
+export const teaQuestion = (offset = 0, question = "Which tea was it?", grams = 260): DraftItem => ({
+  key: newKey(), detected: "cup of tea", food_code: null, name: null, grams, is_drink: true, offset_min: offset,
+  candidates: TEA_OPTIONS, question,
 });
 
-/** Screen 3 → 4 → 5: the demo photo is the design's lentil curry, brown rice and tea. */
-export function intakeFromPhoto(): DraftItem[] {
-  return [row("MOCK_LENTIL_CURRY", 300), row("MOCK_BROWN_RICE", 150), teaQuestion(0)];
-}
-
-export function intakeFromText(text: string): DraftItem[] {
-  const t = text.toLowerCase();
-  const out: DraftItem[] = [];
-  for (const f of FOODS) {
-    const key = f.name.toLowerCase().split(/[ ,(]/)[0];
-    if (key.length > 2 && !key.endsWith("tea") && t.includes(key) && !out.some((o) => o.name?.toLowerCase().startsWith(key))) out.push(row(f.food_code));
-  }
-  if (/\btea\b/.test(t) && !/(peppermint|camomile|herbal|black) tea/.test(t)) out.push(teaQuestion(0));
-  else if (/black tea/.test(t)) out.push(row("MOCK_BLACK_TEA"));
-  return out;
-}
-
 export const DRINK_CHIPS: { label: string; code: string | null }[] = [
-  { label: "Tea", code: null }, // ambiguous → asks "Black tea or herbal?"
-  { label: "Coffee", code: "MOCK_COFFEE" },
-  { label: "Juice", code: "MOCK_ORANGE_JUICE" },
-  { label: "Water", code: "MOCK_WATER" },
+  { label: "Tea", code: null },
+  { label: "Coffee", code: "17-833" },
+  { label: "Juice", code: "14-329" },
+  { label: "Water", code: "17-377" },
 ];
 export const drinkRow = (label: string, offset: number): DraftItem => {
   const c = DRINK_CHIPS.find((d) => d.label === label)!;
   return c.code ? row(c.code, undefined, offset) : teaQuestion(offset);
 };
+
+// ---------------------------------------------------------------- intake (screens 3-5)
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export type IntakeOutcome = { items: DraftItem[]; question: string | null; changes: string[]; verdict: string; warnings: string[] };
+
+/** The bundled demo picture is an illustration, so it is sent as a description instead. */
+export const DEMO_PHOTO = "/demo-meal.svg";
+export const DEMO_DESCRIPTION = "a bowl of red lentil curry with brown rice and a cup of tea";
+
+export async function runIntake(input: { photo?: string; text?: string }): Promise<IntakeOutcome> {
+  const form = new FormData();
+  if (input.photo && input.photo !== DEMO_PHOTO) form.append("photo", await dataUrlToBlob(input.photo), "meal.jpg");
+  else form.append("text", input.photo === DEMO_PHOTO ? DEMO_DESCRIPTION : input.text ?? "");
+  const out = await api.post<any>("/agent/intake", form);
+  const q: string | null = out.clarifying_question ?? null;
+  const items: DraftItem[] = (out.items as any[]).map((it) => {
+    if (it.food_code && TEA_CODES.has(it.food_code) && q && /tea/i.test(q)) return teaQuestion(it.offset_min ?? 0, q, it.grams);
+    if (it.food_code) return { ...row(it.food_code, it.grams, it.offset_min ?? 0), detected: it.seen_as, flags: it.flags };
+    return { key: newKey(), detected: it.seen_as, food_code: null, name: null, grams: it.grams, is_drink: !!it.is_drink, offset_min: it.offset_min ?? 0,
+      candidates: searchFoods(it.seen_as).slice(0, 4).map((f) => ({ food_code: f.food_code, name: f.name })),
+      question: `“${it.seen_as}” isn't in our food list. Pick the closest, or remove it.`, flags: it.flags };
+  });
+  return { items, question: q, changes: out.review?.changes ?? [], verdict: out.review?.verdict ?? "", warnings: out.warnings ?? [] };
+}
 
 // ---------------------------------------------------------------- fix (screen 10)
 export type Fix = {
@@ -68,6 +80,7 @@ export type Fix = {
   title: string;
   detail: string;
   change: MealChange;
+  items_after: { food_code: string; grams: number; offset_min: number }[];
   before: number;
   after: number;
   gain: number;
@@ -76,82 +89,67 @@ export type Fix = {
   evidence: string;
 };
 
-const VIT_C = ["MOCK_RED_PEPPER", "MOCK_ORANGE_JUICE", "MOCK_KIWI", "MOCK_BROCCOLI", "MOCK_STRAWBERRIES"];
-
-export function findFixes(items: MealItem[], drinks: Drink[], avoid: string[] = []) {
-  const before = scoreMeal(items, drinks).absorbed_mg;
-  const cands: Omit<Fix, "before" | "after" | "gain" | "id">[] = [];
-  for (const d of drinks) {
-    const f = findFood(d.food_code);
-    if ((f?.polyphenols_mg ?? 0) >= 25 && Math.abs(d.offset_min) < 60) {
-      cands.push({ title: `Have your ${shortName(d.name)} 2 hours later`, detail: "Same meal, better timing", change: { kind: "retime", food_code: d.food_code, name: d.name, offset_min: 120 }, effort: 1, action: "remind", evidence: "EVID_LINK_IRON_010" });
-      cands.push({ title: `Have your ${shortName(d.name)} an hour later`, detail: "Same meal, better timing", change: { kind: "retime", food_code: d.food_code, name: d.name, offset_min: 60 }, effort: 1, action: "remind", evidence: "EVID_LINK_IRON_010" });
-      cands.push({ title: `Swap to camomile tea`, detail: "Lower in polyphenols", change: { kind: "swap", food_code: d.food_code, replace_with: "MOCK_CAMOMILE_TEA", replace_with_name: "Camomile tea" }, effort: 2, action: "add", evidence: "EVID_LINK_IRON_010" });
-    }
-    if ((f?.calcium_mg ?? 0) >= 100) cands.push({ title: `Have water instead of ${shortName(d.name)}`, detail: "Less calcium with the meal", change: { kind: "swap", food_code: d.food_code, replace_with: "MOCK_WATER", replace_with_name: "Water" }, effort: 2, action: "add", evidence: "EVID_LINK_IRON_020" });
-  }
-  for (const code of VIT_C) {
-    const f = findFood(code)!;
-    if (avoid.includes(code) || [...items, ...drinks].some((x) => x.food_code === code)) continue;
-    cands.push({ title: `Add ${shortName(f.name)} (${f.serving_g} ${f.is_drink ? "ml" : "g"})`, detail: `${f.serving_g} ${f.is_drink ? "ml" : "g"} · rich in vitamin C`, change: { kind: "add", food_code: code, name: f.name, grams: f.serving_g }, effort: 2, action: "add", evidence: "ABS_BASE_MONSEN" });
-  }
-  const scored = cands
-    .map((c, i) => {
-      const m = applyChange(items, drinks, c.change);
-      const after = scoreMeal(m.items, m.drinks).absorbed_mg;
-      return { ...c, id: `fix${i}`, before, after, gain: +(after - before).toFixed(3) };
-    })
-    .filter((c) => c.gain > 0.0005);
-  // Rank by gain per unit of effort, then keep at most one retime (the best one).
-  scored.sort((a, b) => b.gain / b.effort - a.gain / a.effort);
-  const seenRetime = new Set<string>();
-  const ranked = scored.filter((c) => (c.change.kind !== "retime" ? true : !seenRetime.has(c.change.food_code!) && !!seenRetime.add(c.change.food_code!)));
-  return { checked: cands.length, ranked };
+export async function fetchFixes(items: MealItem[], drinks: Drink[], conflictEvidence: Record<string, string> = {}) {
+  const body = { items: [...items.map((i) => ({ food_code: i.food_code, grams: i.grams })),
+    ...drinks.map((d) => ({ food_code: d.food_code, grams: d.grams, offset_min: d.offset_min }))] };
+  const out = await api.post<any>("/agent/fix", body);
+  const ranked: Fix[] = (out.fixes as any[]).map((f) => {
+    const c = f.change, d = c.detail ?? {};
+    const name = findFood(c.food_code)?.name ?? c.food_code;
+    const change: MealChange = { kind: c.kind, food_code: c.food_code, name, offset_min: d.to_min, grams: d.grams,
+      replace_with: d.to, replace_with_name: d.to ? findFood(d.to)?.name : undefined };
+    return {
+      id: `fix${f.rank}`, title: f.title, detail: f.explanation, change, items_after: c.items,
+      before: f.absorbed_before_mg, after: f.absorbed_after_mg, gain: f.gain_mg, effort: f.effort,
+      action: c.kind === "retime" ? "remind" : "add",
+      evidence: c.kind === "add" ? "ABS_BASE_IRON_006" : conflictEvidence[c.food_code] ?? "EVID_LINK_IRON_005",
+    };
+  });
+  return { checked: out.candidates_considered ?? ranked.length, ranked, source: out.source as string };
 }
 
 export const shortName = (n: string) => n.toLowerCase().replace(/, (raw|boiled|filter|firm.*|grilled|baked|stewed)$/, "");
 
-// ---------------------------------------------------------------- relative effects (screen 8)
-export const reductionPct = (food_code: string) => {
-  const f = findFood(food_code)!;
-  const mg = ((f.polyphenols_mg ?? 0) * f.serving_g) / 100;
-  return Math.round((1 - polyphenolFactor(mg)) * 100);
-};
-
 // ---------------------------------------------------------------- chat (screen 12)
-export type ChatMsg = { id: string; role: "user" | "assistant"; text: string; highlight?: string; cite?: string; refusal?: boolean };
+export type ChatProposal = { tool: string; status: string; meal?: any; alert?: { type: string; remind_at: string; message: string } };
+export type ChatMsg = { id: string; role: "user" | "assistant"; text: string; highlight?: string; cite?: string; refusal?: boolean;
+  proposals?: ChatProposal[]; unchecked?: string[] };
 
-const OUT_OF_SCOPE = /(how much iron should i take|dose|dosage|supplement|tablet|diagnos|symptom|anaemi|anemi|tired|pregnan)/i;
+const CITES: [RegExp, string][] = [
+  [/hurrell/i, "EVID_LINK_IRON_005"], [/morck/i, "EVID_LINK_IRON_011"], [/ahmad fuzi/i, "EVID_LINK_IRON_006"],
+  [/hallberg[^.]*1991|calcium[^.]*hallberg/i, "EVID_LINK_IRON_010"], [/hallberg/i, "EVID_LINK_IRON_009"], [/monsen/i, "ABS_BASE_IRON_006"],
+];
 
-export function chatReply(q: string, meal: { items: MealItem[]; drinks: Drink[] } | null): Omit<ChatMsg, "id"> {
-  const m = q.toLowerCase();
-  if (OUT_OF_SCOPE.test(m)) return { role: "assistant", text: "I can't advise on dosing. Please ask your GP or pharmacist.", refusal: true };
-  if (m.includes("tea") && m.includes("remind")) return { role: "assistant", text: "Done. I'll remind you when it's 2 hours after lunch, so tea won't affect it." };
-  if (m.includes("tea") || m.includes("bad")) {
-    const pct = reductionPct("MOCK_BLACK_TEA");
-    return { role: "assistant", text: `With this meal, yes. Black tea taken at the same time cuts non-haem iron absorption by about {h}. It matters more here because lentils give mostly non-haem iron.`, highlight: `${pct}%`, cite: "EVID_LINK_IRON_010" };
-  }
-  if (meal && (m.includes("why") || m.includes("low"))) {
-    const r = scoreMeal(meal.items, meal.drinks);
-    const c = r.conflicts[0];
-    return { role: "assistant", text: `You absorbed {h} of the ${r.iron_mg} mg in this meal. ${c ? c.message : "There was little vitamin C or meat to help."}`, highlight: `${r.absorbed_mg} mg`, cite: c?.evidence_id ?? "ABS_BASE_MONSEN" };
-  }
-  if (meal && (m.includes("add") || m.includes("what can"))) {
-    const best = findFixes(meal.items, meal.drinks).ranked.find((f) => f.change.kind === "add");
-    if (best) return { role: "assistant", text: `${best.title} would take this meal from ${best.before} mg to {h} absorbed, because vitamin C raises the base rate.`, highlight: `${best.after} mg`, cite: "ABS_BASE_MONSEN" };
-  }
-  return { role: "assistant", text: "I don't have data that covers that, so I'd rather not guess. Ask me about one of your meals." };
+export async function sendChat(text: string, meal: { label: string; eaten_at: string; items: MealItem[]; drinks: Drink[] } | null): Promise<Omit<ChatMsg, "id">> {
+  const context = meal
+    ? `\n\n[Context: I'm looking at my ${meal.label.toLowerCase()} at ${new Date(meal.eaten_at).toTimeString().slice(0, 5)}: `
+      + [...meal.items.map((i) => `${i.name} ${i.grams} g`), ...meal.drinks.map((d) => `${d.name} ${d.grams} ml${d.offset_min ? ` ${d.offset_min} min after` : ""}`)].join(", ") + "]"
+    : "";
+  const out = await api.post<any>("/chat?stream=false", { message: text + context });
+  const cite = CITES.find(([re]) => re.test(out.reply))?.[1];
+  return { role: "assistant", text: out.reply, refusal: !!out.out_of_scope, cite, proposals: out.proposals ?? [], unchecked: out.unsupported_numbers ?? [] };
+}
+
+export async function loadChatHistory(): Promise<ChatMsg[]> {
+  const out = await api.get<any>("/chat/history?limit=60");
+  return (out.messages as any[]).map((m) => ({ id: m.message_id, role: m.role === "user" ? "user" : "assistant",
+    text: m.role === "user" ? String(m.content).split("\n\n[Context:")[0] : m.content }));
 }
 
 // ---------------------------------------------------------------- supplement time (screen 16)
+const isBlocker = (code: string) => {
+  const f = findFood(code);
+  if (!f) return false;
+  return (f.is_drink && (f.polyphenols_mg ?? 0) >= 20) || (f.calcium_mg * f.serving_g) / 100 >= 100 || f.food_code === "17-165" || f.food_code === "17-169";
+};
+
 export function suggestSupplementTime(meals: { eaten_at: string; items: MealItem[]; drinks: Drink[] }[]) {
-  const blockers = new Set(["MOCK_BLACK_TEA", "MOCK_COFFEE", "MOCK_COCOA", "MOCK_MILK", "MOCK_YOGURT", "MOCK_CHEDDAR"]);
   const busy: number[] = [];
   for (const m of meals) {
     const t = new Date(m.eaten_at);
     const base = t.getHours() * 60 + t.getMinutes();
-    for (const x of m.items) if (blockers.has(x.food_code)) busy.push(base);
-    for (const d of m.drinks) if (blockers.has(d.food_code)) busy.push(base + d.offset_min);
+    for (const x of m.items) if (isBlocker(x.food_code)) busy.push(base);
+    for (const d of m.drinks) if (isBlocker(d.food_code)) busy.push(base + d.offset_min);
   }
   for (let start = 8 * 60; start <= 20 * 60; start += 30) {
     if (busy.every((b) => b < start - 60 || b > start + 120 + 60)) {
@@ -171,6 +169,3 @@ export function icsFor(title: string, time: string, repeat: "daily" | "alternate
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Avail//EN", "BEGIN:VEVENT", `UID:${Date.now()}@avail`, `DTSTAMP:${stamp(new Date())}`,
     `DTSTART:${stamp(d)}`, `DTEND:${stamp(new Date(d.getTime() + 10 * 60000))}`, `RRULE:${rrule}`, `SUMMARY:${title}`, "END:VEVENT", "END:VCALENDAR"].join("\r\n");
 }
-
-export type Scored = { result: EngineResult };
-export { scoreMeal, applyChange };

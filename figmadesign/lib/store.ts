@@ -1,19 +1,24 @@
 "use client";
-// All app state lives in the browser for the UI phase (zustand, persisted to localStorage).
-// Part B swaps these actions for API calls; screens only use the hooks below.
+// App state. Meals, alerts, profile, alert preferences and chat live in the backend (Tiger Data);
+// this store mirrors them for the screens. Only repeating supplement reminders stay on the device.
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { applyChange, scoreMeal } from "./engine/engine";
-import type { Drink, MealChange, MealItem } from "./engine/types";
-import type { ChatMsg, DraftItem } from "./logic";
+import { api } from "./api";
+import { EMPTY_RESULT, toUiResult, type ApiResult } from "./engine/adapt";
+import { findFood, loadFoods } from "./engine/foods";
+import type { Drink, EngineResult, MealItem } from "./engine/types";
+import { loadChatHistory, type ChatMsg, type DraftItem } from "./logic";
 
-export type Meal = { id: string; label: string; eaten_at: string; items: MealItem[]; drinks: Drink[]; source: "photo" | "text" | "manual" };
+export type Meal = { id: string; label: string; eaten_at: string; items: MealItem[]; drinks: Drink[]; source: "photo" | "text" | "manual" | "seed"; result: EngineResult };
 export type AlertType = "conflict" | "timing" | "shortfall" | "weekly" | "data_gap";
 export type Alert = { id: string; type: AlertType; title: string; detail: string; created_at: string; read: boolean; meal_id?: string };
 export type Reminder = { id: string; kind: "drink" | "supplement"; title: string; time: string; repeat: "once" | "daily" | "alternate" | "days"; days: string[]; notify: boolean };
 export type Profile = { name: string; age_band: "19-50" | "51+" | "under 19"; sex: "Female" | "Male" | "Prefer not to say"; diet: "Omnivore" | "Pescatarian" | "Vegetarian" | "Vegan"; avoid: string[] };
 export type Prefs = { enabled: boolean; types: Record<AlertType, boolean>; quiet: { on: boolean; start: string; end: string }; daily_limit: number };
-export type Draft = { items: DraftItem[]; source: Meal["source"]; eaten_at: string; label: string; photo?: string; error?: boolean };
+export type Draft = {
+  items: DraftItem[]; source: "photo" | "text" | "manual"; eaten_at: string; label: string; photo?: string; error?: boolean;
+  text?: string; extraDrinks?: DraftItem[]; dropDrinks?: boolean; question?: string | null; changes?: string[]; errorMessage?: string;
+};
 
 type State = {
   meals: Meal[];
@@ -24,14 +29,20 @@ type State = {
   chat: ChatMsg[];
   draft: Draft | null;
   currentMealId: string | null;
+  loaded: boolean;
+  syncError: string | null;
   seq: number;
+  // sync
+  sync: () => Promise<void>;
+  refreshAlerts: () => Promise<void>;
+  loadChat: () => Promise<void>;
   // actions
   setDraft: (d: Draft | null) => void;
   patchDraft: (p: Partial<Draft>) => void;
-  saveDraft: () => Meal | null;
+  saveDraft: () => Promise<Meal | null>;
   setCurrentMeal: (id: string) => void;
-  applyFix: (mealId: string, change: MealChange) => void;
-  addAlert: (a: Omit<Alert, "id" | "created_at" | "read">) => void;
+  applyFix: (mealId: string, itemsAfter: { food_code: string; grams: number; offset_min: number }[]) => Promise<void>;
+  addTimingReminder: (remindAt: Date, message: string, mealId?: string) => Promise<void>;
   markRead: (id: string) => void;
   markAllRead: () => void;
   dismissAlert: (id: string) => void;
@@ -40,109 +51,175 @@ type State = {
   setProfile: (p: Partial<Profile>) => void;
   setPrefs: (p: Partial<Prefs>) => void;
   addChat: (m: Omit<ChatMsg, "id">) => void;
-  resetDemo: () => void;
-  clearAll: () => void;
+  resetDemo: () => Promise<void>;
+  removeDemo: () => Promise<void>;
+  clearAll: () => Promise<void>;
+  signOutReset: () => void;
 };
 
-const iso = (daysAgo: number, h: number, m = 0) => {
-  const d = new Date();
-  d.setDate(d.getDate() - daysAgo);
-  d.setHours(h, m, 0, 0);
-  return d.toISOString();
-};
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const labelFor = (iso: string) => { const h = new Date(iso).getHours(); return h < 11 ? "Breakfast" : h < 16 ? "Lunch" : h < 21 ? "Dinner" : "Snack"; };
+const LABELS = new Set(["Breakfast", "Lunch", "Dinner", "Snack"]);
 
-const CURRY: MealItem = { food_code: "MOCK_LENTIL_CURRY", name: "Lentil curry", grams: 300 };
-const BROWN_RICE: MealItem = { food_code: "MOCK_BROWN_RICE", name: "Brown rice", grams: 150 };
-const TEA: Drink = { food_code: "MOCK_BLACK_TEA", name: "Black tea", grams: 250, offset_min: 0 };
-
-function seed(): Pick<State, "meals" | "alerts" | "reminders" | "chat" | "seq" | "currentMealId"> {
-  const meals: Meal[] = [];
-  let n = 1;
-  const add = (m: Omit<Meal, "id">) => meals.push({ ...m, id: `m${n++}` });
-  // 30 days of history so Day / Week / Month all have data. Tea with lunch on 4 of the last 5 weekdays.
-  for (let d = 30; d >= 1; d--) {
-    add({ label: "Breakfast", eaten_at: iso(d, 8), source: "manual", items: [{ food_code: "MOCK_PORRIDGE", name: "Porridge", grams: 250 }, ...([6, 9, 11, 16, 20, 24, 26].includes(d) ? [{ food_code: "MOCK_STRAWBERRIES", name: "Strawberries", grams: 100 }] : [])], drinks: [{ food_code: "MOCK_COFFEE", name: "Coffee", grams: 250, offset_min: 0 }] });
-    const tea = d <= 5 ? d !== 3 : [7, 8, 10, 13, 14, 15, 18, 21, 22, 25, 27, 29].includes(d); // irregular, like real life
-    add({ label: "Lunch", eaten_at: iso(d, 13), source: "photo", items: [CURRY, BROWN_RICE, ...([9, 12, 17, 23, 28].includes(d) ? [{ food_code: "MOCK_RED_PEPPER", name: "Red pepper", grams: 80 }] : [])], drinks: tea ? [TEA] : [] });
-    add({ label: "Dinner", eaten_at: iso(d, 19), source: "manual", items: d % 2 ? [{ food_code: "MOCK_CHICKEN", name: "Chicken breast", grams: 130 }, { food_code: "MOCK_BROCCOLI", name: "Broccoli", grams: 80 }] : [{ food_code: "MOCK_KIDNEY_BEANS", name: "Kidney beans", grams: 120 }, { food_code: "MOCK_WHOLEMEAL_BREAD", name: "Wholemeal bread", grams: 72 }], drinks: [{ food_code: "MOCK_WATER", name: "Water", grams: 250, offset_min: 0 }] });
+function toMeal(m: any): Meal {
+  const items: MealItem[] = [], drinks: Drink[] = [];
+  for (const i of m.items ?? []) {
+    const f = findFood(i.food_code);
+    const row = { food_code: i.food_code, name: f?.name ?? i.food_code, grams: Number(i.grams) };
+    if (f?.is_drink) drinks.push({ ...row, offset_min: Number(i.offset_min ?? 0) }); else items.push(row);
   }
-  add({ label: "Breakfast", eaten_at: iso(0, 8, 15), source: "manual", items: [{ food_code: "MOCK_CORNFLAKES", name: "Cornflakes, fortified", grams: 40 }, { food_code: "MOCK_MILK", name: "Milk", grams: 150 }], drinks: [] });
-  add({ label: "Lunch", eaten_at: iso(0, 13), source: "photo", items: [CURRY, BROWN_RICE], drinks: [TEA] });
-  const lunch = meals[meals.length - 1];
-  const alerts: Alert[] = [
-    { id: "a1", type: "conflict", title: "Tea with this lentil curry cuts the iron you absorb", detail: "Lunch", created_at: iso(0, 13, 2), read: false, meal_id: lunch.id },
-    { id: "a2", type: "timing", title: "You can have your tea now", detail: "The window after lunch has passed", created_at: iso(0, 14, 1), read: false, meal_id: lunch.id },
-    { id: "a3", type: "shortfall", title: "You're low on absorbed iron today", detail: "A vitamin C rich side with dinner would help", created_at: iso(0, 12), read: false },
-    { id: "a4", type: "weekly", title: "Tea with lunch 4 times this week", detail: "A small timing change could make a difference", created_at: iso(1, 9), read: true },
-    { id: "a5", type: "data_gap", title: "We couldn't check one item", detail: "Brown rice has no inhibitor data, so the estimate may be high", created_at: iso(0, 13, 1), read: true, meal_id: lunch.id },
-  ];
-  return { meals, alerts, reminders: [], chat: [], seq: n + 10, currentMealId: lunch.id };
+  const eaten = typeof m.eaten_at === "string" ? m.eaten_at : new Date(m.eaten_at).toISOString();
+  return { id: String(m.meal_id), label: LABELS.has(m.note) ? m.note : labelFor(eaten), eaten_at: eaten, items, drinks,
+    source: m.source ?? "manual", result: m.result ? toUiResult(m.result) : EMPTY_RESULT };
 }
+
+const ALERT_TYPE: Record<string, AlertType> = { conflict: "conflict", timing: "timing", shortfall: "shortfall", weekly_pattern: "weekly", data_gap: "data_gap" };
+const TYPE_TO_API: Record<AlertType, string> = { conflict: "conflict", timing: "timing", shortfall: "shortfall", weekly: "weekly_pattern", data_gap: "data_gap" };
+
+function toAlert(a: any, meals: Meal[]): Alert {
+  const meal = a.meal_id ? meals.find((m) => m.id === a.meal_id) : undefined;
+  const type = ALERT_TYPE[a.type] ?? "conflict";
+  const detail = meal ? `${meal.label}, ${new Date(meal.eaten_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}`
+    : type === "weekly" ? "Your week" : type === "shortfall" ? "Today" : "";
+  return { id: a.alert_id, type, title: a.message, detail, created_at: a.scheduled_for ?? a.created_at, read: !!a.read_at, meal_id: a.meal_id ?? undefined };
+}
+
+const hhmm = (t: string | null) => (t ? t.slice(0, 5) : "");
+function toPrefs(p: any): Prefs {
+  const on = new Set<string>(p.enabled_types ?? []);
+  return {
+    enabled: !!p.enabled, daily_limit: p.daily_limit ?? 3,
+    types: { conflict: on.has("conflict"), timing: on.has("timing"), shortfall: on.has("shortfall"), weekly: on.has("weekly_pattern"), data_gap: on.has("data_gap") },
+    quiet: { on: !!(p.quiet_start && p.quiet_end), start: hhmm(p.quiet_start) || "22:00", end: hhmm(p.quiet_end) || "07:30" },
+  };
+}
+const prefsToApi = (p: Prefs) => ({
+  enabled: p.enabled, daily_limit: p.daily_limit,
+  enabled_types: (Object.keys(p.types) as AlertType[]).filter((t) => p.types[t]).map((t) => TYPE_TO_API[t]),
+  quiet_start: p.quiet.on ? p.quiet.start : null, quiet_end: p.quiet.on ? p.quiet.end : null,
+});
+
+const DEFAULT_PROFILE: Profile = { name: "You", age_band: "19-50", sex: "Female", diet: "Omnivore", avoid: [] };
+function toProfile(p: any): Profile {
+  const pref = p.preferences ?? {};
+  const year = new Date().getFullYear();
+  const band: Profile["age_band"] = pref.age_band ?? (p.birth_year ? (year - p.birth_year > 50 ? "51+" : "19-50") : "19-50");
+  const diet = (p.diet_type ?? "omnivore") as string;
+  return { name: pref.name ?? DEFAULT_PROFILE.name, age_band: band,
+    sex: p.sex === "male" ? "Male" : p.sex === "female" ? "Female" : (pref.sex_label ?? "Female"),
+    diet: (diet[0].toUpperCase() + diet.slice(1)) as Profile["diet"], avoid: pref.avoid ?? [] };
+}
+function profileToApi(p: Profile) {
+  const year = new Date().getFullYear();
+  return {
+    sex: p.sex === "Female" ? "female" : p.sex === "Male" ? "male" : null,
+    birth_year: p.age_band === "51+" ? year - 60 : p.age_band === "under 19" ? year - 18 : year - 30,
+    diet_type: p.diet.toLowerCase(),
+    preferences: { name: p.name, age_band: p.age_band, avoid: p.avoid, sex_label: p.sex },
+  };
+}
+
+const DEFAULT_PREFS: Prefs = { enabled: true, types: { conflict: true, timing: true, shortfall: true, weekly: true, data_gap: true }, quiet: { on: false, start: "22:00", end: "07:30" }, daily_limit: 3 };
+const report = (e: unknown) => console.warn("[absorb] sync failed", e);
 
 export const useStore = create<State>()(
   persist(
     (set, get) => ({
-      ...seed(),
-      draft: null,
-      profile: { name: "Amara", age_band: "19-50", sex: "Female", diet: "Vegetarian", avoid: [] },
-      prefs: { enabled: true, types: { conflict: true, timing: true, shortfall: true, weekly: true, data_gap: true }, quiet: { on: true, start: "22:00", end: "07:30" }, daily_limit: 3 },
+      meals: [], alerts: [], reminders: [], chat: [], draft: null, currentMealId: null, loaded: false, syncError: null, seq: 1,
+      profile: DEFAULT_PROFILE, prefs: DEFAULT_PREFS,
+
+      sync: async () => {
+        try {
+          await loadFoods();
+          const since = new Date(Date.now() - 31 * 86400000).toISOString();
+          const [profile, meals, alerts, prefs] = await Promise.all([
+            api.get<any>("/me/profile"),
+            api.get<any>(`/meals?from=${encodeURIComponent(since)}&to=${encodeURIComponent(new Date(Date.now() + 86400000).toISOString())}`),
+            api.get<any>("/alerts?limit=100"),
+            api.get<any>("/alerts/preferences"),
+          ]);
+          const ms = (meals.meals as any[]).map(toMeal);
+          set((s) => ({ meals: ms, alerts: (alerts.alerts as any[]).map((a) => toAlert(a, ms)), profile: toProfile(profile), prefs: toPrefs(prefs),
+            currentMealId: s.currentMealId && ms.some((m) => m.id === s.currentMealId) ? s.currentMealId : ms.at(-1)?.id ?? null,
+            loaded: true, syncError: null }));
+        } catch (e) {
+          set({ loaded: true, syncError: e instanceof Error ? e.message : String(e) });
+          report(e);
+        }
+      },
+      refreshAlerts: async () => {
+        const out = await api.get<any>("/alerts?limit=100");
+        set((s) => ({ alerts: (out.alerts as any[]).map((a) => toAlert(a, s.meals)) }));
+      },
+      loadChat: async () => { try { set({ chat: await loadChatHistory() }); } catch (e) { report(e); } },
 
       setDraft: (d) => set({ draft: d }),
       patchDraft: (p) => set((s) => (s.draft ? { draft: { ...s.draft, ...p } } : {})),
-      saveDraft: () => {
-        const { draft, seq } = get();
+      saveDraft: async () => {
+        const { draft } = get();
         if (!draft || draft.items.some((i) => !i.food_code)) return null;
-        const meal: Meal = {
-          id: `m${seq}`, label: draft.label, eaten_at: draft.eaten_at, source: draft.source,
-          items: draft.items.filter((i) => !i.is_drink).map((i) => ({ food_code: i.food_code!, name: i.name!, grams: i.grams })),
-          drinks: draft.items.filter((i) => i.is_drink).map((i) => ({ food_code: i.food_code!, name: i.name!, grams: i.grams, offset_min: i.offset_min })),
+        const body = {
+          items: draft.items.map((i) => ({ food_code: i.food_code!, grams: i.grams, ...(i.is_drink ? { offset_min: i.offset_min } : {}) })),
+          eaten_at: draft.eaten_at, source: draft.source, note: draft.label,
         };
-        const r = scoreMeal(meal.items, meal.drinks);
-        const now = new Date().toISOString();
-        const newAlerts: Alert[] = [];
-        // Deterministic alert rules (Person A's backend in Part B). Gemini would only reword these.
-        const p = get().prefs;
-        if (p.enabled && p.types.conflict && r.conflicts[0])
-          newAlerts.push({ id: `a${seq}c`, type: "conflict", title: conflictTitle(meal), detail: meal.label, created_at: now, read: false, meal_id: meal.id });
-        if (p.enabled && p.types.data_gap && r.data_gaps?.length)
-          newAlerts.push({ id: `a${seq}g`, type: "data_gap", title: "We couldn't check one item", detail: "This estimate may be high", created_at: now, read: false, meal_id: meal.id });
-        set((s) => ({ meals: [...s.meals, meal], alerts: [...newAlerts, ...s.alerts], draft: null, currentMealId: meal.id, seq: s.seq + 1 }));
+        const out = await api.post<any>("/meals", body);
+        const meal = toMeal({ ...out, items: body.items, source: draft.source, note: draft.label });
+        const newAlerts = ((out.alerts ?? []) as any[]).map((a) => toAlert(a, [meal]));
+        set((s) => ({ meals: [...s.meals, meal].sort((a, b) => a.eaten_at.localeCompare(b.eaten_at)), alerts: [...newAlerts, ...s.alerts],
+          draft: null, currentMealId: meal.id }));
         return meal;
       },
       setCurrentMeal: (id) => set({ currentMealId: id }),
-      applyFix: (mealId, change) =>
-        set((s) => ({ meals: s.meals.map((m) => (m.id === mealId ? { ...m, ...applyChange(m.items, m.drinks, change) } : m)) })),
-      addAlert: (a) => set((s) => ({ alerts: [{ ...a, id: `a${s.seq}`, created_at: new Date().toISOString(), read: false }, ...s.alerts], seq: s.seq + 1 })),
-      markRead: (id) => set((s) => ({ alerts: s.alerts.map((a) => (a.id === id ? { ...a, read: true } : a)) })),
-      markAllRead: () => set((s) => ({ alerts: s.alerts.map((a) => ({ ...a, read: true })) })),
-      dismissAlert: (id) => set((s) => ({ alerts: s.alerts.filter((a) => a.id !== id) })),
+      applyFix: async (mealId, itemsAfter) => {
+        const out = await api.put<any>(`/meals/${mealId}`, { items: itemsAfter });
+        set((s) => ({ meals: s.meals.map((m) => (m.id === mealId ? toMeal({ meal_id: mealId, eaten_at: m.eaten_at, items: itemsAfter, source: m.source, note: m.label, result: out.result }) : m)) }));
+      },
+      addTimingReminder: async (remindAt, message, mealId) => {
+        await api.post("/alerts", { remind_at: remindAt.toISOString(), message, ...(mealId ? { meal_id: mealId } : {}) });
+      },
+      markRead: (id) => {
+        set((s) => ({ alerts: s.alerts.map((a) => (a.id === id ? { ...a, read: true } : a)) }));
+        api.patch(`/alerts/${id}`, { read: true }).catch(report);
+      },
+      markAllRead: () => {
+        const unread = get().alerts.filter((a) => !a.read);
+        set((s) => ({ alerts: s.alerts.map((a) => ({ ...a, read: true })) }));
+        unread.forEach((a) => api.patch(`/alerts/${a.id}`, { read: true }).catch(report));
+      },
+      dismissAlert: (id) => {
+        set((s) => ({ alerts: s.alerts.filter((a) => a.id !== id) }));
+        api.patch(`/alerts/${id}`, { dismissed: true }).catch(report);
+      },
       addReminder: (r) => set((s) => ({ reminders: [...s.reminders, { ...r, id: `r${s.seq}` }], seq: s.seq + 1 })),
       removeReminder: (id) => set((s) => ({ reminders: s.reminders.filter((r) => r.id !== id) })),
-      setProfile: (p) => set((s) => ({ profile: { ...s.profile, ...p } })),
-      setPrefs: (p) => set((s) => ({ prefs: { ...s.prefs, ...p } })),
+      setProfile: (p) => {
+        const profile = { ...get().profile, ...p };
+        set({ profile });
+        api.put("/me/profile", profileToApi(profile)).catch(report);
+      },
+      setPrefs: (p) => {
+        const prefs = { ...get().prefs, ...p };
+        set({ prefs });
+        api.put("/alerts/preferences", prefsToApi(prefs)).catch(report);
+      },
       addChat: (m) => set((s) => ({ chat: [...s.chat, { ...m, id: `c${s.seq}` }], seq: s.seq + 1 })),
-      resetDemo: () => set({ ...seed(), draft: null }),
-      clearAll: () => set({ meals: [], alerts: [], reminders: [], chat: [], draft: null, currentMealId: null }),
+      resetDemo: async () => { await api.post("/me/demo"); await get().sync(); },
+      removeDemo: async () => { await api.del("/me/demo"); await get().sync(); },
+      clearAll: async () => { await api.del("/me/data"); set({ chat: [] }); await get().sync(); },
+      signOutReset: () => set({ meals: [], alerts: [], chat: [], draft: null, currentMealId: null, loaded: false, profile: DEFAULT_PROFILE, prefs: DEFAULT_PREFS }),
     }),
-    { name: "avail-ui", version: 2, storage: createJSONStorage(() => localStorage), skipHydration: true, partialize: (s) => ({ ...s, draft: s.draft ? { ...s.draft, photo: undefined } : null }) },
+    // Only device-local things are persisted; everything else reloads from the API.
+    { name: "avail-ui", version: 3, storage: createJSONStorage(() => localStorage), skipHydration: true,
+      partialize: (s) => ({ reminders: s.reminders, seq: s.seq, currentMealId: s.currentMealId }) as unknown as State },
   ),
 );
 
-export function conflictTitle(meal: Pick<Meal, "items" | "drinks">) {
-  const r = scoreMeal(meal.items, meal.drinks);
-  const c = r.conflicts[0];
-  if (!c) return "This meal has a conflict";
-  if (c.rule_id === "RULE_IRON_010") {
-    const drink = meal.drinks.find((d) => d.food_code === c.trigger)?.name ?? "Tea";
-    const main = meal.items[0]?.name.toLowerCase() ?? "meal";
-    const d = drink.replace(/^Black /, "");
-    return `${d[0].toUpperCase()}${d.slice(1)} with this ${main} cuts the iron you absorb`;
-  }
-  return c.message;
+export function conflictTitle(meal: Pick<Meal, "result">) {
+  return meal.result.conflicts[0]?.message ?? "This meal has a conflict";
 }
 
-/** Score helper used everywhere so numbers are always the engine's. */
-export const resultOf = (m: Pick<Meal, "items" | "drinks">) => scoreMeal(m.items, m.drinks);
+/** Every number on screen comes from the backend engine's result for the meal. */
+export const resultOf = (m: Pick<Meal, "result">) => m.result;
 
 export const timeOf = (iso: string) => new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
 export const isToday = (iso: string) => new Date(iso).toDateString() === new Date().toDateString();

@@ -5,12 +5,12 @@
 | Setting | Value |
 |---|---|
 | Domain | `dev-txuxcswb72blv4fg.us.auth0.com` |
-| Audience | `api.absorb.app` |
+| Audience | `https://api.absorb.app` |
 | Signing algorithm | RS256 |
 
 1. In the Auth0 dashboard: **Applications → Create Application → Single Page Application**.
 2. In that app's settings, add `http://localhost:3000` (and later the deployed URL) to **Allowed Callback URLs**, **Allowed Logout URLs** and **Allowed Web Origins**.
-3. When logging in, pass `audience: "api.absorb.app"`. Without it Auth0 issues a token the API rejects.
+3. When logging in, pass `audience: "https://api.absorb.app"`. Without it Auth0 issues a token the API rejects.
 4. Send the access token on every logged-in request: `Authorization: Bearer <access token>`.
 
 ## API

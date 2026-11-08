@@ -1,13 +1,24 @@
-# Avail: UI prototype (figmadesign)
+# Avail: mobile web app (figmadesign)
 
-The Figma "Avail" design built as a working Next.js app. **UI phase only:** no Auth0, Gemini or backend.
-All state lives in the browser, and every number comes from a mock copy of the absorption engine (`lib/engine`).
+The Figma "Avail" design as a working Next.js app, **connected to the Absorb backend**: Auth0 login,
+Gemini photo and text meal recognition, the absorption engine, fixes, chat and alerts, with data stored in Tiger Data.
+Every number comes from the backend engine. The app calls `/api/*`, which Next proxies to FastAPI (`next.config.ts`).
 
 ```powershell
-cd figmadesign
+# 1. Backend (from backend/, with backend/.env filled in)
+.venvScriptspython -m uvicorn api.main:app --port 8000
+
+# 2. Frontend (from figmadesign/): copy .env.local.example to .env.local and set the Auth0 Client ID
 npm install
-npm run dev        # http://localhost:3100  (open on your phone via your PC's IP)
+npm run build
+npm start          # http://localhost:3100
+
+# 3. On a phone (HTTPS is required for Auth0 and the camera): a Cloudflare quick tunnel
+cloudflared tunnel --url http://localhost:3100
 ```
+
+Auth0 single page application: allowed callback, logout and web-origin URLs must include
+`http://localhost:3100` and `https://*.trycloudflare.com` (or your deployed domain).
 
 On a laptop the app renders inside a 390 x 844 phone frame. On a phone it fills the screen.
 Open **`/screens`** (or You → Prototype map) to jump to any of the 17 screens and their states.
@@ -54,9 +65,16 @@ Empty states: You → **Clear all data**. **Reset demo data** brings the seeded 
 Dark uses charcoal surfaces in the style of the reference screenshot, with Avail's own colours lifted for contrast.
 Motion respects the OS "reduce motion" setting.
 
-## Part B: where the real backend plugs in
+## How the app talks to the backend
 
-- `lib/store.ts` actions (`saveDraft`, `applyFix`, `addAlert`, `addReminder`, `setProfile`, …) → API calls
-- `lib/logic.ts` `intakeFrom*` → `POST /agent/intake`, `findFixes` → `POST /agent/fix`, `chatReply` → `POST /chat`
-- `lib/engine/*` → Person A's `/engine/score` and `/foods`. Numbers are illustrative until then.
-- Validation rows in `lib/engine/evidence.ts` are labelled mock. Replace them with `/eval/validation`.
+| Layer | File | Backend |
+|---|---|---|
+| API client (adds the Auth0 token) | `lib/api.ts` | `/api/*` → FastAPI |
+| Login (Auth0, or local dev login when no Client ID) | `lib/auth.tsx` | Auth0 SPA + `/auth/dev-token` (local only) |
+| State: meals, alerts, profile, preferences | `lib/store.ts` | `/meals`, `/alerts`, `/me/*` |
+| Meal intake, fixes, chat | `lib/logic.ts` | `/agent/intake`, `/agent/fix`, `/chat` |
+| Food list | `lib/engine/foods.ts` | `/foods` (91 CoFID foods) |
+| Engine results → screen shapes | `lib/engine/adapt.ts` | `/engine/score` result format |
+| Evidence and validation | `lib/engine/evidence.ts` | `/evidence/{id}`, `/eval/validation` |
+
+Repeating supplement reminders stay on the device (calendar export); one-off timing reminders are stored as backend alerts.

@@ -1,13 +1,14 @@
 "use client";
 // SCREEN 5: Confirm your meal (+ the photo error card state)
-import { AlertCircle, CameraOff, CircleHelp, Info, Minus, Pencil, Plus, Search, Trash2 } from "lucide-react";
+import { AlertCircle, CameraOff, CircleHelp, Info, Loader2, Minus, Pencil, Plus, Search, ShieldCheck, Trash2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { BackBar, Sheet } from "@/components/shell";
 import { Button, Card, PageTitle, cn } from "@/components/ui/primitives";
 import { hasDataGap, searchFoods } from "@/lib/engine/foods";
-import { intakeFromPhoto, newKey, type DraftItem } from "@/lib/logic";
+import { newKey, type DraftItem } from "@/lib/logic";
 import { useStore } from "@/lib/store";
 
 const hhmm = (base: string, offset: number) => {
@@ -25,13 +26,12 @@ function ConfirmInner() {
   const [edit, setEdit] = useState<DraftItem | null>(null);
   const [adding, setAdding] = useState(false);
   const [q, setQ] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  // Opened directly (prototype map / refresh): start from the design's demo meal.
+  // Opened directly (prototype map / refresh): nothing to confirm yet, unless showing the error state.
   useEffect(() => {
-    if (!draft || params.get("state")) {
-      const err = params.get("state") === "error";
-      setDraft({ items: err ? [] : intakeFromPhoto(), source: "photo", eaten_at: new Date(new Date().setHours(13, 0, 0, 0)).toISOString(), label: "Lunch", photo: err ? undefined : "/demo-meal.svg", error: err });
-    }
+    if (params.get("state") === "error") setDraft({ items: [], source: "photo", eaten_at: new Date().toISOString(), label: "Lunch", error: true });
+    else if (!draft) router.replace("/add");
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const results = useMemo(() => searchFoods(q), [q]);
@@ -50,6 +50,7 @@ function ConfirmInner() {
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-inhibitor/12 text-inhibitor"><CameraOff className="h-6 w-6" /></span>
           <p className="mt-3 font-bold">We couldn&apos;t read that photo.</p>
           <p className="mt-1 text-sm text-muted">Try again or describe your meal.</p>
+          {draft.errorMessage && <p className="mt-1 text-xs text-faint">{draft.errorMessage}</p>}
           <div className="mt-4 grid grid-cols-2 gap-2">
             <Button variant="secondary" href="/add">Try again</Button>
             <Button href="/add?tab=description">Describe meal</Button>
@@ -59,9 +60,16 @@ function ConfirmInner() {
     );
   }
 
-  function confirm() {
-    const m = save();
-    if (m) router.push("/absorb?new=1");
+  async function confirm() {
+    setSaving(true);
+    try {
+      const m = await save();
+      if (m) router.push("/absorb?new=1");
+    } catch (e) {
+      toast.error(`Couldn't save the meal: ${e instanceof Error ? e.message : e}`);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -87,7 +95,8 @@ function ConfirmInner() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold">{it.name ?? `“${it.detected}”`}</p>
-                  <p className="text-sm text-muted tabular">{it.is_drink ? `1 cup, ${hhmm(draft.eaten_at, it.offset_min)}` : `${it.grams} g`}</p>
+                  <p className="text-sm text-muted tabular">{it.is_drink ? `${it.grams} ml, ${hhmm(draft.eaten_at, it.offset_min)}` : `${it.grams} g`}</p>
+                  {!!it.flags?.length && <p className="text-xs text-amber">{it.flags[0]}</p>}
                 </div>
                 <button onClick={() => setEdit(it)} aria-label={`Edit ${it.name ?? it.detected}`} className="grid h-11 w-11 place-items-center rounded-xl text-muted hover:bg-surface-2"><Pencil className="h-[18px] w-[18px]" /></button>
                 <button onClick={() => setItems((xs) => xs.filter((x) => x.key !== it.key))} aria-label={`Remove ${it.name ?? it.detected}`} className="grid h-11 w-11 place-items-center rounded-xl text-muted hover:bg-surface-2"><Trash2 className="h-[18px] w-[18px]" /></button>
@@ -109,6 +118,16 @@ function ConfirmInner() {
         {!items.length && <p className="p-4 text-sm text-muted">No items left. Add one below.</p>}
       </Card>
 
+      {!!draft.changes?.length && (
+        <div className="flex gap-2 rounded-xl bg-enhancer/10 p-3 text-sm">
+          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-enhancer" />
+          <span><strong>Checked twice.</strong> {draft.changes.join(" ")}</span>
+        </div>
+      )}
+      {draft.question && !items.some((i) => i.question === draft.question) && (
+        <div className="flex gap-2 rounded-xl bg-amber/14 p-3 text-sm"><CircleHelp className="mt-0.5 h-4 w-4 shrink-0 text-amber" />{draft.question}</div>
+      )}
+
       {gap && (
         <div className="flex gap-2 rounded-xl bg-surface-2 p-3 text-sm text-muted">
           <Info className="mt-0.5 h-4 w-4 shrink-0" />Inhibitor data not available. This estimate may be high.
@@ -118,8 +137,8 @@ function ConfirmInner() {
       <button onClick={() => setAdding(true)} className="flex min-h-11 items-center gap-1.5 text-sm font-bold text-primary"><Plus className="h-4 w-4" />Add item</button>
 
       <div className="sticky-cta">
-        <Button size="lg" className="w-full" disabled={!items.length || unanswered > 0} onClick={confirm}>
-          {unanswered ? <><AlertCircle className="h-4 w-4" />Answer the question above</> : <>Confirm and score meal <span aria-hidden>→</span></>}
+        <Button size="lg" className="w-full" disabled={!items.length || unanswered > 0 || saving} onClick={confirm}>
+          {saving ? <><Loader2 className="h-4 w-4 animate-spin" />Scoring…</> : unanswered ? <><AlertCircle className="h-4 w-4" />Answer the question above</> : <>Confirm and score meal <span aria-hidden>→</span></>}
         </Button>
       </div>
 

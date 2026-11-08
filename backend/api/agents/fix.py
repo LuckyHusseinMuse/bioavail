@@ -62,4 +62,5 @@ def fix(ref: ReferenceData, llm, items: list[MealItem], diet: str | None, top_n:
         "fixes": [{**f, "rank": i + 1, "title": words[i].title, "explanation": words[i].explanation}
                   for i, f in enumerate(fixes)],
         "source": source, "unsupported_numbers": bad if source == "gemini" else [],
+        "candidates_considered": out["candidates_considered"],
     }

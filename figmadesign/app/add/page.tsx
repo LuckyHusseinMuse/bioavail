@@ -1,6 +1,6 @@
 "use client";
 // SCREEN 3: Add meal (Add image / Description / Search item states)
-import { Camera, Check, ImagePlus, Search, X } from "lucide-react";
+import { Camera, Check, ImagePlus, Images, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useRef, useState } from "react";
@@ -38,7 +38,8 @@ function AddMealInner() {
   const [time, setTime] = useState(nowHHMM());
   const [drinks, setDrinks] = useState<Record<string, string>>({ Tea: nowHHMM() });
   const [none, setNone] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);     // photo library / files
+  const cameraRef = useRef<HTMLInputElement>(null);   // camera
   const results = useMemo(() => searchFoods(q).filter((f) => !f.is_drink), [q]);
 
   const mealTime = when === "now" ? nowHHMM() : time;
@@ -85,7 +86,8 @@ function AddMealInner() {
         <motion.div key={tab} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }}>
           {tab === "image" && (
             <div className="space-y-2">
-              <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { onFile(e.target.files?.[0]); e.target.value = ""; }} />
+              <input ref={cameraRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => { onFile(e.target.files?.[0]); e.target.value = ""; }} />
               <button onClick={() => fileRef.current?.click()}
                 className="relative grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-2xl border-2 border-dashed border-primary/35 bg-primary/[0.04] transition-colors hover:bg-primary/[0.07]">
                 {photo ? (
@@ -94,11 +96,15 @@ function AddMealInner() {
                 ) : (
                   <span className="flex flex-col items-center gap-2 text-center">
                     <span className="grid h-16 w-16 place-items-center rounded-full bg-primary/12 text-primary"><Camera className="h-7 w-7" /></span>
-                    <strong>Take a photo or choose one</strong>
+                    <strong>Upload a photo of your meal</strong>
                     <small className="text-muted">We&apos;ll identify the foods for you</small>
                   </span>
                 )}
               </button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="secondary" onClick={() => cameraRef.current?.click()}><Camera className="h-4 w-4" />Take photo</Button>
+                <Button variant="secondary" onClick={() => fileRef.current?.click()}><Images className="h-4 w-4" />{photo ? "Choose another" : "Upload photo"}</Button>
+              </div>
               {photoError && <p className="text-sm text-inhibitor">That file couldn&apos;t be read. You can still continue to see the error state.</p>}
               {!photo && (
                 <button onClick={() => { setPhoto(DEMO_PHOTO); setPhotoError(false); }} className="flex min-h-11 items-center gap-2 text-sm font-semibold text-primary">

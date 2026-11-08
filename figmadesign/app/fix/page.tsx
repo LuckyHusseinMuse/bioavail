@@ -1,14 +1,14 @@
 "use client";
 // SCREEN 10: Fix suggestions
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { ArrowUpRight, BellRing, ChevronDown, Plus, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowUpRight, BellRing, ChevronDown, Loader2, Plus, Sparkles, TrendingUp } from "lucide-react";
 import { motion } from "motion/react";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import EvidenceSheet from "@/components/EvidenceSheet";
 import { BackBar } from "@/components/shell";
 import { Bar, Button, Card, Chip, EmptyState, PageTitle } from "@/components/ui/primitives";
-import { findFixes, type Fix } from "@/lib/logic";
+import { fetchFixes, type Fix } from "@/lib/logic";
 import { timeOf, useStore, type Meal } from "@/lib/store";
 
 const mg = (n: number) => (n < 0.1 ? n.toFixed(3) : n.toFixed(2));
@@ -24,7 +24,7 @@ function TimelineStrip({ meal, fix }: { meal: Meal; fix?: Fix }) {
       <div className="flex justify-between text-sm"><strong>{meal.label}</strong><span className="text-muted tabular">{timeOf(meal.eaten_at)}</span></div>
       <svg viewBox={`0 0 ${W} 92`} className="mt-2 w-full" role="img" aria-label="Meal timing">
         <rect x={x(0)} y={8} width={x(60) - x(0)} height={52} rx={10} fill="var(--primary)" opacity={0.12} />
-        <text x={x(30)} y={22} textAnchor="middle" fontSize={9} fill="var(--primary)" fontWeight={700}>1-hour window</text>
+        <text x={x(30)} y={22} textAnchor="middle" fontSize={9} fill="var(--primary)" fontWeight={700}>meal window</text>
         <line x1={x(start)} x2={x(end)} y1={62} y2={62} stroke="var(--border)" strokeWidth={2} />
         {[0, 60, 120, 180].map((m) => (
           <g key={m}><line x1={x(m)} x2={x(m)} y1={58} y2={66} stroke="var(--faint)" /><text x={x(m)} y={82} textAnchor="middle" fontSize={10} fill="var(--muted)">{clock(meal.eaten_at, m)}</text></g>
@@ -51,20 +51,30 @@ function TimelineStrip({ meal, fix }: { meal: Meal; fix?: Fix }) {
 function FixCard({ f, meal, onEvidence, i }: { f: Fix; meal: Meal; onEvidence: (id: string) => void; i: number }) {
   const applyFix = useStore((s) => s.applyFix);
   const addReminder = useStore((s) => s.addReminder);
-  const addAlert = useStore((s) => s.addAlert);
+  const addTimingReminder = useStore((s) => s.addTimingReminder);
+  const [busy, setBusy] = useState(false);
   const max = Math.max(f.after, f.before);
   const gainPct = f.before ? Math.round((f.gain / f.before) * 100) : 0;
 
-  function act() {
-    if (f.action === "remind") {
-      const at = clock(meal.eaten_at, f.change.offset_min ?? 120);
-      addReminder({ kind: "drink", title: `Have your ${f.change.name?.toLowerCase() ?? "drink"}`, time: at, repeat: "once", days: [], notify: true });
-      addAlert({ type: "timing", title: `You can have your ${f.change.name?.toLowerCase().replace(/^black /, "") ?? "drink"} at ${at}`, detail: `Reminder for ${meal.label.toLowerCase()}`, meal_id: meal.id });
-      applyFix(meal.id, f.change);
-      toast.success(`Reminder set for ${at}`);
-    } else {
-      applyFix(meal.id, f.change);
-      toast.success(`${f.change.replace_with_name ?? f.change.name} added to this meal`);
+  async function act() {
+    setBusy(true);
+    try {
+      if (f.action === "remind") {
+        const when = new Date(Date.parse(meal.eaten_at) + (f.change.offset_min ?? 60) * 60000);
+        const at = clock(meal.eaten_at, f.change.offset_min ?? 60);
+        const drink = f.change.name?.toLowerCase() ?? "drink";
+        addReminder({ kind: "drink", title: `Have your ${drink}`, time: at, repeat: "once", days: [], notify: true });
+        if (when.getTime() > Date.now()) await addTimingReminder(when, `You can have your ${drink} now without affecting your ${meal.label.toLowerCase()}.`, meal.id);
+        await applyFix(meal.id, f.items_after);
+        toast.success(`Reminder set for ${at}`);
+      } else {
+        await applyFix(meal.id, f.items_after);
+        toast.success(f.change.kind === "add" ? `${f.change.name} added to this meal` : "Meal updated");
+      }
+    } catch (e) {
+      toast.error(`Couldn't update the meal: ${e instanceof Error ? e.message : e}`);
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -82,7 +92,7 @@ function FixCard({ f, meal, onEvidence, i }: { f: Fix; meal: Meal; onEvidence: (
         <p className="mt-1 text-right text-[11px] text-faint">absorbed · Not medical advice</p>
         <div className="mt-3 flex items-center justify-between gap-2">
           <button onClick={() => onEvidence(f.evidence)} className="inline-flex min-h-11 items-center gap-1 text-sm font-bold text-primary">Evidence <ArrowUpRight className="h-4 w-4" /></button>
-          <Button onClick={act} variant={i === 0 ? "primary" : "secondary"}>{f.action === "remind" ? <><BellRing className="h-4 w-4" />Remind me</> : <><Plus className="h-4 w-4" />Add to meal</>}</Button>
+          <Button onClick={act} disabled={busy} variant={i === 0 ? "primary" : "secondary"}>{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}{f.action === "remind" ? <><BellRing className="h-4 w-4" />Remind me</> : <><Plus className="h-4 w-4" />Add to meal</>}</Button>
         </div>
       </Card>
     </motion.div>
@@ -92,13 +102,27 @@ function FixCard({ f, meal, onEvidence, i }: { f: Fix; meal: Meal; onEvidence: (
 export default function FixPage() {
   const meals = useStore((s) => s.meals);
   const currentId = useStore((s) => s.currentMealId);
-  const avoid = useStore((s) => s.profile.avoid);
   const [open, setOpen] = useState(false);
   const [evidence, setEvidence] = useState<string | null>(null);
   const meal = meals.find((m) => m.id === currentId) ?? meals.at(-1);
-  const fixes = useMemo(() => (meal ? findFixes(meal.items, meal.drinks, avoid) : null), [meal, avoid]);
+  const [fixes, setFixes] = useState<Awaited<ReturnType<typeof fetchFixes>> | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const key = meal ? meal.id + JSON.stringify([meal.items, meal.drinks]) : "";
+  useEffect(() => {
+    if (!meal) return;
+    let live = true;
+    setFixes(null); setError(null);
+    const ev = Object.fromEntries(meal.result.conflicts.filter((c) => c.trigger).map((c) => [c.trigger!, c.evidence_id]));
+    fetchFixes(meal.items, meal.drinks, ev).then((x) => live && setFixes(x)).catch((e) => live && setError(e instanceof Error ? e.message : String(e)));
+    return () => { live = false; };
+  }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!meal || !fixes) return <EmptyState icon={<Sparkles className="h-7 w-7" />} title="No meal to fix" action={<Button href="/add">Add a meal</Button>} />;
+  if (!meal) return <EmptyState icon={<Sparkles className="h-7 w-7" />} title="No meal to fix" action={<Button href="/add">Add a meal</Button>} />;
+  if (error) return <EmptyState icon={<Sparkles className="h-7 w-7" />} title="Couldn't load fixes" body={error} action={<Button href="/absorb">Back</Button>} />;
+  if (!fixes) return (
+    <div className="space-y-4"><BackBar href="/absorb" /><PageTitle eyebrow="Best next step" title="Smallest changes that help most" />
+      <p className="flex items-center gap-2 text-sm text-muted"><Loader2 className="h-4 w-4 animate-spin" />Simulating changes with the engine…</p></div>
+  );
   const best = fixes.ranked.slice(0, 2);
   const rest = fixes.ranked.slice(2);
 

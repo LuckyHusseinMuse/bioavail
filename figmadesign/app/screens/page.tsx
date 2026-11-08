@@ -31,7 +31,7 @@ const SCREENS: [number, string, string, string?][] = [
 ];
 
 export default function ScreensPage() {
-  const lunch = useStore((s) => s.meals.findLast((m) => m.drinks.some((d) => d.food_code === "MOCK_BLACK_TEA")));
+  const lunch = useStore((s) => s.meals.findLast((m) => m.drinks.some((d) => d.food_code === "17-165")));
   const setCurrent = useStore((s) => s.setCurrentMeal);
   return (
     <div className="px-5 pb-10 pt-14">

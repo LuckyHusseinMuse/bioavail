@@ -1,12 +1,12 @@
 "use client";
-// SCREEN 9: Evidence sheet (bottom sheet over Absorb)
-import { BadgeCheck, ExternalLink, FileText } from "lucide-react";
+// SCREEN 9: Evidence sheet (bottom sheet over Absorb). Rows come from the evidence table via /evidence/{id}.
+import { BadgeCheck, ExternalLink, FileText, Loader2 } from "lucide-react";
 import { Sheet } from "./shell";
 import { Button } from "./ui/primitives";
-import { EVIDENCE } from "@/lib/engine/evidence";
+import { useEvidence } from "@/lib/engine/evidence";
 
 export default function EvidenceSheet({ id, onClose }: { id: string | null; onClose: () => void }) {
-  const ev = id ? EVIDENCE[id] : null;
+  const { row: ev, error } = useEvidence(id);
   return (
     <Sheet open={!!id} onOpenChange={(o) => !o && onClose()} title="Evidence">
       {ev ? (
@@ -23,15 +23,15 @@ export default function EvidenceSheet({ id, onClose }: { id: string | null; onCl
               ["Authors", ev.authors],
               ["Year", String(ev.year)],
               ["Value used", ev.value_used],
-              ["Table or page", ev.location],
-            ].map(([k, v]) => (
+              ["Volume / pages", ev.location],
+            ].filter(([, v]) => v).map(([k, v]) => (
               <div key={k} className="flex gap-3 px-4 py-3">
                 <dt className="w-28 shrink-0 text-muted">{k}</dt>
                 <dd className="font-semibold">{v}</dd>
               </div>
             ))}
           </dl>
-          <p className="rounded-xl bg-surface-2 p-3 text-sm text-muted">{ev.note}</p>
+          {ev.note && <p className="rounded-xl bg-surface-2 p-3 text-sm text-muted">{ev.note}</p>}
           <p className={`flex items-center gap-1.5 text-xs font-semibold ${ev.verified ? "text-enhancer" : "text-faint"}`}>
             <BadgeCheck className="h-4 w-4" />{ev.verified ? "Checked against the paper by a second person" : "Not yet independently checked"}
           </p>
@@ -40,8 +40,10 @@ export default function EvidenceSheet({ id, onClose }: { id: string | null; onCl
             <Button onClick={onClose} className={ev.url ? "" : "col-span-2"}>Close</Button>
           </div>
         </div>
-      ) : (
+      ) : error ? (
         <p className="py-6 text-sm text-muted">No evidence row for {id}.</p>
+      ) : (
+        <p className="flex items-center gap-2 py-6 text-sm text-muted"><Loader2 className="h-4 w-4 animate-spin" />Loading the source…</p>
       )}
     </Sheet>
   );

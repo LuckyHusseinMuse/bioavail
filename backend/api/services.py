@@ -147,11 +147,42 @@ def meals_between(conn: psycopg.Connection, user: User, start: datetime, end: da
                ORDER BY m.eaten_at""",
             (user.user_id, start, end))
         rows = cur.fetchall()
+    r_ = ref()
     for r in rows:
         r["meal_id"] = str(r["meal_id"])
         for k in ("iron_mg", "absorbed_mg", "potential_absorbed_mg", "fractional_pct", "share_of_potential_pct"):
             r[k] = None if r[k] is None else float(r[k])
+        # Full engine result for the UI (deterministic, so it matches what was stored).
+        items = [MealItem(i["food_code"], float(i["grams"]), float(i.get("offset_min", 0))) for i in r["items"]
+                 if i["food_code"] in r_.foods]
+        r["result"] = score_meal(items, r_).to_dict()
     return rows
+
+
+def update_meal(conn: psycopg.Connection, user: User, meal_id: str, items: list[MealItem]) -> dict | None:
+    """Replace a meal's items (e.g. after applying a fix) and re-score it. Keeps the meal id and time."""
+    with conn.cursor() as cur:
+        cur.execute("SELECT eaten_at FROM meals WHERE meal_id = %s AND user_id = %s", (meal_id, user.user_id))
+        row = cur.fetchone()
+        if row is None:
+            return None
+        when = row["eaten_at"]
+        result = score_meal(items, ref()).to_dict()
+        cur.execute("UPDATE meals SET items = %s WHERE meal_id = %s AND eaten_at = %s",
+                    (Jsonb([{"food_code": i.food_code, "grams": i.grams, "offset_min": i.offset_min} for i in items]),
+                     meal_id, when))
+        cur.execute(
+            """UPDATE meal_results SET iron_mg = %s, absorbed_mg = %s, potential_absorbed_mg = %s, fractional_pct = %s,
+               share_of_potential_pct = %s, range_low_mg = %s, range_high_mg = %s, conflict_count = %s,
+               conflict_rule_ids = %s, contributions = %s, conflicts = %s, data_gaps = %s, engine_version = %s
+               WHERE meal_id = %s AND eaten_at = %s""",
+            (result["iron_mg"], result["absorbed_mg"], result["potential_absorbed_mg"], result["fractional_pct"],
+             result["share_of_potential_pct"], result["range_absorbed_mg"][0], result["range_absorbed_mg"][1],
+             len(result["conflicts"]), [c["rule_id"] for c in result["conflicts"]], Jsonb(result["contributions"]),
+             Jsonb(result["conflicts"]), Jsonb(result["data_gaps"]), result["engine_version"], meal_id, when))
+    conn.commit()
+    refresh_daily(conn, when)
+    return {"meal_id": str(meal_id), "eaten_at": when.isoformat(), "result": result}
 
 
 def daily_view(conn: psycopg.Connection, user: User, day: date, profile: dict) -> dict:

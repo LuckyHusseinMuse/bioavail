@@ -14,7 +14,14 @@ _pool: ConnectionPool | None = None
 def open_pool(url: str | None) -> None:
     global _pool
     if url and _pool is None:
-        _pool = ConnectionPool(url, min_size=1, max_size=5, open=True, kwargs={"row_factory": dict_row})
+        # Cloud databases close idle connections. Check each one before use, recycle idle ones, and keep TCP alive,
+        # so the first request after a quiet spell never gets a dead connection.
+        _pool = ConnectionPool(
+            url, min_size=1, max_size=5, open=True, max_idle=120, max_lifetime=1800,
+            check=ConnectionPool.check_connection,
+            kwargs={"row_factory": dict_row, "keepalives": 1, "keepalives_idle": 30,
+                    "keepalives_interval": 10, "keepalives_count": 3, "connect_timeout": 15},
+        )
 
 
 def close_pool() -> None:

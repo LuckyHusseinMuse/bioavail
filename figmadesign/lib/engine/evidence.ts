@@ -1,11 +1,14 @@
-// Evidence rows for the sheet (screen 9). Hurrell 1999 is verified in ProjectDefinition.md;
-// the others are marked "to extract" until Person A fills engine_rule_evidence.csv.
+"use client";
+// Evidence rows come from the API (/evidence/{id}); validation from /eval/validation.
+import { useEffect, useState } from "react";
+import { api } from "../api";
+
 export interface EvidenceRow {
   id: string;
   short: string;
   title: string;
   authors: string;
-  year: number;
+  year: number | string;
   journal: string;
   value_used: string;
   location: string;
@@ -14,84 +17,91 @@ export interface EvidenceRow {
   verified: boolean;
 }
 
-const HURRELL: Omit<EvidenceRow, "id"> = {
-  short: "Hurrell et al., 1999",
-  title: "Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages",
-  authors: "Hurrell RF, Reddy M, Cook JD",
-  year: 1999,
-  journal: "British Journal of Nutrition",
-  value_used: "Black tea reduced non-haem iron absorption by 79 to 94%",
-  location: "Table 1",
-  note: "Single-meal radioisotope studies in adults. Effect measured with the drink taken alongside the meal.",
-  url: "https://doc.rero.ch/record/294784/files/S0007114599000537.pdf",
-  verified: true,
+// IDs used by the UI prototype -> real ids in the evidence table.
+const ALIAS: Record<string, string> = {
+  EVID_LINK_IRON_010: "EVID_LINK_IRON_005", ABS_MOD_IRON_010: "ABS_MOD_IRON_004",
+  EVID_LINK_IRON_030: "EVID_LINK_IRON_009", ABS_MOD_IRON_020: "ABS_MOD_IRON_006",
+  EVID_LINK_IRON_020: "EVID_LINK_IRON_010", ABS_MOD_IRON_030: "ABS_MOD_IRON_009",
+  ABS_BASE_MONSEN: "ABS_BASE_IRON_006", ENGINE_FLOOR: "ASSUME_001",
 };
-const HALLBERG_89: Omit<EvidenceRow, "id"> = {
-  short: "Hallberg et al., 1989",
-  title: "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate",
-  authors: "Hallberg L, Brune M, Rossander L",
-  year: 1989,
-  journal: "American Journal of Clinical Nutrition",
-  value_used: "Dose-dependent inhibition by phytate, counteracted by vitamin C (value to extract)",
-  location: "To extract",
-  note: "Mock value until the data team verifies it against the paper.",
-  verified: false,
-};
-const HALLBERG_91: Omit<EvidenceRow, "id"> = {
-  short: "Hallberg et al., 1991",
-  title: "Calcium: effect of different amounts on nonheme- and heme-iron absorption in humans",
-  authors: "Hallberg L, et al.",
-  year: 1991,
-  journal: "American Journal of Clinical Nutrition",
-  value_used: "Reduction at different calcium doses (value to extract)",
-  location: "To extract",
-  note: "Mock value until the data team verifies it against the paper.",
-  verified: false,
-};
-const MONSEN: Omit<EvidenceRow, "id"> = {
-  short: "Monsen et al., 1978",
-  title: "Estimation of available dietary iron",
-  authors: "Monsen ER, et al.",
-  year: 1978,
-  journal: "American Journal of Clinical Nutrition",
-  value_used: "Haem iron 23% absorbed. Non-haem 3%, 5% or 8% by enhancer units",
-  location: "To extract",
-  note: "Sets the base absorption before inhibitors are applied.",
-  verified: false,
+export const realId = (id: string) => ALIAS[id] ?? id;
+
+// Known short labels so chips render before the row loads.
+const SHORT: Record<string, string> = {
+  EVID_LINK_IRON_005: "Hurrell et al., 1999", ABS_MOD_IRON_004: "Hurrell et al., 1999", ABS_MOD_IRON_003: "Hurrell et al., 1999",
+  ABS_MOD_IRON_002: "Hurrell et al., 1999", EVID_LINK_IRON_009: "Hallberg et al., 1989", ABS_MOD_IRON_006: "Hallberg et al., 1989",
+  EVID_LINK_IRON_010: "Hallberg et al., 1991", ABS_MOD_IRON_009: "Hallberg et al., 1991", ABS_BASE_IRON_006: "Monsen & Balintfy, 1982",
+  EVID_LINK_IRON_011: "Morck et al., 1983", ASSUME_001: "Engine assumption",
 };
 
-export const EVIDENCE: Record<string, EvidenceRow> = Object.fromEntries(
-  (
-    [
-      ["EVID_LINK_IRON_010", HURRELL],
-      ["ABS_MOD_IRON_010", HURRELL],
-      ["EVID_LINK_IRON_030", HALLBERG_89],
-      ["ABS_MOD_IRON_020", HALLBERG_89],
-      ["EVID_LINK_IRON_020", HALLBERG_91],
-      ["ABS_MOD_IRON_030", HALLBERG_91],
-      ["ABS_BASE_MONSEN", MONSEN],
-    ] as const
-  ).map(([id, row]) => [id, { id, ...row }]),
-);
+const cache = new Map<string, EvidenceRow>();
 
-// MOCK validation rows for screen 8. Clearly not real study results.
-export const VALIDATION = {
-  mae_pp: 2.1,
-  rows: [
-    { meal: "Bread meal, water", study: "Mock study A", measured: 10.2, predicted: 8.0 },
-    { meal: "Bread meal, black tea", study: "Mock study A", measured: 1.6, predicted: 1.8 },
-    { meal: "Bread meal, cocoa", study: "Mock study A", measured: 3.1, predicted: 3.9 },
-    { meal: "Rice meal", study: "Mock study B", measured: 4.5, predicted: 5.0 },
-    { meal: "Rice meal + vitamin C", study: "Mock study B", measured: 9.8, predicted: 8.0 },
-    { meal: "Phytate-rich roll", study: "Mock study C", measured: 2.2, predicted: 3.1 },
-    { meal: "Roll + 300 mg calcium", study: "Mock study C", measured: 3.0, predicted: 3.6 },
-    { meal: "Supplement with coffee", study: "Mock study D", measured: 6.1, predicted: 4.4 },
-  ],
-  // "Avail" side is computed live from the engine (see EvidenceView); only the published side is fixed.
-  relative: [
-    { label: "Black tea", food_code: "MOCK_BLACK_TEA", published: "Hurrell 1999 measured 79 to 94%" },
-    { label: "Peppermint tea", food_code: "MOCK_PEPPERMINT_TEA", published: "Hurrell 1999 measured 84%" },
-    { label: "Camomile tea", food_code: "MOCK_CAMOMILE_TEA", published: "Hurrell 1999 measured 47%" },
-    { label: "Cocoa", food_code: "MOCK_COCOA", published: "Hurrell 1999 measured 71%" },
-  ],
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const shortOf = (p: any) => (p ? `${String(p.authors ?? "").split(/[ ,]/)[0]}${String(p.authors ?? "").includes(",") ? " et al." : ""}, ${p.year}` : "Source");
+
+function toRow(id: string, d: any): EvidenceRow {
+  if (d.kind === "paper") {
+    const p = d.paper;
+    return { id, short: shortOf(p), title: p.title, authors: p.authors, year: p.year, journal: p.journal, value_used: "", location: p.volume_pages ?? "",
+      note: p.notes ?? "", url: p.doi_or_url || undefined, verified: String(p.citation_verified).toLowerCase() === "true" };
+  }
+  if (d.kind === "assumption") {
+    const e = d.entity, p = d.papers?.[0];
+    return { id, short: "Engine assumption", title: e.name?.replaceAll("_", " ") ?? id, authors: p?.authors ?? "Absorb team", year: p?.year ?? "",
+      journal: "Engine assumption", value_used: e.description, location: "engine_assumptions.csv", note: e.rationale, url: p?.doi_or_url || undefined, verified: false };
+  }
+  const links: any[] = d.kind === "evidence_link" ? [{ ...d.link, paper: d.paper }] : d.evidence ?? [];
+  const link = links.find((l) => l.evidence_role === "Primary_Support" && l.paper) ?? links.find((l) => l.paper) ?? links[0] ?? {};
+  const p = link.paper;
+  const val = link.quantitative_value_used || (link.quantitative_lower_used ? `${link.quantitative_lower_used} to ${link.quantitative_upper_used}` : "");
+  const value = val ? `${val} ${link.quantitative_unit ?? ""}`.trim() : d.entity?.effect_interpretation ?? d.entity?.evidence_summary ?? "";
+  return {
+    id, short: p ? shortOf(p) : SHORT[id] ?? "Source", title: p?.title ?? id, authors: p?.authors ?? "", year: p?.year ?? "",
+    journal: p?.journal ?? "", value_used: value, location: p?.volume_pages ?? "",
+    note: link.synthesis_notes || d.entity?.applicability_notes || "", url: p?.doi_or_url || undefined,
+    verified: String(link.human_verified ?? d.entity?.human_verified).toLowerCase() === "true",
+  };
+}
+
+export async function fetchEvidence(id: string): Promise<EvidenceRow> {
+  const rid = realId(id);
+  const hit = cache.get(rid);
+  if (hit) return hit;
+  const row = toRow(rid, await api.get<any>(`/evidence/${encodeURIComponent(rid)}`));
+  cache.set(rid, row);
+  return row;
+}
+
+export const evidenceShort = (id: string) => cache.get(realId(id))?.short ?? SHORT[realId(id)] ?? "See source";
+
+export function useEvidence(id: string | null) {
+  const [row, setRow] = useState<EvidenceRow | null>(null);
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    setRow(null); setError(false);
+    if (!id) return;
+    let live = true;
+    fetchEvidence(id).then((r) => live && setRow(r)).catch(() => live && setError(true));
+    return () => { live = false; };
+  }, [id]);
+  return { row, error };
+}
+
+// ---------------------------------------------------------------- validation (/eval/validation)
+export type ValidationView = {
+  mae_pp: number | null;
+  n: number;
+  rows: { meal: string; study: string; measured: number; predicted: number }[];
+  relative: { label: string; avail: number; published: string }[];
 };
+
+export async function loadValidation(): Promise<ValidationView> {
+  const v = await api.get<any>("/eval/validation");
+  const rows = (v.rows as any[]).filter((r) => r.split === "held_out")
+    .map((r) => ({ meal: `${r.meal}: ${r.comparison}`, study: r.paper ?? r.paper_id, measured: Math.abs(r.measured_change_pct), predicted: Math.abs(r.predicted_change_pct) }));
+  const relative = (v.rows as any[]).filter((r) => r.paper_id === "IRON_013")
+    .map((r) => ({ label: String(r.comparison).replace(" vs water", "").replace(/^./, (c: string) => c.toUpperCase()),
+      avail: Math.round(Math.abs(r.predicted_change_pct)),
+      published: r.measured_range ? `Hurrell 1999 measured ${Math.abs(r.measured_range[1])} to ${Math.abs(r.measured_range[0])}%` : `Hurrell 1999 measured ${Math.abs(r.measured_change_pct)}%` }));
+  return { mae_pp: v.summary?.held_out?.mae_pp ?? null, n: v.summary?.held_out?.n ?? rows.length, rows, relative };
+}

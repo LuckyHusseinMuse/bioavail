@@ -11,9 +11,9 @@ from psycopg.types.json import Jsonb
 from absorb_engine.daily import reference_for
 from api.auth import User, current_user
 from api.db import get_conn
-from api.schemas import MealIn, ProfileIn
+from api.schemas import MealIn, MealScoreIn, ProfileIn
 from api.services import (LONDON, daily_view, ensure_user, meals_between, profile_basis, ref, refresh_daily,
-                          save_meal, to_items)
+                          save_meal, to_items, update_meal)
 
 router = APIRouter(tags=["me"])
 
@@ -93,3 +93,35 @@ def get_daily(day: date | None = Query(None, alias="date"), user: User = Depends
               conn: psycopg.Connection = Depends(get_conn)):
     profile = ensure_user(conn, user)
     return daily_view(conn, user, day or datetime.now(LONDON).date(), profile)
+
+
+@router.put("/meals/{meal_id}")
+def put_meal(meal_id: uuid.UUID, body: MealScoreIn, user: User = Depends(current_user),
+             conn: psycopg.Connection = Depends(get_conn)):
+    """Replace a meal's items (e.g. an applied fix). The server re-scores it."""
+    out = update_meal(conn, user, str(meal_id), to_items(body.items))
+    if out is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Meal not found")
+    return out
+
+
+@router.post("/me/demo")
+def load_demo(user: User = Depends(current_user), conn: psycopg.Connection = Depends(get_conn)):
+    """Replace this account's demo data with the seeded demo week (meals with source='seed' and all alerts)."""
+    from pipeline.seed_demo import seed
+    counts = seed(conn, user.user_id)
+    return {"ok": True, **counts}
+
+
+@router.delete("/me/data")
+def clear_my_data(user: User = Depends(current_user), conn: psycopg.Connection = Depends(get_conn)):
+    """Delete this account's meals, alerts and chat (profile and alert preferences are kept)."""
+    with conn.cursor() as cur:
+        cur.execute("SELECT DISTINCT eaten_at FROM meals WHERE user_id = %s", (user.user_id,))
+        days = [r["eaten_at"] for r in cur.fetchall()]
+        for t in ("meal_results", "meals", "alerts", "chat_messages"):
+            cur.execute(f"DELETE FROM {t} WHERE user_id = %s", (user.user_id,))
+    conn.commit()
+    for d in {x.date(): x for x in days}.values():
+        refresh_daily(conn, d)
+    return {"ok": True, "meals_deleted": len(days)}

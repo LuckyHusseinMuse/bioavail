@@ -42,12 +42,14 @@ def signing_key_for(token: str, settings: Settings):
 
 def verify_token(token: str, settings: Settings, key_resolver=signing_key_for) -> User:
     try:
-        if settings.auth_mode == "auth0":
+        alg = jwt.get_unverified_header(token).get("alg")
+        if alg == "HS256" and settings.auth_dev_secret:
+            # Local development only: dev tokens are accepted only while AUTH_DEV_SECRET is set.
+            claims = jwt.decode(token, settings.auth_dev_secret, algorithms=["HS256"], audience="absorb-dev")
+        elif settings.auth_mode == "auth0":
             key = key_resolver(token, settings)
             claims = jwt.decode(token, key, algorithms=["RS256"], audience=settings.auth0_audience,
                                 issuer=f"https://{settings.auth0_domain}/")
-        elif settings.auth_mode == "dev":
-            claims = jwt.decode(token, settings.auth_dev_secret, algorithms=["HS256"], audience="absorb-dev")
         else:
             raise _unauthorised("Authentication is not configured on the server")
     except jwt.ExpiredSignatureError as e:

@@ -18,6 +18,15 @@ DEFAULT_FALLBACK = "gemini-3.1-flash-lite"
 REQUEST_TIMEOUT_MS = 60_000
 RETRY_STATUS = {429, 500, 503, 504}
 log = logging.getLogger("absorb.gemini")
+MAX_WAIT_S = 25
+
+def retry_delay_s(e, default: float) -> float:
+    """Seconds Google asks us to wait (RetryInfo.retryDelay, e.g. '13s'), else the default."""
+    import re as _re
+    text = str(getattr(e, "details", "") or e)
+    m = _re.search(r"retryDelay'?:\s*'(\d+(?:\.\d+)?)s'", text) or _re.search(r"retry in (\d+(?:\.\d+)?)s", text)
+    return float(m.group(1)) if m else default
+
 
 
 class JsonModel(Protocol):
@@ -80,9 +89,13 @@ class GeminiClient:
                     return self._call(model, system, prompt, schema, image, mime_type, temperature)
                 except errors.APIError as e:
                     last = e
-                    if getattr(e, "code", None) not in RETRY_STATUS:
+                    code = getattr(e, "code", None)
+                    if code not in RETRY_STATUS:
                         raise
-                    delay = self.base_delay_s * (2 ** attempt)
+                    if code == 429 and model != models[-1]:
+                        log.warning("Gemini %s rate-limited; switching to %s", model, models[-1])
+                        break                                  # the fallback model has its own quota
+                    delay = min(MAX_WAIT_S, retry_delay_s(e, self.base_delay_s * (2 ** attempt)) + (1 if code == 429 else 0))
                     log.warning("Gemini %s returned %s; retry %d/%d in %.0fs", model, e.code, attempt + 1,
                                 self.attempts, delay)
                     if attempt + 1 < self.attempts:

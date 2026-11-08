@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { Toaster } from "sonner";
 import { Drawer } from "vaul";
+import { AuthProvider, useAuth } from "@/lib/auth";
 import { useStore } from "@/lib/store";
 import { cn } from "./ui/primitives";
 
@@ -38,8 +39,40 @@ export function Providers({ children }: { children: ReactNode }) {
   }, []);
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      <MotionConfig reducedMotion="user"><PhoneFrame>{ready ? children : <div className="grid h-full place-items-center text-2xl font-extrabold tracking-tight">avail<span className="text-enhancer">.</span></div>}</PhoneFrame></MotionConfig>
+      <MotionConfig reducedMotion="user"><PhoneFrame>{ready ? <AuthProvider>{children}</AuthProvider> : <Splash />}</PhoneFrame></MotionConfig>
     </ThemeProvider>
+  );
+}
+
+function Splash({ note }: { note?: string }) {
+  return (
+    <div className="grid h-full place-items-center text-center">
+      <div><div className="text-2xl font-extrabold tracking-tight">avail<span className="text-enhancer">.</span></div>
+        {note && <p className="mt-2 px-8 text-sm text-muted">{note}</p>}</div>
+    </div>
+  );
+}
+
+// Signed-in gate: every screen except the landing page needs a user; data loads once after sign-in.
+const PUBLIC = ["/"];
+function Gate({ children }: { children: ReactNode }) {
+  const path = usePathname();
+  const router = useRouter();
+  const { ready, signedIn } = useAuth();
+  const loaded = useStore((s) => s.loaded);
+  const syncError = useStore((s) => s.syncError);
+  const sync = useStore((s) => s.sync);
+  const isPublic = PUBLIC.includes(path);
+  useEffect(() => { if (ready && !signedIn && !isPublic) router.replace("/"); }, [ready, signedIn, isPublic, router]);
+  useEffect(() => { if (ready && signedIn && !loaded) void sync(); }, [ready, signedIn, loaded, sync]);
+  if (isPublic) return <>{children}</>;
+  if (!ready || !signedIn) return <Splash />;
+  if (!loaded) return <Splash note="Loading your meals…" />;
+  return (
+    <>
+      {syncError && <p className="mx-5 mt-2 rounded-xl bg-inhibitor/10 p-3 text-sm text-inhibitor">Couldn&apos;t reach Avail: {syncError}. <button className="font-bold underline" onClick={() => void sync()}>Retry</button></p>}
+      {children}
+    </>
   );
 }
 
@@ -55,7 +88,7 @@ export function Chrome({ children }: { children: ReactNode }) {
   return (
     <div className="no-scrollbar relative h-full overflow-y-auto overscroll-contain" id="scroller">
       {!bare && path !== "/chat" && <Header />}
-      <main className={cn(bare ? "" : "px-5 pt-2", nav ? "pb-32" : "pb-8")}>{children}</main>
+      <main className={cn(bare ? "" : "px-5 pt-2", nav ? "pb-32" : "pb-8")}><Gate>{children}</Gate></main>
       {nav && <BottomNav path={path} />}
       {nav && !NO_BUBBLE.includes(path) && <ChatBubble />}
       <Toaster position="top-center" offset={14} gap={8} toastOptions={{ classNames: {

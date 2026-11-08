@@ -72,6 +72,18 @@ def health():
     }
 
 
+@app.get("/auth/dev-token", tags=["meta"])
+def dev_token(name: str = "demo"):
+    """LOCAL TESTING ONLY. Exists only while AUTH_DEV_SECRET is set; never set it on a public server."""
+    settings = get_settings()
+    if not settings.auth_dev_secret:
+        from fastapi import HTTPException
+        raise HTTPException(404, "Not found")
+    from api.auth import mint_dev_token
+    safe = "".join(ch for ch in name if ch.isalnum() or ch in "-_")[:40] or "demo"
+    return {"access_token": mint_dev_token(f"dev|{safe}", settings.auth_dev_secret, hours=12), "user_id": f"dev|{safe}"}
+
+
 app.include_router(engine.router)
 app.include_router(me.router)
 app.include_router(agents.router)

@@ -12,10 +12,9 @@ import InteractionMap from "@/components/charts/InteractionMap";
 import ValidationScatter from "@/components/charts/ValidationScatter";
 import Waterfall from "@/components/charts/Waterfall";
 import { Button, Card, Chip, EmptyState, NotMedical, Segmented, cn } from "@/components/ui/primitives";
-import { EVIDENCE, VALIDATION } from "@/lib/engine/evidence";
+import { evidenceShort, loadValidation, type ValidationView } from "@/lib/engine/evidence";
 import { findFood } from "@/lib/engine/foods";
 import type { EngineResult } from "@/lib/engine/types";
-import { reductionPct } from "@/lib/logic";
 import { conflictTitle, resultOf, timeOf, useStore, type Meal } from "@/lib/store";
 
 function CountUp({ value, decimals = 1 }: { value: number; decimals?: number }) {
@@ -37,7 +36,7 @@ function whyLines(meal: Meal, r: EngineResult): { lines: string[]; evidence: str
     : worst.factor === "polyphenols" ? "Tea polyphenols bound to that iron, leaving less available to absorb."
     : worst.factor === "phytate" ? "Phytate in the grains and legumes bound some of that iron."
     : "Calcium in the meal reduced how much iron was taken up.";
-  return { lines: [first, second].filter(Boolean), evidence: worst?.factor === "polyphenols" ? "EVID_LINK_IRON_010" : worst?.factor === "phytate" ? "EVID_LINK_IRON_030" : worst?.factor === "calcium" ? "EVID_LINK_IRON_020" : "ABS_BASE_MONSEN" };
+  return { lines: [first, second].filter(Boolean), evidence: worst?.source || "ABS_BASE_IRON_006" };
 }
 
 function AbsorbInner() {
@@ -51,6 +50,8 @@ function AbsorbInner() {
   const [tab, setTab] = useState<"breakdown" | "map" | "evidence">(q === "map" || q === "evidence" ? q : "breakdown");
   const [evidence, setEvidence] = useState<string | null>(null);
   const [picker, setPicker] = useState(false);
+  const [validation, setValidation] = useState<ValidationView | null>(null);
+  useEffect(() => { if (tab === "evidence" && !validation) loadValidation().then(setValidation).catch(() => {}); }, [tab, validation]);
 
   const meal = meals.find((m) => m.id === currentId) ?? meals.at(-1);
   const r = useMemo(() => (meal ? resultOf(meal) : null), [meal]);
@@ -61,7 +62,7 @@ function AbsorbInner() {
     if (params.get("new") === "1" || params.get("toast") === "1") {
       addAlertSeen.current = true;
       if (r.conflicts.length) {
-        setTimeout(() => toast(conflictTitle(meal) + ".", {
+        setTimeout(() => toast(conflictTitle(meal).replace(/\.?$/, "."), {
           icon: <AlertTriangle className="h-5 w-5 text-inhibitor" />, duration: 7000,
           action: { label: "See fix", onClick: () => router.push("/fix") },
         }), 700);
@@ -73,7 +74,7 @@ function AbsorbInner() {
     return <EmptyState icon={<Utensils className="h-7 w-7" />} title="No meals logged yet" body="Log a meal to see how much iron you absorb." action={<Button href="/add">Add a meal</Button>} />;
   }
 
-  const haemAbs = r.haem_mg * 0.23;
+  const haemAbs = r.haem_absorbed_mg;
   const nonAbs = Math.max(0, r.absorbed_mg - haemAbs);
   const why = whyLines(meal, r);
   const recent = [...meals].sort((a, b) => b.eaten_at.localeCompare(a.eaten_at)).slice(0, 8);
@@ -93,6 +94,7 @@ function AbsorbInner() {
           <span className="text-lg font-semibold text-white/85">absorbed</span>
         </p>
         <p className="mt-1 flex items-center justify-between text-xs text-white/75"><span>range {r.range_pct[0]} to {r.range_pct[1]}%</span><span>Not medical advice</span></p>
+        {r.share_of_potential_pct !== null && <p className="mt-2 text-sm text-white/90">You absorbed <strong className="text-white">{r.share_of_potential_pct}%</strong> of what this meal could give you</p>}
         <div className="mt-4 flex h-2.5 overflow-hidden rounded-full bg-white/15">
           <motion.span className="bg-amber" initial={{ width: 0 }} animate={{ width: `${r.absorbed_mg ? (haemAbs / r.absorbed_mg) * 100 : 0}%` }} transition={{ duration: 0.8 }} />
           <motion.span className="bg-white/85" initial={{ width: 0 }} animate={{ width: `${r.absorbed_mg ? (nonAbs / r.absorbed_mg) * 100 : 0}%` }} transition={{ duration: 0.8, delay: 0.1 }} />
@@ -113,18 +115,18 @@ function AbsorbInner() {
                 <div key={c.rule_id} className="flex gap-3 rounded-2xl bg-inhibitor/10 p-4">
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-inhibitor text-white"><AlertTriangle className="h-4 w-4" /></span>
                   <div className="text-sm">
-                    <p className="font-semibold">{c.rule_id === "RULE_IRON_010" ? <><strong>{meal.drinks.find((d) => d.food_code === c.trigger)?.name ?? "Tea"} with this meal</strong> cuts non-haem iron absorption</> : c.message}</p>
+                    <p className="font-semibold">{c.message}</p>
                     <button onClick={() => setEvidence(c.evidence_id)} className="mt-1 inline-flex min-h-8 items-center gap-1 text-[13px] font-bold text-inhibitor">See source <ArrowUpRight className="h-3.5 w-3.5" /></button>
                   </div>
                 </div>
               ))}
               {!!r.data_gaps?.length && (
-                <div className="flex gap-2 rounded-xl bg-surface-2 p-3 text-sm text-muted"><Info className="mt-0.5 h-4 w-4 shrink-0" />Inhibitor data not available for {r.data_gaps.map((c) => findFood(c)?.name.toLowerCase()).join(", ")}. This estimate may be high.</div>
+                <div className="flex gap-2 rounded-xl bg-surface-2 p-3 text-sm text-muted"><Info className="mt-0.5 h-4 w-4 shrink-0" />Inhibitor data not available for {r.data_gaps.map((c) => findFood(c)?.name.toLowerCase() ?? c).join(", ")}. This estimate may be high.</div>
               )}
               <Card className="p-5">
                 <h2 className="font-bold">Why this happened</h2>
                 <div className="mt-2 space-y-1.5 text-sm text-muted">{why.lines.map((l) => <p key={l}>{l}</p>)}</div>
-                <button onClick={() => setEvidence(why.evidence)} className="mt-3"><Chip tone="green" className="min-h-8">{EVIDENCE[why.evidence]?.short} <ArrowUpRight className="h-3.5 w-3.5" /></Chip></button>
+                <button onClick={() => setEvidence(why.evidence)} className="mt-3"><Chip tone="green" className="min-h-8">{evidenceShort(why.evidence)} <ArrowUpRight className="h-3.5 w-3.5" /></Chip></button>
               </Card>
               <Card className="p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-faint">From food to you</p>
@@ -137,20 +139,20 @@ function AbsorbInner() {
           {tab === "evidence" && (
             <>
               <Card className="p-5">
-                <h2 className="font-bold">Predicted vs measured absorption</h2>
-                <p className="mb-2 text-xs text-muted">Each dot is a meal from a published study (mock rows for now).</p>
-                <ValidationScatter rows={VALIDATION.rows} />
+                <h2 className="font-bold">Predicted vs measured reduction</h2>
+                <p className="mb-2 text-xs text-muted">Each dot compares a meal with and without a drink or inhibitor in a published study the engine was not tuned on.</p>
+                {validation ? <ValidationScatter rows={validation.rows} /> : <p className="py-10 text-center text-sm text-muted">Loading…</p>}
                 <div className="mt-2 flex items-center justify-between rounded-xl bg-surface-2 p-3">
-                  <span className="text-sm text-muted">Mean error</span>
-                  <strong className="tabular">{VALIDATION.mae_pp} percentage points</strong>
+                  <span className="text-sm text-muted">Mean error ({validation?.n ?? "…"} held-out comparisons)</span>
+                  <strong className="tabular">{validation?.mae_pp ?? "…"} pp</strong>
                 </div>
               </Card>
               <Card className="p-5">
                 <h2 className="mb-2 font-bold">Relative effects</h2>
                 <ul className="divide-y divide-border">
-                  {VALIDATION.relative.map((x) => (
+                  {(validation?.relative ?? []).map((x) => (
                     <li key={x.label} className="py-2.5 text-sm">
-                      <span className="font-semibold">{x.label}:</span> Avail <strong className="text-primary tabular">{reductionPct(x.food_code)}%</strong>, {x.published}
+                      <span className="font-semibold">{x.label}:</span> Avail <strong className="text-primary tabular">{x.avail}%</strong>, {x.published}
                     </li>
                   ))}
                 </ul>

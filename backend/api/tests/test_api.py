@@ -186,3 +186,29 @@ def test_intake_logs_run_and_tool_calls(client):
 def test_intake_without_gemini_key_is_503(client):
     r = client.post("/agent/intake", headers=auth("auth0|x"), data={"text": "lentil curry"})
     assert r.status_code == 503
+
+
+
+@needs_db
+def test_update_meal_demo_seed_and_clear(client):
+    user = f"auth0|int-{uuid.uuid4()}"
+    h = auth(user)
+    saved = client.post("/meals", headers=h, json={**CURRY_TEA, "eaten_at": "2026-11-07T13:00:00+00:00"}).json()
+    listed = client.get("/meals", headers=h, params={"from": "2026-11-07T00:00:00Z", "to": "2026-11-08T00:00:00Z"}).json()["meals"]
+    assert listed[0]["result"]["contributions"] and listed[0]["result"]["conflicts"]          # full engine result
+
+    moved = [{"food_code": "15-761", "grams": 300}, {"food_code": "17-165", "grams": 260, "offset_min": 60}]
+    up = client.put(f"/meals/{saved['meal_id']}", headers=h, json={"items": moved})
+    assert up.status_code == 200 and up.json()["result"]["absorbed_mg"] > saved["result"]["absorbed_mg"]
+    assert client.put(f"/meals/{saved['meal_id']}", headers=auth("auth0|other"), json={"items": moved}).status_code == 404
+    day = client.get("/me/daily", headers=h, params={"date": "2026-11-07"}).json()
+    assert day["totals"]["absorbed_mg"] == pytest.approx(up.json()["result"]["absorbed_mg"], abs=0.001)   # rollup refreshed
+
+    demo = client.post("/me/demo", headers=h).json()
+    assert demo["meals"] == 19
+    cleared = client.delete("/me/data", headers=h).json()
+    assert cleared["ok"] and client.get("/alerts", headers=h).json()["alerts"] == []
+
+
+def test_dev_token_endpoint_off_without_secret(client):
+    assert client.get("/auth/dev-token").status_code == 404

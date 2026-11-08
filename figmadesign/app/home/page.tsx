@@ -1,6 +1,8 @@
 "use client";
 // SCREEN 2: Home
-import { AlarmClock, AlertTriangle, ArrowRight, Lightbulb } from "lucide-react";
+import { AlarmClock, AlertTriangle, ArrowRight, CalendarPlus, Lightbulb, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import Link from "next/link";
 import MealBars from "@/components/charts/MealBars";
 import { Button, Card, Chip, IconBadge, NotMedical, Ring } from "@/components/ui/primitives";
@@ -14,6 +16,8 @@ export default function HomePage() {
   const alerts = useStore((s) => s.alerts);
   const profile = useStore((s) => s.profile);
   const setCurrent = useStore((s) => s.setCurrentMeal);
+  const resetDemo = useStore((s) => s.resetDemo);
+  const [seeding, setSeeding] = useState(false);
 
   const today = meals.filter((m) => isToday(m.eaten_at)).sort((a, b) => a.eaten_at.localeCompare(b.eaten_at));
   const scored = today.map((m) => ({ m, r: resultOf(m) }));
@@ -56,6 +60,17 @@ export default function HomePage() {
         {scored.length > 0 && <div className="mt-4"><MealBars data={scored.map(({ m, r }) => ({ label: m.label, eaten: r.iron_mg, absorbed: r.absorbed_mg }))} /></div>}
       </Card>
 
+      {meals.length === 0 && (
+        <Card className="flex items-center gap-3 p-4">
+          <IconBadge tone="green"><CalendarPlus className="h-5 w-5" /></IconBadge>
+          <div className="flex-1"><p className="font-bold">New here?</p><p className="text-sm text-muted">Log a meal, or load a demo week to explore.</p></div>
+          <Button size="sm" variant="secondary" disabled={seeding} onClick={async () => {
+            setSeeding(true);
+            try { await resetDemo(); toast.success("Demo week loaded"); } catch (e) { toast.error(`Couldn't load the demo: ${e instanceof Error ? e.message : e}`); } finally { setSeeding(false); }
+          }}>{seeding ? <Loader2 className="h-4 w-4 animate-spin" /> : "Load demo"}</Button>
+        </Card>
+      )}
+
       {last && (
         <Card className="p-5">
           <div className="flex items-start justify-between">
@@ -71,7 +86,7 @@ export default function HomePage() {
             </Ring>
             <div className="space-y-2">
               <p className="text-sm"><strong className="tabular">{fmt(last.r.absorbed_mg)} mg</strong> <span className="text-muted">of {last.r.iron_mg} mg iron</span></p>
-              {last.r.conflicts.length > 0 && <Chip tone="red" icon={<AlertTriangle className="h-3.5 w-3.5" />}>Tea reduces absorption</Chip>}
+              {last.r.conflicts.length > 0 && <Chip tone="red" icon={<AlertTriangle className="h-3.5 w-3.5" />}>{last.r.conflicts[0].trigger ? `${last.m.drinks.find((d) => d.food_code === last.r.conflicts[0].trigger)?.name ?? "A drink"} reduces absorption` : "A conflict reduces absorption"}</Chip>}
             </div>
           </div>
           <Link href="/absorb" onClick={() => setCurrent(last.m.id)} className="mt-3 flex min-h-11 items-center justify-between border-t border-border pt-3 text-sm font-bold text-primary">

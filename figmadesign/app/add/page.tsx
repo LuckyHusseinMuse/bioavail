@@ -7,7 +7,7 @@ import { Suspense, useMemo, useRef, useState } from "react";
 import { Button, Card, PageTitle, Segmented, cn } from "@/components/ui/primitives";
 import { searchFoods } from "@/lib/engine/foods";
 import type { Food } from "@/lib/engine/types";
-import { DRINK_CHIPS, drinkRow, intakeFromPhoto, intakeFromText, newKey, type DraftItem } from "@/lib/logic";
+import { DEMO_PHOTO, DRINK_CHIPS, drinkRow, newKey, type DraftItem } from "@/lib/logic";
 import { useStore } from "@/lib/store";
 
 type Tab = "image" | "description" | "search";
@@ -57,17 +57,21 @@ function AddMealInner() {
   function review() {
     const eaten = new Date();
     if (when === "pick") { const [h, m] = time.split(":").map(Number); eaten.setHours(h, m, 0, 0); }
-    let items: DraftItem[] =
-      tab === "image" ? (photoError ? [] : intakeFromPhoto())
-      : tab === "description" ? intakeFromText(text)
-      : picked.map((f) => ({ key: newKey(), food_code: f.food_code, name: f.name, grams: f.serving_g, is_drink: false, offset_min: 0, candidates: [] }));
     // Drinks chosen below override any drink the photo/description found.
     const chosen = Object.entries(drinks);
-    if (chosen.length || none) items = items.filter((i) => !i.is_drink);
-    if (!none) for (const [label, t] of chosen) items.push(drinkRow(label, toMin(t) - toMin(mealTime)));
-    setDraft({ items, source: tab === "image" ? "photo" : tab === "description" ? "text" : "manual", eaten_at: eaten.toISOString(),
-      label: labelFor(eaten.getHours()), photo: photo ?? undefined, error: tab === "image" && photoError });
-    router.push(tab === "search" ? "/confirm" : "/analysing");
+    const extraDrinks: DraftItem[] = none ? [] : chosen.map(([label, t]) => drinkRow(label, toMin(t) - toMin(mealTime)));
+    const base = { source: (tab === "image" ? "photo" : tab === "description" ? "text" : "manual") as "photo" | "text" | "manual",
+      eaten_at: eaten.toISOString(), label: labelFor(eaten.getHours()) };
+    if (tab === "search") {
+      const items: DraftItem[] = picked.map((f) => ({ key: newKey(), food_code: f.food_code, name: f.name, grams: f.serving_g, is_drink: false, offset_min: 0, candidates: [] }));
+      setDraft({ ...base, items: [...items, ...extraDrinks] });
+      router.push("/confirm");
+      return;
+    }
+    // Photo or description: the Analysing screen sends it to the intake agent (Gemini), then on to Confirm.
+    setDraft({ ...base, items: [], extraDrinks, dropDrinks: chosen.length > 0 || none,
+      photo: photo ?? undefined, text: tab === "description" ? text : undefined, error: tab === "image" && photoError });
+    router.push(photoError && tab === "image" ? "/confirm" : "/analysing");
   }
 
   return (
@@ -97,7 +101,7 @@ function AddMealInner() {
               </button>
               {photoError && <p className="text-sm text-inhibitor">That file couldn&apos;t be read. You can still continue to see the error state.</p>}
               {!photo && (
-                <button onClick={() => { setPhoto("/demo-meal.svg"); setPhotoError(false); }} className="flex min-h-11 items-center gap-2 text-sm font-semibold text-primary">
+                <button onClick={() => { setPhoto(DEMO_PHOTO); setPhotoError(false); }} className="flex min-h-11 items-center gap-2 text-sm font-semibold text-primary">
                   <ImagePlus className="h-4 w-4" />Use the demo photo
                 </button>
               )}

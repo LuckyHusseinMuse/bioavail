@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Card, IconBadge, PageTitle, Segmented, SelectChips } from "@/components/ui/primitives";
+import { useAuth } from "@/lib/auth";
 import { refIron } from "@/lib/profile";
 import { useStore, type Profile } from "@/lib/store";
 
@@ -28,6 +29,13 @@ export default function YouPage() {
   const prefs = useStore((s) => s.prefs);
   const resetDemo = useStore((s) => s.resetDemo);
   const clearAll = useStore((s) => s.clearAll);
+  const signOutReset = useStore((s) => s.signOutReset);
+  const auth = useAuth();
+  const [busy, setBusy] = useState<string | null>(null);
+  const run = (label: string, fn: () => Promise<void>, ok: string) => async () => {
+    setBusy(label);
+    try { await fn(); toast.success(ok); } catch (e) { toast.error(`${label} failed: ${e instanceof Error ? e.message : e}`); } finally { setBusy(null); }
+  };
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -65,9 +73,9 @@ export default function YouPage() {
 
       <Card className="divide-y divide-border overflow-hidden">
         <LinkRow href="/screens" icon={<IconBadge tone="green"><LayoutGrid className="h-5 w-5" /></IconBadge>} title="Prototype map" sub="Jump to any of the 17 screens" />
-        <button onClick={() => { resetDemo(); toast.success("Demo data restored"); }} className="flex min-h-14 w-full items-center gap-3 px-4 text-left font-semibold hover:bg-surface-2"><RotateCcw className="h-5 w-5 text-muted" />Reset demo data</button>
-        <button onClick={() => { clearAll(); toast("All meals and alerts cleared", { description: "See the empty states in History and Notifications." }); }} className="flex min-h-14 w-full items-center gap-3 px-4 text-left font-semibold hover:bg-surface-2"><Trash2 className="h-5 w-5 text-muted" />Clear all data</button>
-        <button onClick={() => router.push("/")} className="flex min-h-14 w-full items-center gap-3 px-4 text-left font-semibold text-inhibitor hover:bg-surface-2"><LogOut className="h-5 w-5" />Sign out</button>
+        <button disabled={!!busy} onClick={run("Loading the demo week", resetDemo, "Demo week loaded")} className="flex min-h-14 w-full items-center gap-3 px-4 text-left font-semibold hover:bg-surface-2 disabled:opacity-50"><RotateCcw className="h-5 w-5 text-muted" />{busy === "Loading the demo week" ? "Loading…" : "Load demo week"}</button>
+        <button disabled={!!busy} onClick={run("Clearing", clearAll, "All meals and alerts cleared")} className="flex min-h-14 w-full items-center gap-3 px-4 text-left font-semibold hover:bg-surface-2 disabled:opacity-50"><Trash2 className="h-5 w-5 text-muted" />{busy === "Clearing" ? "Clearing…" : "Clear all data"}</button>
+        <button onClick={() => { signOutReset(); auth.logout(); }} className="flex min-h-14 w-full items-center gap-3 px-4 text-left font-semibold text-inhibitor hover:bg-surface-2"><LogOut className="h-5 w-5" />Sign out</button>
       </Card>
       <p className="text-center text-[11px] text-faint">Avail supports healthier eating. It does not diagnose or treat iron deficiency.</p>
     </div>

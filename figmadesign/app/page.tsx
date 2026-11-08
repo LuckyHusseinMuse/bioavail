@@ -1,7 +1,10 @@
 "use client";
 // SCREEN 1: Landing (no nav)
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/primitives";
+import { useAuth } from "@/lib/auth";
 
 type N = { x: number; y: number; r: number; label: string; kind: "iron" | "good" | "bad" | "neutral" };
 const NODES: N[] = [
@@ -55,6 +58,9 @@ function Network() {
 }
 
 export default function Landing() {
+  const auth = useAuth();
+  const router = useRouter();
+  useEffect(() => { if (auth.ready && auth.signedIn) router.replace("/home"); }, [auth.ready, auth.signedIn, router]);
   return (
     <div className="flex min-h-full flex-col">
       <Network />
@@ -66,8 +72,9 @@ export default function Landing() {
           Black tea can cut non-haem iron absorption by 79 to 94%. Avail shows you why, and what to change.
         </p>
         <div className="mt-auto space-y-2 pt-7">
-          <Button href="/home" size="lg" className="w-full">Try a demo meal <span aria-hidden>→</span></Button>
-          <Button href="/home" variant="ghost" className="w-full">Sign in</Button>
+          <Button onClick={auth.login} size="lg" className="w-full">Get started <span aria-hidden>→</span></Button>
+          <Button onClick={auth.login} variant="ghost" className="w-full">Sign in</Button>
+          {auth.error && <p className="text-center text-sm text-inhibitor">{auth.error}</p>}
           <p className="pt-2 text-center text-[11px] text-faint">Not medical advice. Based on published human studies.</p>
         </div>
       </motion.section>

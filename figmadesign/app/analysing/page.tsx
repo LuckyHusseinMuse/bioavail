@@ -1,23 +1,42 @@
 "use client";
-// SCREEN 4: Analysing. Animated steps, then on to Confirm.
+// SCREEN 4: Analysing. Sends the photo or description to the intake agent (Gemini identifies, re-checks,
+// matches to the food table); the steps animate while it works, then on to Confirm.
 import { Check, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { runIntake } from "@/lib/logic";
 import { useStore } from "@/lib/store";
 
 const STEPS = ["Identifying foods", "Matching to the food table", "Checking portions"];
+const MIN_MS = 2400;
 
 export default function Analysing() {
   const router = useRouter();
-  const photo = useStore((s) => s.draft?.photo);
+  const draft = useStore((s) => s.draft);
+  const patch = useStore((s) => s.patchDraft);
+  const photo = draft?.photo;
   const [done, setDone] = useState(0);
+  const started = useRef(false);
 
   useEffect(() => {
-    const ts = STEPS.map((_, i) => setTimeout(() => setDone(i + 1), 900 * (i + 1)));
-    const go = setTimeout(() => router.replace("/confirm"), 900 * STEPS.length + 500);
-    return () => { ts.forEach(clearTimeout); clearTimeout(go); };
-  }, [router]);
+    if (started.current) return;
+    started.current = true;
+    if (!draft) { router.replace("/add"); return; }
+    const ts = STEPS.slice(0, -1).map((_, i) => setTimeout(() => setDone((d) => Math.max(d, i + 1)), 900 * (i + 1)));
+    const t0 = Date.now();
+    runIntake({ photo: draft.photo, text: draft.text })
+      .then((out) => {
+        const found = draft.dropDrinks ? out.items.filter((i) => !i.is_drink) : out.items;
+        patch({ items: [...found, ...(draft.extraDrinks ?? [])], question: out.question, changes: out.changes, error: false });
+      })
+      .catch((e) => patch({ items: [], error: true, errorMessage: e instanceof Error ? e.message : String(e) }))
+      .finally(() => {
+        setDone(STEPS.length);
+        setTimeout(() => router.replace("/confirm"), Math.max(400, MIN_MS - (Date.now() - t0)));
+      });
+    return () => ts.forEach(clearTimeout);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="flex min-h-[70dvh] flex-col items-center justify-center text-center sm:min-h-[640px]">
@@ -31,7 +50,7 @@ export default function Analysing() {
         </div>
       </div>
       <h1 className="mt-8 text-2xl font-extrabold tracking-tight">Analysing your meal</h1>
-      <p className="mt-1 text-sm text-muted">This takes a few seconds</p>
+      <p className="mt-1 text-sm text-muted">Identifying foods, then checking the answer a second time</p>
       <ul className="mt-8 w-full max-w-[280px] space-y-3 text-left">
         {STEPS.map((s, i) => {
           const state = i < done ? "done" : i === done ? "active" : "todo";

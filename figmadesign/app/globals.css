@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* dark: = .dark on <html> (next-themes, class strategy) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Avail tokens. Light = the Figma design. Dark = charcoal surfaces in the style of the
+   reference screenshot, keeping Avail's own green / red / amber (lifted for contrast). ---------- */
+:root {
+  color-scheme: light;
+  --page: #e9e5df;          /* behind the phone frame */
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-2: #f3efe8;
+  --surface-3: #ebe6de;
+  --border: #eee9e2;
+  --text: #1b2420;
+  --muted: #5f6b66;
+  --faint: #8a938e;
+  --primary: #1f6f54;
+  --primary-strong: #185e46;
+  --primary-ink: #ffffff;
+  --enhancer: #2e9e6b;
+  --inhibitor: #c93c3c;
+  --amber: #e0a030;
+  --blue: #3b7dd8;
+  --purple: #7a5ac8;
+  --iron: #243b33;          /* dark "Iron" nodes */
+  --iron-ink: #ffffff;
+  --grid: #ece7df;
+  --shadow: 0 8px 24px rgb(43 52 48 / 6%);
+  --nav: rgb(255 255 255 / 96%);
+}
+.dark {
+  color-scheme: dark;
+  --page: #0b0c0f;
+  --bg: #16181d;
+  --surface: #20232a;
+  --surface-2: #282c34;
+  --surface-3: #31353e;
+  --border: #2d3139;
+  --text: #f1f3f4;
+  --muted: #a3abb4;
+  --faint: #7d858f;
+  --primary: #2fae7c;
+  --primary-strong: #279a6d;
+  --primary-ink: #0d1a14;
+  --enhancer: #3cc483;
+  --inhibitor: #ef5d5d;
+  --amber: #f2b441;
+  --blue: #5aa5f5;
+  --purple: #ad91fb;
+  --iron: #e6efe9;
+  --iron-ink: #16181d;
+  --grid: #2a2e35;
+  --shadow: 0 8px 24px rgb(0 0 0 / 30%);
+  --nav: rgb(28 31 37 / 96%);
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-page: var(--page);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-ink: var(--primary-ink);
+  --color-enhancer: var(--enhancer);
+  --color-inhibitor: var(--inhibitor);
+  --color-amber: var(--amber);
+  --color-blue: var(--blue);
+  --color-purple: var(--purple);
+  --color-iron: var(--iron);
+  --color-iron-ink: var(--iron-ink);
+  --color-grid: var(--grid);
+  --shadow-card: var(--shadow);
+}
+
+@layer base {
+  html, body { background: var(--page); color: var(--text); }
+  body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid color-mix(in oklab, var(--enhancer) 35%, transparent); outline-offset: 2px; }
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+.react-flow__attribution { display: none; }
+.react-flow__pane { cursor: default !important; }
+
+/* Landing-graph background grid */
+.grid-paper {
+  background:
+    radial-gradient(circle at 48% 30%, color-mix(in oklab, var(--bg) 85%, transparent), transparent 42%),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: auto, 32px 32px, 32px 32px;
+}
+
+/* Sticky primary action above the bottom nav: solid fade behind it so content never shows through. */
+.sticky-cta {
+  position: sticky;
+  bottom: 84px;
+  z-index: 10;
+  margin-inline: -20px;
+  padding: 18px 20px 14px;
+  background: linear-gradient(to top, var(--bg) 72%, transparent);
+}

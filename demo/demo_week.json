@@ -1,0 +1,486 @@
+{
+ "user": "demo",
+ "meals": [
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-14T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-14T12:30:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_EGG",
+     "name": "Egg, boiled",
+     "grams": 100
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_ORANGE_JUICE",
+     "name": "Orange juice",
+     "grams": 200,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-14T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  },
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-15T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-15T12:30:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_EGG",
+     "name": "Egg, boiled",
+     "grams": 100
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_ORANGE_JUICE",
+     "name": "Orange juice",
+     "grams": 200,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-15T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  },
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-16T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-16T13:00:00",
+   "source": "photo",
+   "items": [
+    {
+     "food_code": "MOCK_LENTIL_CURRY",
+     "name": "Red lentil curry (dal)",
+     "grams": 250
+    },
+    {
+     "food_code": "MOCK_BASMATI",
+     "name": "Basmati rice, boiled",
+     "grams": 180
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_BLACK_TEA",
+     "name": "Black tea",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-16T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  },
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-17T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-17T13:00:00",
+   "source": "photo",
+   "items": [
+    {
+     "food_code": "MOCK_LENTIL_CURRY",
+     "name": "Red lentil curry (dal)",
+     "grams": 250
+    },
+    {
+     "food_code": "MOCK_BASMATI",
+     "name": "Basmati rice, boiled",
+     "grams": 180
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_BLACK_TEA",
+     "name": "Black tea",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-17T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  },
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-18T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-18T13:00:00",
+   "source": "photo",
+   "items": [
+    {
+     "food_code": "MOCK_LENTIL_CURRY",
+     "name": "Red lentil curry (dal)",
+     "grams": 250
+    },
+    {
+     "food_code": "MOCK_BASMATI",
+     "name": "Basmati rice, boiled",
+     "grams": 180
+    },
+    {
+     "food_code": "MOCK_RED_PEPPER",
+     "name": "Red pepper, raw",
+     "grams": 80
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_BLACK_TEA",
+     "name": "Black tea",
+     "grams": 250,
+     "offset_min": 120
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-18T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  },
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-19T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-19T13:00:00",
+   "source": "photo",
+   "items": [
+    {
+     "food_code": "MOCK_LENTIL_CURRY",
+     "name": "Red lentil curry (dal)",
+     "grams": 250
+    },
+    {
+     "food_code": "MOCK_BASMATI",
+     "name": "Basmati rice, boiled",
+     "grams": 180
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_BLACK_TEA",
+     "name": "Black tea",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-19T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  },
+  {
+   "label": "Breakfast",
+   "eaten_at": "2026-11-20T08:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_PORRIDGE",
+     "name": "Porridge made with water",
+     "grams": 250
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_COFFEE",
+     "name": "Coffee, filter",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Lunch",
+   "eaten_at": "2026-11-20T13:00:00",
+   "source": "photo",
+   "items": [
+    {
+     "food_code": "MOCK_LENTIL_CURRY",
+     "name": "Red lentil curry (dal)",
+     "grams": 250
+    },
+    {
+     "food_code": "MOCK_BASMATI",
+     "name": "Basmati rice, boiled",
+     "grams": 180
+    }
+   ],
+   "drinks": [
+    {
+     "food_code": "MOCK_BLACK_TEA",
+     "name": "Black tea",
+     "grams": 250,
+     "offset_min": 0
+    }
+   ]
+  },
+  {
+   "label": "Dinner",
+   "eaten_at": "2026-11-20T19:00:00",
+   "source": "manual",
+   "items": [
+    {
+     "food_code": "MOCK_KIDNEY_BEANS",
+     "name": "Kidney beans, boiled",
+     "grams": 120
+    },
+    {
+     "food_code": "MOCK_WHOLEMEAL_BREAD",
+     "name": "Wholemeal bread",
+     "grams": 72
+    },
+    {
+     "food_code": "MOCK_BROCCOLI",
+     "name": "Broccoli, boiled",
+     "grams": 80
+    }
+   ],
+   "drinks": []
+  }
+ ]
+}

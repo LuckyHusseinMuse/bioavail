@@ -1,0 +1,37 @@
+{
+  "_note": "The 4 demo meals. Photograph each on a plain table in daylight, drinks IN the frame, and save as demo/photos/<id>.jpg. Expected results are from the MOCK engine; re-check against Person A's engine at hour 12.",
+  "meals": [
+    {
+      "id": "hero_curry_tea",
+      "role": "Demo steps 1-5: the hook. Conflict, interaction map, waterfall, fix, chat",
+      "photo": "photos/hero_curry_tea.jpg",
+      "items": [["MOCK_LENTIL_CURRY", 250], ["MOCK_BASMATI", 180]],
+      "drinks": [["MOCK_BLACK_TEA", 250, 0]],
+      "expect": "6+ mg eaten, ~0.4% absorbed; tea edge glows; fix #1 = tea an hour later; clarifying question 'black or herbal?'"
+    },
+    {
+      "id": "fixed_curry",
+      "role": "Backup for step 4 if the fix agent is slow: the same meal, already fixed",
+      "photo": "photos/fixed_curry.jpg",
+      "items": [["MOCK_LENTIL_CURRY", 250], ["MOCK_BASMATI", 180], ["MOCK_RED_PEPPER", 80]],
+      "drinks": [["MOCK_BLACK_TEA", 250, 60]],
+      "expect": "Vitamin C edge glows, tea edge faded, absorbed several times higher"
+    },
+    {
+      "id": "porridge_coffee",
+      "role": "Chat question 'What can I add to porridge?'",
+      "photo": "photos/porridge_coffee.jpg",
+      "items": [["MOCK_PORRIDGE", 250]],
+      "drinks": [["MOCK_COFFEE", 250, 0]],
+      "expect": "Coffee conflict; fix adds strawberries/kiwi"
+    },
+    {
+      "id": "chilli_cheese_milk",
+      "role": "Shows calcium + haem iron (meat eater path)",
+      "photo": "photos/chilli_cheese_milk.jpg",
+      "items": [["MOCK_BEEF_MINCE", 120], ["MOCK_KIDNEY_BEANS", 120], ["MOCK_CHEDDAR", 40]],
+      "drinks": [["MOCK_MILK", 200, 0]],
+      "expect": "Haem iron node lights up; calcium conflict; fix swaps milk for water"
+    }
+  ]
+}

@@ -1,0 +1,407 @@
+{
+  "explanation": {
+    "headline": "You ate 6.85 mg of iron but absorbed about 0.016 mg, mainly because of the black tea.",
+    "points": [
+      {
+        "text": "Black tea polyphenols cut non-haem iron absorption by about 87%.",
+        "evidence_ids": [
+          "EVID_LINK_IRON_005"
+        ]
+      },
+      {
+        "text": "Phytate in the lentils and rice also lowers absorption.",
+        "evidence_ids": [
+          "ABS_MOD_IRON_006"
+        ]
+      }
+    ],
+    "tip": "Have your tea at least an hour after eating."
+  },
+  "unsupported_numbers": [],
+  "source": "gemini",
+  "score": {
+    "iron_mg": 6.85,
+    "haem_mg": 0.0,
+    "nonhaem_mg": 6.85,
+    "absorbed_mg": 0.016,
+    "haem_absorbed_mg": 0.0,
+    "nonhaem_absorbed_mg": 0.016,
+    "fractional_pct": 0.2,
+    "range_pct": [
+      0.2,
+      0.4
+    ],
+    "range_absorbed_mg": [
+      0.012,
+      0.025
+    ],
+    "base_pct": 3.0,
+    "nonhaem_pct": 0.23,
+    "haem_pct": 25.0,
+    "floor_applied": false,
+    "potential_absorbed_mg": 0.394,
+    "share_of_potential_pct": 4.0,
+    "contributions": [
+      {
+        "step": "reference",
+        "factor": "monsen_reference",
+        "value_pct": 3.0,
+        "sources": [
+          "ABS_BASE_IRON_006"
+        ]
+      },
+      {
+        "step": "inhibitor",
+        "factor": "polyphenols",
+        "multiplier": 0.135,
+        "change_pct": -86.5,
+        "sources": [
+          "ABS_MOD_IRON_004"
+        ],
+        "detail": {
+          "modifier": "Black_Tea"
+        }
+      },
+      {
+        "step": "inhibitor",
+        "factor": "phytate",
+        "multiplier": 0.7962,
+        "change_pct": -20.4,
+        "sources": [
+          "ABS_MOD_IRON_005",
+          "ABS_MOD_IRON_006",
+          "ABS_MOD_IRON_007",
+          "ABS_MOD_IRON_008",
+          "ASSUME_002",
+          "ASSUME_005",
+          "ASSUME_013"
+        ],
+        "detail": {
+          "phytate_p_mg": 95.8,
+          "raw_change_pct": -74.5,
+          "vitamin_c_offset_share": 0.73,
+          "vitamin_c_used_mg": 36.0
+        }
+      },
+      {
+        "step": "inhibitor",
+        "factor": "calcium",
+        "multiplier": 0.706,
+        "change_pct": -29.4,
+        "sources": [
+          "ABS_MOD_IRON_009",
+          "ASSUME_006"
+        ],
+        "detail": {
+          "calcium_mg": 88
+        }
+      }
+    ],
+    "conflicts": [
+      {
+        "rule_id": "RULE_IRON_002",
+        "conflict_group": "IRON_POLYPHENOL_BEVERAGE",
+        "message": "Black tea with this meal can cut the non-haem iron you absorb by about 86%. Having it at least an hour after eating reduces this effect.",
+        "reduction_pct": 86.5,
+        "priority": 1,
+        "recommendation_action": "Recommend_Alternate_Timing",
+        "evidence_id": "EVID_LINK_IRON_005",
+        "food_code": "17-165",
+        "verified": false
+      }
+    ],
+    "data_gaps": [],
+    "totals": {
+      "mfp_g": 0.0,
+      "vitamin_c_mg": 36.0,
+      "calcium_mg": 88.2,
+      "phytate_p_mg": 95.8,
+      "enhancer_units": 0.0,
+      "vitamin_c_used_on_phytate_mg": 36.0
+    },
+    "items": [
+      {
+        "food_code": "15-761",
+        "name": "Red lentil curry (dahl with vegetables)",
+        "grams": 300.0,
+        "offset_min": 0,
+        "in_window": true
+      },
+      {
+        "food_code": "11-862",
+        "name": "White rice, boiled",
+        "grams": 180.0,
+        "offset_min": 0,
+        "in_window": true
+      },
+      {
+        "food_code": "17-165",
+        "name": "Tea, black",
+        "grams": 260.0,
+        "offset_min": 0.0,
+        "in_window": true
+      }
+    ],
+    "engine_version": "0.2",
+    "unverified_sources": [
+      "ABS_BASE_IRON_006",
+      "ABS_MOD_IRON_004",
+      "ABS_MOD_IRON_005",
+      "ABS_MOD_IRON_006",
+      "ABS_MOD_IRON_007",
+      "ABS_MOD_IRON_008",
+      "ABS_MOD_IRON_009",
+      "RULE_IRON_002"
+    ]
+  },
+  "evidence": {
+    "ABS_BASE_IRON_006": {
+      "kind": "baseline",
+      "summary": "Monsen and Balintfy (1982): available non-haem iron % = 3 + 8.93 x ln((EF + 100) / 100) for EF < 75, and 8% for EF >= 75, where EF = g meat/fish/poultry + mg ascorbic acid in the meal. Continuous refinement of the 3/5/8% categories of Monsen et al. (1978).",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "Used as the per-meal non-haem base before inhibitor modifiers.",
+          "value": "3.0 to 8.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_012",
+            "authors": "Monsen ER, Balintfy JL",
+            "year": "1982",
+            "title": "Calculating dietary iron bioavailability: refinement and computerization",
+            "journal": "Journal of the American Dietetic Association",
+            "doi_or_url": ""
+          }
+        },
+        {
+          "role": "Supporting",
+          "notes": "Unit tests check the continuous form matches 3% at 0 and 8% at 75 enhancer units.",
+          "value": "3.0 to 8.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_011",
+            "authors": "Monsen ER, Hallberg L, Layrisse M, et al.",
+            "year": "1978",
+            "title": "Estimation of available dietary iron",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://doi.org/10.1093/ajcn/31.1.134"
+          }
+        }
+      ]
+    },
+    "ABS_MOD_IRON_004": {
+      "kind": "modifier",
+      "summary": "Black tea reduced non-haem iron absorption by 79-94% versus water across servings tested.",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "Black tea 79-94% reduction (abstract). Per-serving polyphenol values to extract from Table 1.",
+          "value": "-94.0 to -79.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_013",
+            "authors": "Hurrell RF, Reddy M, Cook JD",
+            "year": "1999",
+            "title": "Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages",
+            "journal": "British Journal of Nutrition",
+            "doi_or_url": "https://doi.org/10.1017/S0007114599000537"
+          }
+        }
+      ]
+    },
+    "ABS_MOD_IRON_005": {
+      "kind": "modifier",
+      "summary": "2 mg phytate phosphorus reduced non-haem iron absorption by 18%.",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "2 mg phytate P: 18% inhibition (abstract).",
+          "value": "-18.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_015",
+            "authors": "Hallberg L, Brune M, Rossander L",
+            "year": "1989",
+            "title": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://doi.org/10.1093/ajcn/49.1.140"
+          }
+        }
+      ]
+    },
+    "ABS_MOD_IRON_006": {
+      "kind": "modifier",
+      "summary": "25 mg phytate phosphorus reduced non-haem iron absorption by 64%.",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "25 mg phytate P: 64% inhibition (abstract).",
+          "value": "-64.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_015",
+            "authors": "Hallberg L, Brune M, Rossander L",
+            "year": "1989",
+            "title": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://doi.org/10.1093/ajcn/49.1.140"
+          }
+        }
+      ]
+    },
+    "ABS_MOD_IRON_007": {
+      "kind": "modifier",
+      "summary": "250 mg phytate phosphorus reduced non-haem iron absorption by 82%.",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "250 mg phytate P: 82% inhibition (abstract).",
+          "value": "-82.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_015",
+            "authors": "Hallberg L, Brune M, Rossander L",
+            "year": "1989",
+            "title": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://doi.org/10.1093/ajcn/49.1.140"
+          }
+        }
+      ]
+    },
+    "ABS_MOD_IRON_008": {
+      "kind": "modifier",
+      "summary": "30 mg ascorbic acid overcame the inhibition from maize bran containing 10-58 mg phytate P.",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "Inhibition from 10-58 mg phytate P overcome by 30 mg ascorbic acid (abstract). Linear scaling is ASSUME_005.",
+          "value": "100.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_022",
+            "authors": "Siegenberg D, Baynes RD, Bothwell TH, et al.",
+            "year": "1991",
+            "title": "Ascorbic acid prevents the dose-dependent inhibitory effects of polyphenols and phytates on nonheme-iron absorption",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://pubmed.ncbi.nlm.nih.gov/1989423/"
+          }
+        },
+        {
+          "role": "Supporting",
+          "notes": "Ascorbic acid significantly counteracted phytate inhibition (abstract).",
+          "value": null,
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_015",
+            "authors": "Hallberg L, Brune M, Rossander L",
+            "year": "1989",
+            "title": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://doi.org/10.1093/ajcn/49.1.140"
+          }
+        }
+      ]
+    },
+    "ABS_MOD_IRON_009": {
+      "kind": "modifier",
+      "summary": "165 mg calcium (milk, cheese or calcium chloride) reduced non-haem iron absorption by 50-60%.",
+      "verified": false,
+      "evidence": [
+        {
+          "role": "Primary_Support",
+          "notes": "165 mg calcium: 50-60% inhibition of non-haem iron (abstract).",
+          "value": "-60.0 to -50.0",
+          "unit": "%",
+          "paper": {
+            "paper_id": "IRON_016",
+            "authors": "Hallberg L, Brune M, Erlandsson M, Sandberg AS, Rossander-Hult\u00e9n L",
+            "year": "1991",
+            "title": "Calcium: effect of different amounts on nonheme- and heme-iron absorption in humans",
+            "journal": "American Journal of Clinical Nutrition",
+            "doi_or_url": "https://doi.org/10.1093/ajcn/53.1.112"
+          }
+        }
+      ]
+    },
+    "ASSUME_002": {
+      "kind": "assumption",
+      "description": "Phytate phosphorus = 28.2% of phytic acid mass.",
+      "rationale": "Stoichiometry: 6 P atoms (6 x 30.97) in phytic acid (660.04 g/mol). Converts PhyFoodComp phytate mg to the phytate P doses used by Hallberg 1989.",
+      "papers": [
+        {
+          "paper_id": "IRON_015",
+          "authors": "Hallberg L, Brune M, Rossander L",
+          "year": "1989",
+          "title": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate",
+          "journal": "American Journal of Clinical Nutrition",
+          "doi_or_url": "https://doi.org/10.1093/ajcn/49.1.140"
+        }
+      ]
+    },
+    "ASSUME_005": {
+      "kind": "assumption",
+      "description": "Proportion of phytate inhibition removed = min(1, vitamin C mg / (30 x max(1, phytate P mg / 58))).",
+      "rationale": "Siegenberg 1991: 30 mg ascorbic acid overcame inhibition from up to 58 mg phytate P. Linear scaling outside that is an assumption.",
+      "papers": [
+        {
+          "paper_id": "IRON_022",
+          "authors": "Siegenberg D, Baynes RD, Bothwell TH, et al.",
+          "year": "1991",
+          "title": "Ascorbic acid prevents the dose-dependent inhibitory effects of polyphenols and phytates on nonheme-iron absorption",
+          "journal": "American Journal of Clinical Nutrition",
+          "doi_or_url": "https://pubmed.ncbi.nlm.nih.gov/1989423/"
+        }
+      ]
+    },
+    "ASSUME_006": {
+      "kind": "assumption",
+      "description": "Calcium effect rises linearly from 0% at 0 mg to the 165 mg range; 165-600 mg uses the 50-60% range; held above 600 mg.",
+      "rationale": "Hallberg 1991 reports dose-related inhibition from 40 mg; the abstract gives figures only at 165 mg and 300-600 mg.",
+      "papers": [
+        {
+          "paper_id": "IRON_016",
+          "authors": "Hallberg L, Brune M, Erlandsson M, Sandberg AS, Rossander-Hult\u00e9n L",
+          "year": "1991",
+          "title": "Calcium: effect of different amounts on nonheme- and heme-iron absorption in humans",
+          "journal": "American Journal of Clinical Nutrition",
+          "doi_or_url": "https://doi.org/10.1093/ajcn/53.1.112"
+        }
+      ]
+    },
+    "ASSUME_013": {
+      "kind": "assumption",
+      "description": "Vitamin C used to counteract phytate (up to 30 mg per 58 mg phytate P) does not also count as a Monsen enhancer.",
+      "rationale": "Siegenberg 1991: 30 mg ascorbic acid with phytate gave the same absorption as the plain meal, not more. Avoids counting vitamin C twice.",
+      "papers": [
+        {
+          "paper_id": "IRON_022",
+          "authors": "Siegenberg D, Baynes RD, Bothwell TH, et al.",
+          "year": "1991",
+          "title": "Ascorbic acid prevents the dose-dependent inhibitory effects of polyphenols and phytates on nonheme-iron absorption",
+          "journal": "American Journal of Clinical Nutrition",
+          "doi_or_url": "https://pubmed.ncbi.nlm.nih.gov/1989423/"
+        }
+      ]
+    },
+    "EVID_LINK_IRON_005": {
+      "kind": "evidence_link",
+      "summary": "Supports flagging black tea with a meal as a conflict.",
+      "paper": {
+        "paper_id": "IRON_013",
+        "authors": "Hurrell RF, Reddy M, Cook JD",
+        "year": "1999",
+        "title": "Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages",
+        "journal": "British Journal of Nutrition",
+        "doi_or_url": "https://doi.org/10.1017/S0007114599000537"
+      }
+    }
+  },
+  "run_id": "e7682f87-23c2-445d-b45b-56f4c92dc62e"
+}

@@ -1,0 +1,20 @@
+validation_id,paper_id,split,measure,comparison,meal_description,base_iron_mg,base_vitamin_c_mg,base_mfp_g,base_calcium_mg,base_phytate_p_mg,add_drink_code,add_drink_offset_min,add_phytate_p_mg,add_calcium_mg,add_vitamin_c_mg,measured_value,measured_lower,measured_upper,measured_sd,measurement_type,n_subjects,population,notes
+VAL_IRON_001,IRON_014,held_out,absolute_pct,water control,"Porridge meal, 4 mg 57Fe as FeSO4",,,0,,,17-377,0,,,,5.7,,,8.5,Stable_Isotope,12,Healthy premenopausal UK women,Native meal iron and composition to extract from full text.
+VAL_IRON_002,IRON_014,held_out,absolute_pct,tea with meal,"Porridge meal, 4 mg 57Fe as FeSO4",,,0,,,17-165,0,,,,3.6,,,4.2,Stable_Isotope,12,Healthy premenopausal UK women,
+VAL_IRON_003,IRON_014,held_out,absolute_pct,tea 1 h after,"Porridge meal, 4 mg 57Fe as FeSO4",,,0,,,17-165,60,,,,5.7,,,5.4,Stable_Isotope,12,Healthy premenopausal UK women,
+VAL_IRON_004,IRON_014,held_out,relative_change_pct,tea with meal vs water,"Porridge meal",,,0,,,17-165,0,,,,-37.2,,,,Stable_Isotope,12,Healthy premenopausal UK women,
+VAL_IRON_005,IRON_014,held_out,relative_change_pct,tea 1 h after vs water,"Porridge meal",,,0,,,17-165,60,,,,-18.1,,,,Stable_Isotope,12,Healthy premenopausal UK women,Engine treats 60 min as inside the window edge; expect a known miss.
+VAL_IRON_006,IRON_023,held_out,relative_change_pct,coffee with meal vs water,"Hamburger meal",,,90,,,17-833,0,,,,-39,,,,Radioisotope,,Adults,Meat content of meal to extract; 90 g is a placeholder for a meat meal.
+VAL_IRON_007,IRON_023,held_out,relative_change_pct,tea with meal vs water,"Hamburger meal",,,90,,,17-165,0,,,,-64,,,,Radioisotope,,Adults,
+VAL_IRON_008,IRON_023,held_out,relative_change_pct,drip coffee with meal vs water,"Semipurified meal",,,0,,,17-833,0,,,,-72.1,,,,Radioisotope,,Adults,Absorption 5.88% to 1.64%.
+VAL_IRON_009,IRON_023,held_out,relative_change_pct,instant coffee with meal vs water,"Semipurified meal",,,0,,,17-159,0,,,,-83.5,,,,Radioisotope,,Adults,Absorption 5.88% to 0.97%.
+VAL_IRON_010,IRON_023,held_out,relative_change_pct,coffee 1 h before meal vs water,"Semipurified or hamburger meal",,,0,,,17-833,-60,,,,0,,,,Radioisotope,,Adults,No decrease reported.
+VAL_IRON_011,IRON_013,calibration,relative_change_pct,black tea vs water,"Bread meal",,,0,,,17-165,0,,,,-86.5,-94,-79,,Radioisotope,,Adults,
+VAL_IRON_012,IRON_013,calibration,relative_change_pct,cocoa vs water,"Bread meal",,,0,,,12-563,0,,,,-71,,,,Radioisotope,,Adults,
+VAL_IRON_013,IRON_013,calibration,relative_change_pct,herbal tea vs water,"Bread meal",,,0,,,17-172,0,,,,-65.5,-84,-47,,Radioisotope,,Adults,Range camomile to peppermint.
+VAL_IRON_014,IRON_015,calibration,relative_change_pct,2 mg phytate P vs none,"Wheat rolls",,,0,,0,,,2,,,-18,,,,Radioisotope,,Adults,
+VAL_IRON_015,IRON_015,calibration,relative_change_pct,25 mg phytate P vs none,"Wheat rolls",,,0,,0,,,25,,,-64,,,,Radioisotope,,Adults,
+VAL_IRON_016,IRON_015,calibration,relative_change_pct,250 mg phytate P vs none,"Wheat rolls",,,0,,0,,,250,,,-82,,,,Radioisotope,,Adults,
+VAL_IRON_017,IRON_016,calibration,relative_change_pct,165 mg calcium vs none,"Wheat rolls",,,0,0,,,,,165,,-55,-60,-50,,Radioisotope,,Adults,
+VAL_IRON_018,IRON_016,calibration,relative_change_pct,300-600 mg calcium vs none,"Wheat rolls",,,0,0,,,,,450,,-55,-60,-50,,Radioisotope,,Adults,
+VAL_IRON_019,IRON_022,calibration,relative_change_pct,58 mg phytate P plus 30 mg vitamin C vs none,"Maize bran meal",,,0,,0,,,58,,30,0,,,,Radioisotope,,Adults,Inhibition overcome; approximate.

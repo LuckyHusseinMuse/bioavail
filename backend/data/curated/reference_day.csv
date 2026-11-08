@@ -1,0 +1,13 @@
+meal,food_code,grams,offset_min,note
+breakfast,11-773,38,0,Fortified wheat biscuits
+breakfast,12-313,150,0,Semi-skimmed milk on cereal
+breakfast,14-329,150,0,Orange juice with breakfast
+lunch,11-981,72,0,Two slices wholemeal bread
+lunch,16-416,80,0,Tuna
+lunch,13-517,80,0,Tomato
+lunch,14-319,110,0,Apple
+dinner,18-470,120,0,Beef mince
+dinner,11-450,180,0,Pasta
+dinner,13-530,100,0,Canned tomatoes
+dinner,13-503,80,0,Broccoli
+snack,17-169,260,120,Tea with milk two hours after lunch (outside the meal window)

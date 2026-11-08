@@ -1,0 +1,16 @@
+{
+  "alert_id": "c515886a-ecdc-4da3-8978-16cac1a0f7b5",
+  "user_id": "dev|mock-def6f918",
+  "created_at": "2026-11-08T09:17:06.768596+00:00",
+  "type": "timing",
+  "scheduled_for": "2026-11-08T14:00:00+00:00",
+  "sent_at": null,
+  "read_at": null,
+  "dismissed_at": null,
+  "message": "You can have your tea now without affecting lunch.",
+  "source_rule_id": null,
+  "meal_id": null,
+  "data": {
+    "dedupe": "timing:26a73112-15b0-41a8-85cb-7f5b47f5bc64"
+  }
+}

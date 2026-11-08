@@ -1,0 +1,99 @@
+{
+  "alerts": [
+    {
+      "alert_id": "6d746796-2f75-4c88-97af-82e004123c0b",
+      "user_id": "dev|mock-def6f918",
+      "created_at": "2026-11-08T09:17:06.554226+00:00",
+      "type": "conflict",
+      "scheduled_for": "2026-11-08T09:17:06.554226+00:00",
+      "sent_at": null,
+      "read_at": null,
+      "dismissed_at": null,
+      "message": "Black tea with this meal can cut the non-haem iron you absorb by about 86%. Having it at least an hour after eating reduces this effect. Try: have the black tea 60 minutes after eating.",
+      "source_rule_id": "RULE_IRON_002",
+      "meal_id": "ded5a96c-5b89-4445-bc20-642776c4932a",
+      "data": {
+        "fix": {
+          "kind": "retime",
+          "items": [
+            {
+              "grams": 300.0,
+              "food_code": "15-761",
+              "offset_min": 0
+            },
+            {
+              "grams": 180.0,
+              "food_code": "11-862",
+              "offset_min": 0
+            },
+            {
+              "grams": 260.0,
+              "food_code": "17-165",
+              "offset_min": 60.0
+            }
+          ],
+          "detail": {
+            "to_min": 60.0,
+            "from_min": 0.0
+          },
+          "food_code": "17-165",
+          "description": "Have the black tea 60 minutes after eating"
+        },
+        "dedupe": "conflict:ded5a96c-5b89-4445-bc20-642776c4932a",
+        "evidence_id": "EVID_LINK_IRON_005",
+        "fix_gain_mg": 0.1,
+        "reduction_pct": 86.5
+      }
+    },
+    {
+      "alert_id": "be34fea4-8a92-499d-a07e-bd3b1f23dbdf",
+      "user_id": "dev|mock-def6f918",
+      "created_at": "2026-11-08T09:17:06.472426+00:00",
+      "type": "conflict",
+      "scheduled_for": "2026-11-08T09:17:06.472426+00:00",
+      "sent_at": null,
+      "read_at": null,
+      "dismissed_at": null,
+      "message": "Coffee with or after this meal can cut the non-haem iron you absorb by about 75%. Waiting an hour afterwards does not help, but coffee an hour before the meal had no effect. Try: add raw red pepper (half a pepper).",
+      "source_rule_id": "RULE_IRON_006",
+      "meal_id": "95f383bd-fb0b-425f-8c5a-7452d4c852aa",
+      "data": {
+        "fix": {
+          "kind": "add",
+          "items": [
+            {
+              "grams": 40.0,
+              "food_code": "11-788",
+              "offset_min": 0
+            },
+            {
+              "grams": 200.0,
+              "food_code": "12-313",
+              "offset_min": 0
+            },
+            {
+              "grams": 190.0,
+              "food_code": "17-833",
+              "offset_min": 0
+            },
+            {
+              "grams": 80.0,
+              "food_code": "13-524",
+              "offset_min": 0
+            }
+          ],
+          "detail": {
+            "grams": 80.0
+          },
+          "food_code": "13-524",
+          "description": "Add raw red pepper (half a pepper)"
+        },
+        "dedupe": "conflict:95f383bd-fb0b-425f-8c5a-7452d4c852aa",
+        "evidence_id": "EVID_LINK_IRON_011",
+        "fix_gain_mg": 0.015,
+        "reduction_pct": 75.0
+      }
+    }
+  ],
+  "unread": 2
+}

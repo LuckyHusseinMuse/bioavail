@@ -1,0 +1,303 @@
+{
+  "description": "Predicted vs measured relative change in non-haem iron absorption (percentage points). Calibration rows were used to set the engine; only held-out rows are validation. Comparisons are against published group means.",
+  "summary": {
+    "held_out": {
+      "n": 7,
+      "mae_pp": 19.7,
+      "median_abs_error_pp": 18.1,
+      "max_abs_error_pp": 49.3,
+      "worst": "VAL_IRON_004"
+    },
+    "calibration": {
+      "n": 9,
+      "mae_pp": 1.7,
+      "median_abs_error_pp": 0.0,
+      "max_abs_error_pp": 15.0,
+      "worst": "VAL_IRON_012"
+    }
+  },
+  "rows": [
+    {
+      "validation_id": "VAL_IRON_004",
+      "paper_id": "IRON_014",
+      "split": "held_out",
+      "comparison": "tea with meal vs water",
+      "meal": "Porridge meal",
+      "measured_change_pct": -37.2,
+      "measured_range": null,
+      "predicted_change_pct": -86.5,
+      "error_pp": -49.3,
+      "within_measured_range": null,
+      "paper": "A 1-h time interval between a meal containing iron and consumption of tea attenuates the inhibitory effects on iron absorption: a controlled trial in a cohort of healthy UK women using a stable iron isotope"
+    },
+    {
+      "validation_id": "VAL_IRON_005",
+      "paper_id": "IRON_014",
+      "split": "held_out",
+      "comparison": "tea 1 h after vs water",
+      "meal": "Porridge meal",
+      "measured_change_pct": -18.1,
+      "measured_range": null,
+      "predicted_change_pct": 0.0,
+      "error_pp": 18.1,
+      "within_measured_range": null,
+      "paper": "A 1-h time interval between a meal containing iron and consumption of tea attenuates the inhibitory effects on iron absorption: a controlled trial in a cohort of healthy UK women using a stable iron isotope"
+    },
+    {
+      "validation_id": "VAL_IRON_006",
+      "paper_id": "IRON_023",
+      "split": "held_out",
+      "comparison": "coffee with meal vs water",
+      "meal": "Hamburger meal",
+      "measured_change_pct": -39.0,
+      "measured_range": null,
+      "predicted_change_pct": -75.5,
+      "error_pp": -36.5,
+      "within_measured_range": null,
+      "paper": "Inhibition of food iron absorption by coffee"
+    },
+    {
+      "validation_id": "VAL_IRON_007",
+      "paper_id": "IRON_023",
+      "split": "held_out",
+      "comparison": "tea with meal vs water",
+      "meal": "Hamburger meal",
+      "measured_change_pct": -64.0,
+      "measured_range": null,
+      "predicted_change_pct": -86.5,
+      "error_pp": -22.5,
+      "within_measured_range": null,
+      "paper": "Inhibition of food iron absorption by coffee"
+    },
+    {
+      "validation_id": "VAL_IRON_008",
+      "paper_id": "IRON_023",
+      "split": "held_out",
+      "comparison": "drip coffee with meal vs water",
+      "meal": "Semipurified meal",
+      "measured_change_pct": -72.1,
+      "measured_range": null,
+      "predicted_change_pct": -75.5,
+      "error_pp": -3.4,
+      "within_measured_range": null,
+      "paper": "Inhibition of food iron absorption by coffee"
+    },
+    {
+      "validation_id": "VAL_IRON_009",
+      "paper_id": "IRON_023",
+      "split": "held_out",
+      "comparison": "instant coffee with meal vs water",
+      "meal": "Semipurified meal",
+      "measured_change_pct": -83.5,
+      "measured_range": null,
+      "predicted_change_pct": -75.2,
+      "error_pp": 8.3,
+      "within_measured_range": null,
+      "paper": "Inhibition of food iron absorption by coffee"
+    },
+    {
+      "validation_id": "VAL_IRON_010",
+      "paper_id": "IRON_023",
+      "split": "held_out",
+      "comparison": "coffee 1 h before meal vs water",
+      "meal": "Semipurified or hamburger meal",
+      "measured_change_pct": 0.0,
+      "measured_range": null,
+      "predicted_change_pct": 0.0,
+      "error_pp": 0.0,
+      "within_measured_range": null,
+      "paper": "Inhibition of food iron absorption by coffee"
+    },
+    {
+      "validation_id": "VAL_IRON_011",
+      "paper_id": "IRON_013",
+      "split": "calibration",
+      "comparison": "black tea vs water",
+      "meal": "Bread meal",
+      "measured_change_pct": -86.5,
+      "measured_range": [
+        -94.0,
+        -79.0
+      ],
+      "predicted_change_pct": -86.5,
+      "error_pp": 0.0,
+      "within_measured_range": true,
+      "paper": "Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages"
+    },
+    {
+      "validation_id": "VAL_IRON_012",
+      "paper_id": "IRON_013",
+      "split": "calibration",
+      "comparison": "cocoa vs water",
+      "meal": "Bread meal",
+      "measured_change_pct": -71.0,
+      "measured_range": null,
+      "predicted_change_pct": -86.0,
+      "error_pp": -15.0,
+      "within_measured_range": null,
+      "paper": "Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages"
+    },
+    {
+      "validation_id": "VAL_IRON_013",
+      "paper_id": "IRON_013",
+      "split": "calibration",
+      "comparison": "herbal tea vs water",
+      "meal": "Bread meal",
+      "measured_change_pct": -65.5,
+      "measured_range": [
+        -84.0,
+        -47.0
+      ],
+      "predicted_change_pct": -66.1,
+      "error_pp": -0.6,
+      "within_measured_range": true,
+      "paper": "Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages"
+    },
+    {
+      "validation_id": "VAL_IRON_014",
+      "paper_id": "IRON_015",
+      "split": "calibration",
+      "comparison": "2 mg phytate P vs none",
+      "meal": "Wheat rolls",
+      "measured_change_pct": -18.0,
+      "measured_range": null,
+      "predicted_change_pct": -18.0,
+      "error_pp": -0.0,
+      "within_measured_range": null,
+      "paper": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate"
+    },
+    {
+      "validation_id": "VAL_IRON_015",
+      "paper_id": "IRON_015",
+      "split": "calibration",
+      "comparison": "25 mg phytate P vs none",
+      "meal": "Wheat rolls",
+      "measured_change_pct": -64.0,
+      "measured_range": null,
+      "predicted_change_pct": -64.0,
+      "error_pp": 0.0,
+      "within_measured_range": null,
+      "paper": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate"
+    },
+    {
+      "validation_id": "VAL_IRON_016",
+      "paper_id": "IRON_015",
+      "split": "calibration",
+      "comparison": "250 mg phytate P vs none",
+      "meal": "Wheat rolls",
+      "measured_change_pct": -82.0,
+      "measured_range": null,
+      "predicted_change_pct": -82.0,
+      "error_pp": 0.0,
+      "within_measured_range": null,
+      "paper": "Iron absorption in man: ascorbic acid and dose-dependent inhibition by phytate"
+    },
+    {
+      "validation_id": "VAL_IRON_017",
+      "paper_id": "IRON_016",
+      "split": "calibration",
+      "comparison": "165 mg calcium vs none",
+      "meal": "Wheat rolls",
+      "measured_change_pct": -55.0,
+      "measured_range": [
+        -60.0,
+        -50.0
+      ],
+      "predicted_change_pct": -55.0,
+      "error_pp": -0.0,
+      "within_measured_range": true,
+      "paper": "Calcium: effect of different amounts on nonheme- and heme-iron absorption in humans"
+    },
+    {
+      "validation_id": "VAL_IRON_018",
+      "paper_id": "IRON_016",
+      "split": "calibration",
+      "comparison": "300-600 mg calcium vs none",
+      "meal": "Wheat rolls",
+      "measured_change_pct": -55.0,
+      "measured_range": [
+        -60.0,
+        -50.0
+      ],
+      "predicted_change_pct": -55.0,
+      "error_pp": -0.0,
+      "within_measured_range": true,
+      "paper": "Calcium: effect of different amounts on nonheme- and heme-iron absorption in humans"
+    },
+    {
+      "validation_id": "VAL_IRON_019",
+      "paper_id": "IRON_022",
+      "split": "calibration",
+      "comparison": "58 mg phytate P plus 30 mg vitamin C vs none",
+      "meal": "Maize bran meal",
+      "measured_change_pct": 0.0,
+      "measured_range": null,
+      "predicted_change_pct": 0.0,
+      "error_pp": 0.0,
+      "within_measured_range": null,
+      "paper": "Ascorbic acid prevents the dose-dependent inhibitory effects of polyphenols and phytates on nonheme-iron absorption"
+    }
+  ],
+  "skipped": [
+    {
+      "validation_id": "VAL_IRON_001",
+      "reason": "absolute row: study meal composition not yet extracted"
+    },
+    {
+      "validation_id": "VAL_IRON_002",
+      "reason": "absolute row: study meal composition not yet extracted"
+    },
+    {
+      "validation_id": "VAL_IRON_003",
+      "reason": "absolute row: study meal composition not yet extracted"
+    }
+  ],
+  "daily_cross_check": {
+    "omnivore": {
+      "iron_mg": 13.51,
+      "absorbed_mg": 0.785,
+      "fractional_pct": 5.8,
+      "share_of_potential_pct": 67.0,
+      "absorbed_share_of_target": 0.81,
+      "within_fao_who_range": true,
+      "efsa_reference_pct": [
+        16.0,
+        18.0
+      ],
+      "conflicts": 3
+    },
+    "vegetarian": {
+      "iron_mg": 10.95,
+      "absorbed_mg": 0.085,
+      "fractional_pct": 0.8,
+      "share_of_potential_pct": 15.0,
+      "absorbed_share_of_target": 0.09,
+      "within_fao_who_range": false,
+      "efsa_reference_pct": [
+        16.0,
+        18.0
+      ],
+      "conflicts": 6
+    },
+    "vegan_with_vitamin_c": {
+      "iron_mg": 10.88,
+      "absorbed_mg": 0.158,
+      "fractional_pct": 1.5,
+      "share_of_potential_pct": 22.0,
+      "absorbed_share_of_target": 0.16,
+      "within_fao_who_range": false,
+      "efsa_reference_pct": [
+        16.0,
+        18.0
+      ],
+      "conflicts": 3
+    },
+    "_reference_day": {
+      "iron_mg": 13.61,
+      "absorbed_mg": 0.893,
+      "fractional_pct": 6.56,
+      "share_of_potential_pct": 65.6,
+      "conflicts": 1
+    }
+  }
+}

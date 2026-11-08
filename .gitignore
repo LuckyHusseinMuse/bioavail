@@ -1,0 +1,32 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+
+# Secrets
+.env
+*.pem
+vapid_private*
+
+# Large or licence-restricted downloads (record sources in DATA_CARD.md instead)
+backend/data/raw/*
+!backend/data/raw/.gitkeep
+
+# Third-party copyrighted sources: not ours to redistribute. Values used from them are in
+# backend/data/processed/ with citations; see backend/data/DATA_CARD.md for where to download them.
+backend/TempData/*.pdf
+backend/TempData/PhyFoodComp*.xlsx
+
+# Generated outputs (rebuilt by the pipeline / computed live by the API)
+backend/data/processed/validation_report.json
+
+# Node (frontend)
+node_modules/
+.next/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/

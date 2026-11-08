@@ -1,0 +1,92 @@
+food_code,display_name,category,serving_g,serving_label,mfp_fraction,is_drink,demo,notes
+13-658,"Red lentils, boiled",legume,150,1 portion,0,False,True,Demo lentil curry base
+13-661,"Green or brown lentils, boiled",legume,150,1 portion,0,False,False,
+13-662,"Chickpeas, boiled",legume,120,1 portion,0,False,False,
+13-670,"Chickpeas, canned, drained",legume,120,1 portion,0,False,False,
+13-660,"Red kidney beans, canned, drained",legume,120,1 portion,0,False,False,
+13-063,"Black-eyed beans, boiled",legume,120,1 portion,0,False,False,
+13-532,"Baked beans in tomato sauce",legume,200,half a can,0,False,False,
+13-570,"Tofu, steamed",legume,100,1 portion,0,False,False,Calcium not measured in CoFID
+13-556,Houmous,legume,50,2 tablespoons,0,False,False,
+13-439,"Peas, boiled",legume,80,1 portion of veg,0,False,False,
+15-761,"Red lentil curry (dahl with vegetables)",composite,300,1 bowl,0,False,True,Composite dish; inhibitor values estimated from ingredients
+11-788,"Porridge oats, dry",grain,40,1 bowl (dry weight),0,False,True,
+11-1107,"Porridge, made with water",grain,200,1 bowl,0,False,False,
+11-1145,"Bread, white",grain,36,1 slice,0,False,False,
+11-981,"Bread, wholemeal",grain,36,1 slice,0,False,True,
+11-459,"Chapati, no fat",grain,55,1 chapati,0,False,False,
+11-862,"White rice, boiled",grain,180,1 portion,0,False,True,
+11-869,"Brown rice, boiled",grain,180,1 portion,0,False,False,
+11-450,"Pasta, boiled",grain,180,1 portion,0,False,False,
+11-902,"Couscous, cooked",grain,150,1 portion,0,False,False,
+14-843,"Quinoa, dry",grain,60,1 portion (dry weight),0,False,False,
+11-773,"Wheat biscuits (Weetabix type), fortified",cereal,38,2 biscuits,0,False,False,Fortified iron
+11-742,"Cornflakes, fortified",cereal,30,1 bowl,0,False,False,Fortified iron
+11-763,"Bran flakes, fortified",cereal,30,1 bowl,0,False,False,Fortified iron
+11-781,"Muesli, no added sugar",cereal,50,1 bowl,0,False,False,
+13-572,"Spinach, raw",vegetable,30,1 handful,0,False,False,
+13-573,"Spinach, boiled",vegetable,90,1 portion,0,False,True,
+13-649,"Curly kale, boiled",vegetable,80,1 portion,0,False,False,
+13-503,"Broccoli, boiled",vegetable,80,1 portion,0,False,False,
+13-524,"Red pepper, raw",vegetable,80,half a pepper,0,False,True,Demo fix: vitamin C
+13-318,"Green pepper, raw",vegetable,80,half a pepper,0,False,False,
+13-517,"Tomatoes, raw",vegetable,80,1 medium tomato,0,False,False,
+13-530,"Tomatoes, canned",vegetable,200,half a can,0,False,False,
+13-491,"Potato, baked, with skin",vegetable,180,1 medium potato,0,False,False,
+13-672,"Sweet potato, baked",vegetable,150,1 medium,0,False,False,
+13-591,"Onions, fried",vegetable,40,1 tablespoon,0,False,False,
+13-511,"Cabbage, green, boiled",vegetable,80,1 portion,0,False,False,
+13-513,"Cauliflower, boiled",vegetable,80,1 portion,0,False,False,
+13-497,"Carrots, boiled",vegetable,80,1 portion,0,False,False,
+14-327,Orange,fruit,160,1 medium orange,0,False,True,
+14-277,"Lemon juice, fresh",fruit,15,1 tablespoon,0,False,True,Demo fix: squeeze of lemon
+14-371,Kiwi fruit,fruit,70,1 kiwi,0,False,False,
+14-324,Strawberries,fruit,80,1 handful,0,False,False,
+14-053,Blackcurrants,fruit,80,1 handful,0,False,False,
+14-318,Banana,fruit,100,1 medium banana,0,False,False,
+14-319,"Apple, eating",fruit,110,1 medium apple,0,False,False,
+14-378,Mango,fruit,80,1 portion,0,False,False,
+14-031,"Apricots, dried",fruit,30,1 handful,0,False,False,
+14-393,Raisins,fruit,30,1 handful,0,False,False,
+18-474,"Beef rump steak, grilled, lean",meat,150,1 steak,1,False,False,
+18-470,"Beef mince, stewed",meat,120,1 portion,1,False,False,
+18-131,"Lamb leg, roasted, lean",meat,120,1 portion,1,False,False,
+18-159,"Lamb mince, stewed",meat,120,1 portion,1,False,False,
+18-527,"Pork, diced, casseroled, lean",meat,120,1 portion,1,False,False,
+18-323,"Chicken breast, grilled, no skin",poultry,130,1 breast,1,False,True,
+18-354,"Turkey mince, stewed",poultry,120,1 portion,1,False,False,
+18-494,"Lamb liver, fried",meat,100,1 portion,1,False,False,Very high iron; pregnancy vitamin A caution (not modelled)
+16-359,"Salmon, farmed, baked",fish,120,1 fillet,1,False,False,
+16-416,"Tuna, canned in brine, drained",fish,80,half a can,1,False,False,
+16-373,"Cod, baked",fish,120,1 fillet,1,False,False,
+16-424,"Sardines, canned in brine",fish,90,1 small can,1,False,False,High calcium from bones
+16-394,"Mackerel, grilled",fish,100,1 fillet,1,False,False,
+16-384,"Prawns, cooked",fish,60,1 portion,1,False,False,
+16-390,"Mussels, cooked",fish,100,1 portion,1,False,False,
+12-940,"Egg, boiled",egg,50,1 egg,0,False,False,Eggs are not counted as meat/fish/poultry in Monsen
+12-313,"Milk, semi-skimmed",dairy,200,1 glass,0,False,False,
+12-596,"Milk, whole",dairy,200,1 glass,0,False,False,
+12-184,"Yogurt, whole milk, plain",dairy,125,1 pot,0,False,False,
+12-555,"Yogurt, Greek style, plain",dairy,125,1 pot,0,False,False,
+12-346,"Cheese, Cheddar",dairy,30,1 matchbox-size piece,0,False,False,
+12-495,"Cheese, Paneer",dairy,75,1 portion,0,False,False,
+12-524,"Soya milk, unsweetened, fortified",dairy_alternative,200,1 glass,0,False,False,Calcium fortified
+14-896,"Almonds",nuts_seeds,30,1 handful,0,False,False,
+14-892,"Peanut butter, smooth",nuts_seeds,20,1 tablespoon,0,False,False,
+14-842,"Pumpkin seeds",nuts_seeds,30,1 handful,0,False,False,
+14-845,"Sunflower seeds",nuts_seeds,30,1 handful,0,False,False,
+14-847,"Tahini",nuts_seeds,15,1 tablespoon,0,False,False,
+14-811,"Cashew nuts",nuts_seeds,30,1 handful,0,False,False,
+14-879,"Walnuts",nuts_seeds,30,1 handful,0,False,False,
+17-491,"Chocolate, plain (dark)",snack,30,4 squares,0,False,False,
+17-165,"Tea, black",drink,260,1 mug,0,True,True,Demo inhibitor
+17-169,"Tea, black, with semi-skimmed milk",drink,260,1 mug,0,True,False,Milk does not remove the tea effect (Hurrell 1999)
+17-171,"Tea, green",drink,260,1 mug,0,True,False,
+17-172,"Tea, herbal",drink,260,1 mug,0,True,False,Herbal teas vary widely (camomile 47% to peppermint 84% inhibition)
+17-833,"Coffee, filter",drink,190,1 cup,0,True,False,
+17-159,"Coffee, instant",drink,260,1 mug,0,True,False,
+17-632,"Coffee, latte or cappuccino",drink,250,1 regular cup,0,True,False,
+12-563,"Cocoa, made with semi-skimmed milk",drink,250,1 mug,0,True,False,
+14-329,"Orange juice",drink,150,1 small glass,0,True,True,Demo fix: vitamin C drink
+17-752,"Wine, red",drink,175,1 medium glass,0,True,False,
+17-377,Water,drink,250,1 glass,0,True,True,Control drink

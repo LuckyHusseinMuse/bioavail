@@ -1,0 +1,24 @@
+[
+  {
+    "type": "tool",
+    "name": "score_meal"
+  },
+  {
+    "type": "message",
+    "reply": "Yes: with black tea you absorb about 0.016 mg of the 6.85 mg of iron in this meal. Hurrell et al. (1999) found black tea cut non-haem iron absorption by 79-94%.",
+    "tool_calls": [
+      "score_meal"
+    ],
+    "proposals": [],
+    "unsupported_numbers": [
+      "1999",
+      "79",
+      "94"
+    ],
+    "out_of_scope": false,
+    "run_id": "5d30b63d-caf5-40e4-8801-18b5cf8ea8a8"
+  },
+  {
+    "type": "done"
+  }
+]

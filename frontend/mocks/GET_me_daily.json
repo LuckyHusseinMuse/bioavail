@@ -1,0 +1,337 @@
+{
+  "date": "2026-11-08",
+  "profile_complete": true,
+  "meals": [
+    {
+      "meal_id": "95f383bd-fb0b-425f-8c5a-7452d4c852aa",
+      "eaten_at": "2026-11-08T08:00:00+00:00",
+      "items": [
+        {
+          "grams": 40.0,
+          "food_code": "11-788",
+          "offset_min": 0
+        },
+        {
+          "grams": 200.0,
+          "food_code": "12-313",
+          "offset_min": 0
+        },
+        {
+          "grams": 190.0,
+          "food_code": "17-833",
+          "offset_min": 0
+        }
+      ],
+      "source": "photo",
+      "note": null,
+      "iron_mg": 1.69,
+      "absorbed_mg": 0.003,
+      "potential_absorbed_mg": 0.056,
+      "fractional_pct": 0.2,
+      "share_of_potential_pct": 5.0,
+      "conflicts": [
+        {
+          "message": "Coffee with or after this meal can cut the non-haem iron you absorb by about 75%. Waiting an hour afterwards does not help, but coffee an hour before the meal had no effect.",
+          "rule_id": "RULE_IRON_006",
+          "priority": 1,
+          "verified": false,
+          "food_code": "17-833",
+          "evidence_id": "EVID_LINK_IRON_011",
+          "reduction_pct": 75.0,
+          "conflict_group": "IRON_POLYPHENOL_BEVERAGE",
+          "recommendation_action": "Recommend_Alternate_Timing"
+        },
+        {
+          "message": "The wholegrains, beans or seeds in this meal contain phytate, which reduces the iron you absorb by about 62%. Adding a vitamin C rich food such as red pepper or a squeeze of lemon counteracts it.",
+          "rule_id": "RULE_IRON_004",
+          "priority": 2,
+          "verified": false,
+          "food_code": null,
+          "evidence_id": "EVID_LINK_IRON_009",
+          "reduction_pct": 62.4,
+          "conflict_group": "IRON_PHYTATE",
+          "recommendation_action": "Recommend_Addition"
+        },
+        {
+          "message": "The calcium in this meal (Milk, semi-skimmed, Porridge oats, dry) can reduce the iron you absorb by about 55%. Having dairy at a different meal from your main iron source helps.",
+          "rule_id": "RULE_IRON_005",
+          "priority": 3,
+          "verified": false,
+          "food_code": null,
+          "evidence_id": "EVID_LINK_IRON_010",
+          "reduction_pct": 55.0,
+          "conflict_group": "IRON_CALCIUM",
+          "recommendation_action": "Recommend_Alternate_Timing"
+        }
+      ],
+      "data_gaps": [],
+      "contributions": [
+        {
+          "step": "reference",
+          "factor": "monsen_reference",
+          "sources": [
+            "ABS_BASE_IRON_006"
+          ],
+          "value_pct": 3.0
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "polyphenols_mg": 219.0
+          },
+          "factor": "polyphenols",
+          "sources": [
+            "ABS_MOD_IRON_003"
+          ],
+          "change_pct": -75.0,
+          "multiplier": 0.25
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "phytate_p_mg": 62.5,
+            "raw_change_pct": -71.2,
+            "vitamin_c_used_mg": 4.0,
+            "vitamin_c_offset_share": 0.12
+          },
+          "factor": "phytate",
+          "sources": [
+            "ABS_MOD_IRON_005",
+            "ABS_MOD_IRON_006",
+            "ABS_MOD_IRON_007",
+            "ABS_MOD_IRON_008",
+            "ASSUME_002",
+            "ASSUME_005",
+            "ASSUME_013"
+          ],
+          "change_pct": -62.4,
+          "multiplier": 0.3763
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "calcium_mg": 266
+          },
+          "factor": "calcium",
+          "sources": [
+            "ABS_MOD_IRON_009"
+          ],
+          "change_pct": -55.0,
+          "multiplier": 0.45
+        },
+        {
+          "step": "floor",
+          "factor": "inhibition_floor",
+          "sources": [
+            "ASSUME_001"
+          ],
+          "multiplier": 1.4172
+        }
+      ],
+      "conflict_count": 3
+    },
+    {
+      "meal_id": "ded5a96c-5b89-4445-bc20-642776c4932a",
+      "eaten_at": "2026-11-08T13:00:00+00:00",
+      "items": [
+        {
+          "grams": 300.0,
+          "food_code": "15-761",
+          "offset_min": 0
+        },
+        {
+          "grams": 180.0,
+          "food_code": "11-862",
+          "offset_min": 0
+        },
+        {
+          "grams": 260.0,
+          "food_code": "17-165",
+          "offset_min": 0.0
+        }
+      ],
+      "source": "photo",
+      "note": null,
+      "iron_mg": 6.85,
+      "absorbed_mg": 0.016,
+      "potential_absorbed_mg": 0.394,
+      "fractional_pct": 0.2,
+      "share_of_potential_pct": 4.0,
+      "conflicts": [
+        {
+          "message": "Black tea with this meal can cut the non-haem iron you absorb by about 86%. Having it at least an hour after eating reduces this effect.",
+          "rule_id": "RULE_IRON_002",
+          "priority": 1,
+          "verified": false,
+          "food_code": "17-165",
+          "evidence_id": "EVID_LINK_IRON_005",
+          "reduction_pct": 86.5,
+          "conflict_group": "IRON_POLYPHENOL_BEVERAGE",
+          "recommendation_action": "Recommend_Alternate_Timing"
+        }
+      ],
+      "data_gaps": [],
+      "contributions": [
+        {
+          "step": "reference",
+          "factor": "monsen_reference",
+          "sources": [
+            "ABS_BASE_IRON_006"
+          ],
+          "value_pct": 3.0
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "modifier": "Black_Tea"
+          },
+          "factor": "polyphenols",
+          "sources": [
+            "ABS_MOD_IRON_004"
+          ],
+          "change_pct": -86.5,
+          "multiplier": 0.135
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "phytate_p_mg": 95.8,
+            "raw_change_pct": -74.5,
+            "vitamin_c_used_mg": 36.0,
+            "vitamin_c_offset_share": 0.73
+          },
+          "factor": "phytate",
+          "sources": [
+            "ABS_MOD_IRON_005",
+            "ABS_MOD_IRON_006",
+            "ABS_MOD_IRON_007",
+            "ABS_MOD_IRON_008",
+            "ASSUME_002",
+            "ASSUME_005",
+            "ASSUME_013"
+          ],
+          "change_pct": -20.4,
+          "multiplier": 0.7962
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "calcium_mg": 88
+          },
+          "factor": "calcium",
+          "sources": [
+            "ABS_MOD_IRON_009",
+            "ASSUME_006"
+          ],
+          "change_pct": -29.4,
+          "multiplier": 0.706
+        }
+      ],
+      "conflict_count": 1
+    },
+    {
+      "meal_id": "50c8ae8b-5243-4ba1-8a49-8f49899c59e3",
+      "eaten_at": "2026-11-08T19:00:00+00:00",
+      "items": [
+        {
+          "grams": 120.0,
+          "food_code": "13-670",
+          "offset_min": 0
+        },
+        {
+          "grams": 180.0,
+          "food_code": "11-869",
+          "offset_min": 0
+        },
+        {
+          "grams": 80.0,
+          "food_code": "13-524",
+          "offset_min": 0
+        }
+      ],
+      "source": "photo",
+      "note": null,
+      "iron_mg": 3.55,
+      "absorbed_mg": 0.071,
+      "potential_absorbed_mg": 0.284,
+      "fractional_pct": 2.0,
+      "share_of_potential_pct": 25.0,
+      "conflicts": [],
+      "data_gaps": [],
+      "contributions": [
+        {
+          "step": "reference",
+          "factor": "monsen_reference",
+          "sources": [
+            "ABS_BASE_IRON_006"
+          ],
+          "value_pct": 3.0
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "phytate_p_mg": 203.7,
+            "raw_change_pct": -80.4,
+            "vitamin_c_used_mg": 100.8,
+            "vitamin_c_offset_share": 0.96
+          },
+          "factor": "phytate",
+          "sources": [
+            "ABS_MOD_IRON_005",
+            "ABS_MOD_IRON_006",
+            "ABS_MOD_IRON_007",
+            "ABS_MOD_IRON_008",
+            "ASSUME_002",
+            "ASSUME_005",
+            "ASSUME_013"
+          ],
+          "change_pct": -3.5,
+          "multiplier": 0.9653
+        },
+        {
+          "step": "inhibitor",
+          "detail": {
+            "calcium_mg": 94
+          },
+          "factor": "calcium",
+          "sources": [
+            "ABS_MOD_IRON_009",
+            "ASSUME_006"
+          ],
+          "change_pct": -31.3,
+          "multiplier": 0.6873
+        }
+      ],
+      "conflict_count": 0
+    }
+  ],
+  "totals": {
+    "meals": 3,
+    "iron_mg": 12.09,
+    "absorbed_mg": 0.09,
+    "potential_absorbed_mg": 0.734,
+    "inhibitors_cost_mg": 0.644,
+    "share_of_potential_pct": 12,
+    "conflict_count": 4
+  },
+  "references": {
+    "sex": "female",
+    "age": 28,
+    "iron_rni_mg_day": 14.8,
+    "absorbed_target_mg_day": 0.971,
+    "reference_day_fractional_pct": 6.56,
+    "efsa_population_absorption_pct": 18.0,
+    "efsa_note": "EFSA whole-diet estimate, shown for information; not on the same scale as the engine.",
+    "sources": [
+      "mineral_recommendations.xlsx",
+      "data/curated/reference_day.csv",
+      "ASSUME_015",
+      "ABS_BASE_IRON_003"
+    ]
+  },
+  "progress": {
+    "eaten_share_of_rni": 0.82,
+    "absorbed_share_of_target": 0.09
+  },
+  "source": "daily_iron continuous aggregate"
+}

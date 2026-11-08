@@ -1,0 +1,12 @@
+food_code,beverage_class,polyphenols_mg_per_serving,polyphenol_method,polyphenol_source,specific_modifier_id,data_status,notes
+17-165,black_tea,317,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_004,complete,Hurrell 1999 Table 1: Assam tea 274 and 396 mg per 275 ml; mean scaled to a 260 ml mug
+17-169,black_tea,317,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_004,complete,Milk did not remove tea's effect (Hurrell 1999 study 6)
+17-171,green_tea,,,,,pending,Green tea polyphenols needed (Phenol-Explorer)
+17-172,herbal_tea,121,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_013,complete,Hurrell 1999 Table 1: camomile 52 to peppermint 209 mg per 275 ml; median of herb teas tested
+17-833,coffee,219,Folin-type total polyphenols,IRON_020,,complete,219 mg per cup of coffee (ETH 2023)
+17-159,coffee,113,Chlorogenic acid (AOAC),IRON_013,,complete,Hurrell 1999 Table 1: instant coffee 120 mg per 275 ml (2 g powder); scaled to 260 ml
+17-632,coffee,219,Folin-type total polyphenols,IRON_020,,assumed,Latte assumed one cup of coffee
+12-563,cocoa,105,Folin-Ciocalteu (catechin equivalents),IRON_013,ABS_MOD_IRON_012,complete,Hurrell 1999 Table 1: cocoa 116 mg per 275 ml (5 g powder); scaled to 250 ml
+17-752,red_wine,,,,,pending,Red wine polyphenols needed (Phenol-Explorer)
+14-329,,0,,assumption,,assumed,Not an inhibitor in our evidence
+17-377,water,0,,assumption,,complete,Control drink
